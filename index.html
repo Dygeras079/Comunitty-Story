@@ -23,11 +23,18 @@
             --dark-bg: #0a0a0f;
         }
         
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
         body {
             font-family: 'Rajdhani', sans-serif;
             background-color: var(--dark-bg);
             color: #fff;
             overflow-x: hidden;
+            line-height: 1.6;
         }
         
         .font-orbitron {
@@ -79,6 +86,14 @@
             100% { clip-path: inset(35% 0 55% 0); transform: translate(-2px, 2px); }
         }
         
+        @keyframes glitch-skew {
+            0% { transform: skew(0deg); }
+            10% { transform: skew(-2deg); }
+            20% { transform: skew(2deg); }
+            30% { transform: skew(0deg); }
+            100% { transform: skew(0deg); }
+        }
+        
         .neon-border {
             box-shadow: 0 0 10px var(--neon-cyan), inset 0 0 10px rgba(0, 243, 255, 0.2);
             border: 1px solid var(--neon-cyan);
@@ -125,11 +140,13 @@
             backdrop-filter: blur(10px);
             position: relative;
             overflow: hidden;
+            border: 1px solid rgba(0, 243, 255, 0.1);
         }
         
         .product-card:hover {
             transform: translateY(-10px) scale(1.02);
             box-shadow: 0 20px 40px rgba(0, 243, 255, 0.3);
+            border-color: var(--neon-cyan);
         }
         
         .product-card::before {
@@ -141,6 +158,7 @@
             height: 100%;
             background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
             transition: left 0.5s;
+            z-index: 1;
         }
         
         .product-card:hover::before {
@@ -158,6 +176,7 @@
             font-weight: bold;
             text-transform: uppercase;
             z-index: 10;
+            box-shadow: 0 4px 15px rgba(255, 0, 255, 0.4);
         }
         
         ::-webkit-scrollbar {
@@ -233,16 +252,241 @@
         }
         
         .delivery-box.locked::after {
-            content: '🔒 AGUARDANDO PAGAMENTO';
+            content: '🔒 AGUARDANDO ENTREGA';
             position: absolute;
             inset: 0;
-            background: rgba(0,0,0,0.9);
+            background: rgba(0,0,0,0.95);
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: bold;
             color: #666;
             border-radius: 10px;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--neon-cyan), #0099cc);
+            color: #000;
+            font-weight: bold;
+            padding: 12px 24px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 243, 255, 0.4);
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            border: 2px solid var(--neon-cyan);
+            color: var(--neon-cyan);
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+        }
+        
+        .btn-secondary:hover {
+            background: var(--neon-cyan);
+            color: #000;
+        }
+        
+        .login-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: radial-gradient(ellipse at center, #1a1a2e 0%, #0a0a0f 100%);
+            position: relative;
+        }
+        
+        .login-box {
+            background: rgba(20, 20, 30, 0.9);
+            border: 1px solid rgba(0, 243, 255, 0.3);
+            border-radius: 20px;
+            padding: 40px;
+            width: 100%;
+            max-width: 450px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--neon-cyan);
+            font-weight: bold;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 12px 16px;
+            background: rgba(0, 243, 255, 0.05);
+            border: 1px solid rgba(0, 243, 255, 0.3);
+            border-radius: 8px;
+            color: white;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+        
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--neon-cyan);
+            box-shadow: 0 0 15px rgba(0, 243, 255, 0.3);
+        }
+        
+        .support-email {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0, 243, 255, 0.1);
+            border: 1px solid var(--neon-cyan);
+            padding: 12px 20px;
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s;
+        }
+        
+        .support-email:hover {
+            background: rgba(0, 243, 255, 0.2);
+            transform: translateY(-2px);
+        }
+        
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+        }
+        
+        .modal-content {
+            background: linear-gradient(135deg, #1a1a2e, #0f0f1e);
+            border: 2px solid var(--neon-cyan);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 25px 50px rgba(0, 243, 255, 0.2);
+        }
+        
+        .password-strength {
+            height: 4px;
+            background: #333;
+            border-radius: 2px;
+            margin-top: 8px;
+            overflow: hidden;
+        }
+        
+        .password-strength-bar {
+            height: 100%;
+            width: 0;
+            transition: all 0.3s;
+        }
+        
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid rgba(0, 243, 255, 0.3);
+            border-top-color: var(--neon-cyan);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .notification-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #ff0066;
+            color: white;
+            font-size: 0.75rem;
+            font-weight: bold;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        
+        .user-menu {
+            position: relative;
+        }
+        
+        .user-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            margin-top: 10px;
+            background: rgba(20, 20, 30, 0.95);
+            border: 1px solid var(--neon-cyan);
+            border-radius: 10px;
+            padding: 10px 0;
+            min-width: 200px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s;
+        }
+        
+        .user-menu:hover .user-dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        
+        .user-dropdown-item {
+            padding: 10px 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .user-dropdown-item:hover {
+            background: rgba(0, 243, 255, 0.1);
+            color: var(--neon-cyan);
+        }
+        
+        .divider {
+            height: 1px;
+            background: rgba(0, 243, 255, 0.2);
+            margin: 10px 0;
         }
     </style>
 </head>
@@ -250,338 +494,497 @@
     <div class="scanlines"></div>
     <div id="particles" class="fixed inset-0 pointer-events-none overflow-hidden"></div>
 
-    <!-- Navigation -->
-    <nav class="fixed top-0 w-full z-50 bg-black/80 backdrop-blur-md border-b border-cyan-500/30">
-        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <div class="flex items-center gap-3 cursor-pointer" onclick="showSection('home')">
-                <i data-lucide="gamepad-2" class="w-8 h-8 text-cyan-400"></i>
-                <h1 class="font-orbitron text-2xl font-bold glitch" data-text="COMMUNITY STORY">COMMUNITY STORY</h1>
+    <!-- TELA DE LOGIN (Aparece primeiro) -->
+    <div id="login-screen" class="login-container">
+        <div class="cyber-grid absolute inset-0 opacity-20"></div>
+        
+        <div class="login-box relative z-10">
+            <div class="text-center mb-8">
+                <i data-lucide="gamepad-2" class="w-16 h-16 text-cyan-400 mx-auto mb-4"></i>
+                <h1 class="font-orbitron text-3xl font-bold glitch" data-text="COMMUNITY STORY">COMMUNITY STORY</h1>
+                <p class="text-gray-400 mt-2">Sua loja digital de entretenimento</p>
             </div>
-            
-            <div class="hidden md:flex items-center gap-8">
-                <button onclick="showSection('home')" class="nav-btn hover:text-cyan-400 transition-colors font-bold tracking-wider">INÍCIO</button>
-                <button onclick="showSection('products')" class="nav-btn hover:text-cyan-400 transition-colors font-bold tracking-wider">PRODUTOS</button>
-                <button onclick="showSection('my-orders')" class="nav-btn hover:text-cyan-400 transition-colors font-bold tracking-wider relative">
-                    MEUS PEDIDOS
-                    <span id="order-badge" class="absolute -top-2 -right-4 bg-pink-500 text-xs rounded-full w-5 h-5 flex items-center justify-center hidden">0</span>
+
+            <form id="login-form" onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label for="login-email">Email</label>
+                    <input type="email" id="login-email" required placeholder="seu@email.com">
+                </div>
+
+                <div class="form-group">
+                    <label for="login-password">Senha</label>
+                    <input type="password" id="login-password" required placeholder="••••••••">
+                </div>
+
+                <button type="submit" class="btn-primary w-full mb-4 flex items-center justify-center gap-2">
+                    <i data-lucide="log-in" class="w-5 h-5"></i>
+                    Entrar na Loja
                 </button>
-                <button onclick="showSection('cart')" class="nav-btn hover:text-cyan-400 transition-colors font-bold tracking-wider relative">
-                    CARRINHO
-                    <span id="cart-badge" class="absolute -top-2 -right-4 bg-cyan-500 text-xs rounded-full w-5 h-5 flex items-center justify-center hidden">0</span>
+
+                <div class="text-center">
+                    <p class="text-sm text-gray-400 mb-2">Não tem conta?</p>
+                    <button type="button" onclick="showRegister()" class="text-cyan-400 hover:text-cyan-300 font-bold text-sm">
+                        Criar conta gratuita
+                    </button>
+                </div>
+            </form>
+
+            <div class="mt-6 pt-6 border-t border-cyan-500/20 text-center">
+                <button onclick="showAdminLogin()" class="text-gray-500 hover:text-cyan-400 text-sm flex items-center justify-center gap-2 mx-auto transition-colors">
+                    <i data-lucide="shield" class="w-4 h-4"></i>
+                    Acesso Administrativo
                 </button>
-                <button onclick="toggleAdmin()" class="nav-btn bg-cyan-500/20 border border-cyan-400 px-4 py-2 rounded hover:bg-cyan-500/40 transition-all font-bold">
-                    <i data-lucide="shield" class="w-4 h-4 inline mr-2"></i>ADMIN
-                </button>
-            </div>
-            
-            <button class="md:hidden text-cyan-400" onclick="toggleMobileMenu()">
-                <i data-lucide="menu" class="w-6 h-6"></i>
-            </button>
-        </div>
-    </nav>
-
-    <!-- Mobile Menu -->
-    <div id="mobile-menu" class="fixed inset-0 bg-black/95 z-40 hidden flex-col items-center justify-center gap-8">
-        <button onclick="showSection('home'); toggleMobileMenu()" class="text-2xl font-orbitron hover:text-cyan-400">INÍCIO</button>
-        <button onclick="showSection('products'); toggleMobileMenu()" class="text-2xl font-orbitron hover:text-cyan-400">PRODUTOS</button>
-        <button onclick="showSection('my-orders'); toggleMobileMenu()" class="text-2xl font-orbitron hover:text-cyan-400">MEUS PEDIDOS</button>
-        <button onclick="showSection('cart'); toggleMobileMenu()" class="text-2xl font-orbitron hover:text-cyan-400">CARRINHO</button>
-        <button onclick="toggleAdmin(); toggleMobileMenu()" class="text-2xl font-orbitron text-cyan-400">ADMIN</button>
-        <button onclick="toggleMobileMenu()" class="absolute top-6 right-6">
-            <i data-lucide="x" class="w-8 h-8"></i>
-        </button>
-    </div>
-
-    <!-- HOME SECTION -->
-    <section id="home" class="active-section pt-20">
-        <div class="relative h-screen flex items-center justify-center overflow-hidden">
-            <div class="absolute inset-0 cyber-grid opacity-20"></div>
-            <div class="absolute inset-0 bg-gradient-to-b from-transparent via-black/50 to-black"></div>
-            
-            <div class="relative z-10 text-center px-6 max-w-5xl">
-                <div class="mb-6 inline-block px-4 py-2 border border-cyan-400/50 rounded-full bg-cyan-400/10 text-cyan-400 text-sm font-bold tracking-wider">
-                    ✓ ENTREGA DIGITAL MANUAL • SUPORTE 24/7
-                </div>
-                <h2 class="font-orbitron text-5xl md:text-7xl font-black mb-6 leading-tight">
-                    <span class="block text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-500">PACKS DE JOGOS</span>
-                    <span class="block glitch mt-2" data-text="IPTV • ROBUX">IPTV • ROBUX</span>
-                </h2>
-                <p class="text-xl md:text-2xl text-gray-300 mb-8 max-w-2xl mx-auto">
-                    Adquira os melhores <span class="text-cyan-400">packs de jogos</span>, 
-                    <span class="text-purple-400">canais IPTV</span> e 
-                    <span class="text-yellow-400">Robux</span> com entrega manual e segura.
-                </p>
-                <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                    <button onclick="showSection('products')" class="group relative px-8 py-4 bg-cyan-500 font-bold font-orbitron overflow-hidden rounded-sm">
-                        <span class="relative z-10 flex items-center gap-2">
-                            VER PRODUTOS <i data-lucide="chevron-right" class="w-5 h-5 group-hover:translate-x-1 transition-transform"></i>
-                        </span>
-                        <div class="absolute inset-0 bg-gradient-to-r from-cyan-400 to-blue-500 transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left"></div>
-                    </button>
-                    <button onclick="showSection('products')" class="px-8 py-4 border-2 border-yellow-500 text-yellow-400 font-bold font-orbitron hover:bg-yellow-500 hover:text-black transition-all rounded-sm">
-                        OFERTAS ESPECIAIS
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Features -->
-        <div class="container mx-auto px-6 py-20">
-            <div class="grid md:grid-cols-3 gap-8">
-                <div class="p-8 border border-cyan-500/30 rounded-lg bg-gradient-to-br from-cyan-900/20 to-transparent hover:border-cyan-400 transition-all group">
-                    <i data-lucide="send" class="w-12 h-12 text-cyan-400 mb-4 group-hover:scale-110 transition-transform"></i>
-                    <h3 class="font-orbitron text-xl font-bold mb-2">ENTREGA MANUAL</h3>
-                    <p class="text-gray-400">Após a confirmação do pagamento, nossa equipe envia seus dados de acesso manualmente em até 2 horas.</p>
-                </div>
-                <div class="p-8 border border-purple-500/30 rounded-lg bg-gradient-to-br from-purple-900/20 to-transparent hover:border-purple-400 transition-all group">
-                    <i data-lucide="shield-check" class="w-12 h-12 text-purple-400 mb-4 group-hover:scale-110 transition-transform"></i>
-                    <h3 class="font-orbitron text-xl font-bold mb-2">100% SEGURO</h3>
-                    <p class="text-gray-400">Garantia de funcionamento ou seu dinheiro de volta. Todos os produtos testados antes do envio.</p>
-                </div>
-                <div class="p-8 border border-yellow-500/30 rounded-lg bg-gradient-to-br from-yellow-900/20 to-transparent hover:border-yellow-400 transition-all group">
-                    <i data-lucide="headphones" class="w-12 h-12 text-yellow-400 mb-4 group-hover:scale-110 transition-transform"></i>
-                    <h3 class="font-orbitron text-xl font-bold mb-2">SUPORTE DEDICADO</h3>
-                    <p class="text-gray-400">Suporte técnico especializado para ajudar na instalação e configuração dos seus produtos digitais.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- PRODUCTS SECTION -->
-    <section id="products" class="hidden-section pt-24 min-h-screen">
-        <div class="container mx-auto px-6">
-            <div class="flex flex-col md:flex-row justify-between items-center mb-12">
-                <h2 class="font-orbitron text-4xl font-bold mb-4 md:mb-0">
-                    <span class="text-cyan-400">NOSSOS</span> PRODUTOS
-                </h2>
-                
-                <div class="flex gap-4 flex-wrap justify-center">
-                    <button onclick="filterProducts('all')" class="filter-btn active px-6 py-2 border border-cyan-400 rounded-full hover:bg-cyan-400 hover:text-black transition-all font-bold" data-category="all">TODOS</button>
-                    <button onclick="filterProducts('games')" class="filter-btn px-6 py-2 border border-gray-600 rounded-full hover:border-cyan-400 hover:text-cyan-400 transition-all font-bold" data-category="games">PACKS JOGOS</button>
-                    <button onclick="filterProducts('iptv')" class="filter-btn px-6 py-2 border border-gray-600 rounded-full hover:border-cyan-400 hover:text-cyan-400 transition-all font-bold" data-category="iptv">IPTV</button>
-                    <button onclick="filterProducts('robux')" class="filter-btn px-6 py-2 border border-gray-600 rounded-full hover:border-cyan-400 hover:text-cyan-400 transition-all font-bold" data-category="robux">ROBUX</button>
-                </div>
-            </div>
-
-            <div id="products-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                <!-- Products injected by JS -->
-            </div>
-        </div>
-    </section>
-
-    <!-- CART SECTION -->
-    <section id="cart" class="hidden-section pt-24 min-h-screen">
-        <div class="container mx-auto px-6 max-w-4xl">
-            <h2 class="font-orbitron text-4xl font-bold mb-8 text-center">
-                <span class="text-cyan-400">SEU</span> CARRINHO
-            </h2>
-            
-            <div id="cart-content" class="bg-gray-900/50 border border-cyan-500/30 rounded-lg p-6 min-h-[400px]">
-                <!-- Cart items injected by JS -->
-            </div>
-        </div>
-    </section>
-
-    <!-- MY ORDERS SECTION -->
-    <section id="my-orders" class="hidden-section pt-24 min-h-screen">
-        <div class="container mx-auto px-6 max-w-4xl">
-            <h2 class="font-orbitron text-4xl font-bold mb-8 text-center">
-                <span class="text-cyan-400">MEUS</span> PEDIDOS
-            </h2>
-            
-            <div id="customer-orders-list" class="space-y-6">
-                <!-- Orders injected by JS -->
-            </div>
-        </div>
-    </section>
-
-    <!-- CHECKOUT SUCCESS MODAL -->
-    <div id="checkout-modal" class="fixed inset-0 bg-black/95 z-[60] hidden flex items-center justify-center p-4">
-        <div class="bg-gray-900 border-2 border-green-500 rounded-lg w-full max-w-lg p-8 text-center relative">
-            <div class="w-20 h-20 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
-                <i data-lucide="check-circle" class="w-12 h-12 text-green-400"></i>
-            </div>
-            <h3 class="font-orbitron text-2xl font-bold mb-4 text-green-400">PEDIDO REALIZADO!</h3>
-            <p class="text-gray-300 mb-6">
-                Seu pedido foi registrado com sucesso. Nossa equipe irá processar o pagamento e 
-                enviar seus dados de acesso manualmente em até <strong>2 horas</strong>.
-            </p>
-            <div class="bg-black/50 p-4 rounded-lg mb-6 text-left">
-                <p class="text-sm text-gray-400 mb-2">Número do Pedido:</p>
-                <p class="font-orbitron text-xl text-cyan-400 font-bold" id="order-number-display">#000000</p>
-            </div>
-            <button onclick="closeCheckoutModal()" class="w-full py-3 bg-green-600 hover:bg-green-500 text-white font-bold rounded transition-all">
-                IR PARA MEUS PEDIDOS
-            </button>
-        </div>
-    </div>
-
-    <!-- ADMIN PANEL -->
-    <div id="admin-panel" class="fixed inset-0 bg-black/95 z-50 hidden">
-        <div class="flex h-full">
-            <!-- Sidebar -->
-            <div class="admin-sidebar w-64 p-6 border-r border-cyan-500/30 hidden md:block">
-                <div class="flex items-center gap-3 mb-8">
-                    <i data-lucide="shield" class="w-8 h-8 text-cyan-400"></i>
-                    <h2 class="font-orbitron text-xl font-bold">ADMIN</h2>
-                </div>
-                
-                <nav class="space-y-4">
-                    <button onclick="showAdminTab('products')" class="admin-nav-btn w-full text-left px-4 py-3 rounded bg-cyan-500/20 border-l-4 border-cyan-400 font-bold flex items-center gap-3">
-                        <i data-lucide="package" class="w-5 h-5"></i> Produtos
-                    </button>
-                    <button onclick="showAdminTab('orders')" class="admin-nav-btn w-full text-left px-4 py-3 rounded hover:bg-cyan-500/10 border-l-4 border-transparent hover:border-cyan-400/50 font-bold flex items-center gap-3 transition-all">
-                        <i data-lucide="shopping-bag" class="w-5 h-5"></i> Pedidos Pendentes
-                        <span id="admin-pending-badge" class="ml-auto bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center hidden">0</span>
-                    </button>
-                    <button onclick="showAdminTab('delivered')" class="admin-nav-btn w-full text-left px-4 py-3 rounded hover:bg-cyan-500/10 border-l-4 border-transparent hover:border-cyan-400/50 font-bold flex items-center gap-3 transition-all">
-                        <i data-lucide="check-circle" class="w-5 h-5"></i> Entregues
-                    </button>
-                </nav>
-                
-                <button onclick="toggleAdmin()" class="absolute bottom-6 left-6 text-red-400 hover:text-red-300 flex items-center gap-2 font-bold">
-                    <i data-lucide="log-out" class="w-5 h-5"></i> Sair
-                </button>
-            </div>
-
-            <!-- Content -->
-            <div class="flex-1 p-6 overflow-y-auto">
-                <div class="flex justify-between items-center mb-8 md:hidden">
-                    <h2 class="font-orbitron text-2xl font-bold">PAINEL ADMIN</h2>
-                    <button onclick="toggleAdmin()" class="text-red-400">
-                        <i data-lucide="x" class="w-8 h-8"></i>
-                    </button>
-                </div>
-
-                <!-- Products Management -->
-                <div id="admin-products" class="admin-tab">
-                    <div class="flex justify-between items-center mb-6">
-                        <h3 class="font-orbitron text-2xl font-bold text-cyan-400">Gerenciar Produtos</h3>
-                        <button onclick="openProductModal()" class="bg-cyan-500 hover:bg-cyan-400 text-black font-bold px-6 py-2 rounded flex items-center gap-2 transition-all">
-                            <i data-lucide="plus" class="w-5 h-5"></i> Novo Produto
-                        </button>
-                    </div>
-
-                    <div class="bg-gray-900/50 border border-cyan-500/20 rounded-lg overflow-hidden">
-                        <table class="w-full">
-                            <thead class="bg-cyan-900/30">
-                                <tr>
-                                    <th class="p-4 text-left font-orbitron">Produto</th>
-                                    <th class="p-4 text-left font-orbitron">Tipo</th>
-                                    <th class="p-4 text-left font-orbitron">Preço</th>
-                                    <th class="p-4 text-left font-orbitron">Ações</th>
-                                </tr>
-                            </thead>
-                            <tbody id="admin-products-list"></tbody>
-                        </table>
-                    </div>
-                </div>
-
-                <!-- Orders Management -->
-                <div id="admin-orders" class="admin-tab hidden">
-                    <h3 class="font-orbitron text-2xl font-bold text-yellow-400 mb-6 flex items-center gap-3">
-                        <i data-lucide="clock" class="w-8 h-8"></i>
-                        Pedidos Pendentes de Entrega
-                    </h3>
-                    <div id="admin-orders-list" class="space-y-4"></div>
-                </div>
-
-                <!-- Delivered Orders -->
-                <div id="admin-delivered" class="admin-tab hidden">
-                    <h3 class="font-orbitron text-2xl font-bold text-green-400 mb-6 flex items-center gap-3">
-                        <i data-lucide="check-circle" class="w-8 h-8"></i>
-                        Pedidos Entregues
-                    </h3>
-                    <div id="admin-delivered-list" class="space-y-4"></div>
-                </div>
             </div>
         </div>
     </div>
 
-    <!-- Product Modal -->
-    <div id="product-modal" class="fixed inset-0 bg-black/90 z-[60] hidden flex items-center justify-center p-4">
-        <div class="bg-gray-900 border border-cyan-500 rounded-lg w-full max-w-2xl p-6 relative max-h-[90vh] overflow-y-auto">
-            <button onclick="closeProductModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white">
-                <i data-lucide="x" class="w-6 h-6"></i>
-            </button>
-            
-            <h3 class="font-orbitron text-2xl font-bold mb-6 text-cyan-400" id="modal-title">Novo Produto</h3>
-            
-            <form id="product-form" onsubmit="saveProduct(event)" class="space-y-4">
-                <input type="hidden" id="product-id">
-                
-                <div>
-                    <label class="block text-sm font-bold mb-2 text-cyan-300">Nome do Produto</label>
-                    <input type="text" id="product-name" required class="admin-input w-full p-3 rounded" placeholder="Ex: Pack 1000 Jogos PC">
-                </div>
-                
-                <div class="grid grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-sm font-bold mb-2 text-cyan-300">Preço (R$)</label>
-                        <input type="number" id="product-price" step="0.01" required class="admin-input w-full p-3 rounded" placeholder="29.99">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-bold mb-2 text-cyan-300">Categoria</label>
-                        <select id="product-category" class="admin-input w-full p-3 rounded">
-                            <option value="games">Pack de Jogos</option>
-                            <option value="iptv">IPTV</option>
-                            <option value="robux">Robux</option>
-                        </select>
-                    </div>
-                </div>
-                
-                <div>
-                    <label class="block text-sm font-bold mb-2 text-cyan-300">URL da Imagem</label>
-                    <input type="url" id="product-image" required class="admin-input w-full p-3 rounded" placeholder="https://exemplo.com/imagem.jpg">
-                </div>
-                
-                <div>
-                    <label class="block text-sm font-bold mb-2 text-cyan-300">Descrição</label>
-                    <textarea id="product-description" rows="3" class="admin-input w-full p-3 rounded" placeholder="Descrição do produto..."></textarea>
+    <!-- TELA DE CADASTRO -->
+    <div id="register-screen" class="login-container hidden">
+        <div class="cyber-grid absolute inset-0 opacity-20"></div>
+        
+        <div class="login-box relative z-10">
+            <div class="text-center mb-8">
+                <i data-lucide="user-plus" class="w-16 h-16 text-cyan-400 mx-auto mb-4"></i>
+                <h1 class="font-orbitron text-3xl font-bold">Criar Conta</h1>
+                <p class="text-gray-400 mt-2">Junte-se à Community Story</p>
+            </div>
+
+            <form id="register-form" onsubmit="handleRegister(event)">
+                <div class="form-group">
+                    <label for="register-name">Nome Completo</label>
+                    <input type="text" id="register-name" required placeholder="Seu nome">
                 </div>
 
-                <div>
-                    <label class="block text-sm font-bold mb-2 text-cyan-300">Tipo de Entrega</label>
-                    <select id="product-delivery-type" class="admin-input w-full p-3 rounded">
-                        <option value="login">Dados de Login</option>
-                        <option value="key">Chave/Serial</option>
-                        <option value="file">Arquivo/Link</option>
-                        <option value="credit">Crédito na Conta</option>
-                    </select>
+                <div class="form-group">
+                    <label for="register-email">Email</label>
+                    <input type="email" id="register-email" required placeholder="seu@email.com">
                 </div>
-                
-                <div class="flex gap-4 pt-4">
-                    <button type="button" onclick="closeProductModal()" class="flex-1 py-3 border border-gray-600 rounded hover:border-white transition-all font-bold">Cancelar</button>
-                    <button type="submit" class="flex-1 py-3 bg-cyan-500 hover:bg-cyan-400 text-black font-bold rounded transition-all">Salvar Produto</button>
+
+                <div class="form-group">
+                    <label for="register-password">Senha</label>
+                    <input type="password" id="register-password" required placeholder="Mínimo 6 caracteres" minlength="6">
                 </div>
+
+                <button type="submit" class="btn-primary w-full mb-4 flex items-center justify-center gap-2">
+                    <i data-lucide="user-plus" class="w-5 h-5"></i>
+                    Criar Conta
+                </button>
+
+                <button type="button" onclick="showLogin()" class="btn-secondary w-full flex items-center justify-center gap-2">
+                    <i data-lucide="arrow-left" class="w-5 h-5"></i>
+                    Voltar para Login
+                </button>
             </form>
         </div>
     </div>
 
-    <!-- Delivery Modal -->
-    <div id="delivery-modal" class="fixed inset-0 bg-black/90 z-[70] hidden flex items-center justify-center p-4">
-        <div class="bg-gray-900 border-2 border-green-500 rounded-lg w-full max-w-2xl p-6 relative max-h-[90vh] overflow-y-auto">
-            <button onclick="closeDeliveryModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white">
-                <i data-lucide="x" class="w-6 h-6"></i>
-            </button>
-            
-            <h3 class="font-orbitron text-2xl font-bold mb-2 text-green-400 flex items-center gap-3">
-                <i data-lucide="send" class="w-6 h-6"></i>
-                REALIZAR ENTREGA
-            </h3>
-            <p class="text-gray-400 mb-6 text-sm">Pedido #<span id="delivery-order-id"></span> - <span id="delivery-customer-email"></span></p>
-            
-            <div class="bg-black/30 p-4 rounded-lg mb-6">
-                <h4 class="font-bold text-cyan-400 mb-2">Produtos:</h4>
-                <ul id="delivery-items-list" class="space-y-2 text-sm"></ul>
+    <!-- LOGIN ADMIN -->
+    <div id="admin-login-screen" class="login-container hidden">
+        <div class="cyber-grid absolute inset-0 opacity-20"></div>
+        
+        <div class="login-box relative z-10 border-purple-500/50">
+            <div class="text-center mb-8">
+                <i data-lucide="shield" class="w-16 h-16 text-purple-400 mx-auto mb-4"></i>
+                <h1 class="font-orbitron text-3xl font-bold text-purple-400">Painel Administrativo</h1>
+                <p class="text-gray-400 mt-2">Acesso restrito</p>
             </div>
 
-            <form id="delivery-form" onsubmit="processDelivery(event)" class="space-y-4">
-                <input type="hidden" id="delivery-order-number">
+            <form id="admin-login-form" onsubmit="handleAdminLogin(event)">
+                <div class="form-group">
+                    <label for="admin-password" class="text-purple-400">Senha de Administrador</label>
+                    <input type="password" id="admin-password" required placeholder="••••••••" class="border-purple-500/50 focus:border-purple-400">
+                </div>
+
+                <button type="submit" class="w-full py-3 bg-purple-600 hover:bg-purple-500 text-white font-bold rounded-lg mb-4 flex items-center justify-center gap-2 transition-all">
+                    <i data-lucide="unlock" class="w-5 h-5"></i>
+                    Acessar Painel
+                </button>
+
+                <button type="button" onclick="showLogin()" class="text-gray-500 hover:text-cyan-400 text-sm flex items-center justify-center gap-2 mx-auto transition-colors">
+                    <i data-lucide="arrow-left" class="w-4 h-4"></i>
+                    Voltar para Loja
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- CONTEÚDO PRINCIPAL (Após login) -->
+    <div id="main-content" class="hidden">
+        <!-- Navigation -->
+        <nav class="fixed top-0 w-full z-50 bg-black/80 backdrop-blur-md border-b border-cyan-500/30">
+            <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+                <div class="flex items-center gap-3 cursor-pointer" onclick="showSection('home')">
+                    <i data-lucide="gamepad-2" class="w-8 h-8 text-cyan-400"></i>
+                    <h1 class="font-orbitron text-2xl font-bold glitch hidden md:block" data-text="COMMUNITY STORY">COMMUNITY STORY</h1>
+                </div>
                 
-                <div>
-                    <label class="block text-sm font-bold mb-2 text-green-300">Dados de Entrega</label>
-                    <textarea id="delivery-data" rows="6" required class="admin-input w-full p-3 rounded font-mono text-sm" placeholder="Exemplo para IPTV:
+                <div class="hidden md:flex items-center gap-8">
+                    <button onclick="showSection('home')" class="nav-btn hover:text-cyan-400 transition-colors font-bold tracking-wider">INÍCIO</button>
+                    <button onclick="showSection('products')" class="nav-btn hover:text-cyan-400 transition-colors font-bold tracking-wider">PRODUTOS</button>
+                    <button onclick="showSection('my-orders')" class="nav-btn hover:text-cyan-400 transition-colors font-bold tracking-wider relative">
+                        MEUS PEDIDOS
+                        <span id="order-badge" class="notification-badge hidden">0</span>
+                    </button>
+                    <button onclick="showSection('cart')" class="nav-btn hover:text-cyan-400 transition-colors font-bold tracking-wider relative">
+                        CARRINHO
+                        <span id="cart-badge" class="notification-badge hidden">0</span>
+                    </button>
+                </div>
+
+                <div class="flex items-center gap-4">
+                    <div class="user-menu hidden" id="admin-nav-btn">
+                        <button onclick="toggleAdmin()" class="nav-btn bg-purple-500/20 border border-purple-400 px-4 py-2 rounded hover:bg-purple-500/40 transition-all font-bold flex items-center gap-2">
+                            <i data-lucide="shield" class="w-4 h-4"></i>
+                            <span class="hidden sm:inline">ADMIN</span>
+                        </button>
+                    </div>
+
+                    <div class="user-menu">
+                        <button class="flex items-center gap-2 hover:text-cyan-400 transition-colors">
+                            <div class="w-8 h-8 rounded-full bg-cyan-500/20 border border-cyan-400 flex items-center justify-center">
+                                <i data-lucide="user" class="w-4 h-4"></i>
+                            </div>
+                            <span id="user-name-display" class="hidden sm:block font-bold"></span>
+                            <i data-lucide="chevron-down" class="w-4 h-4"></i>
+                        </button>
+                        
+                        <div class="user-dropdown">
+                            <div class="px-4 py-2 border-b border-cyan-500/20">
+                                <p class="text-sm text-gray-400">Logado como</p>
+                                <p id="user-email-display" class="font-bold text-cyan-400 truncate"></p>
+                            </div>
+                            <div class="user-dropdown-item" onclick="showSection('my-orders')">
+                                <i data-lucide="package" class="w-4 h-4"></i>
+                                Meus Pedidos
+                            </div>
+                            <div class="user-dropdown-item" onclick="showSection('cart')">
+                                <i data-lucide="shopping-cart" class="w-4 h-4"></i>
+                                Carrinho
+                            </div>
+                            <div class="divider"></div>
+                            <div class="user-dropdown-item text-red-400" onclick="logout()">
+                                <i data-lucide="log-out" class="w-4 h-4"></i>
+                                Sair da Conta
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <button class="md:hidden text-cyan-400" onclick="toggleMobileMenu()">
+                    <i data-lucide="menu" class="w-6 h-6"></i>
+                </button>
+            </div>
+        </nav>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="fixed inset-0 bg-black/95 z-40 hidden flex-col items-center justify-center gap-8">
+            <button onclick="showSection('home'); toggleMobileMenu()" class="text-2xl font-orbitron hover:text-cyan-400">INÍCIO</button>
+            <button onclick="showSection('products'); toggleMobileMenu()" class="text-2xl font-orbitron hover:text-cyan-400">PRODUTOS</button>
+            <button onclick="showSection('my-orders'); toggleMobileMenu()" class="text-2xl font-orbitron hover:text-cyan-400">MEUS PEDIDOS</button>
+            <button onclick="showSection('cart'); toggleMobileMenu()" class="text-2xl font-orbitron hover:text-cyan-400">CARRINHO</button>
+            <button onclick="logout(); toggleMobileMenu()" class="text-2xl font-orbitron text-red-400">SAIR</button>
+            <button onclick="toggleMobileMenu()" class="absolute top-6 right-6">
+                <i data-lucide="x" class="w-8 h-8"></i>
+            </button>
+        </div>
+
+        <!-- HOME SECTION -->
+        <section id="home" class="active-section pt-20">
+            <div class="relative h-screen flex items-center justify-center overflow-hidden">
+                <div class="absolute inset-0 cyber-grid opacity-20"></div>
+                <div class="absolute inset-0 bg-gradient-to-b from-transparent via-black/50 to-black"></div>
+                
+                <div class="relative z-10 text-center px-6 max-w-5xl">
+                    <div class="mb-6 inline-block px-4 py-2 border border-cyan-400/50 rounded-full bg-cyan-400/10 text-cyan-400 text-sm font-bold tracking-wider">
+                        ✓ ENTREGA DIGITAL MANUAL • SUPORTE 24/7
+                    </div>
+                    <h2 class="font-orbitron text-5xl md:text-7xl font-black mb-6 leading-tight">
+                        <span class="block text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-500">PACKS DE JOGOS</span>
+                        <span class="block glitch mt-2" data-text="IPTV • ROBUX">IPTV • ROBUX</span>
+                    </h2>
+                    <p class="text-xl md:text-2xl text-gray-300 mb-8 max-w-2xl mx-auto">
+                        Adquira os melhores <span class="text-cyan-400">packs de jogos</span>, 
+                        <span class="text-purple-400">canais IPTV</span> e 
+                        <span class="text-yellow-400">Robux</span> com entrega manual e segura.
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                        <button onclick="showSection('products')" class="btn-primary text-lg flex items-center justify-center gap-2">
+                            VER PRODUTOS <i data-lucide="chevron-right" class="w-5 h-5"></i>
+                        </button>
+                        <button onclick="showSection('products')" class="px-8 py-4 border-2 border-yellow-500 text-yellow-400 font-bold font-orbitron hover:bg-yellow-500 hover:text-black transition-all rounded-lg">
+                            OFERTAS ESPECIAIS
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Features -->
+            <div class="container mx-auto px-6 py-20">
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="p-8 border border-cyan-500/30 rounded-lg bg-gradient-to-br from-cyan-900/20 to-transparent hover:border-cyan-400 transition-all group">
+                        <i data-lucide="send" class="w-12 h-12 text-cyan-400 mb-4 group-hover:scale-110 transition-transform"></i>
+                        <h3 class="font-orbitron text-xl font-bold mb-2">ENTREGA MANUAL</h3>
+                        <p class="text-gray-400">Após a confirmação do pagamento, nossa equipe envia seus dados de acesso manualmente em até 2 horas.</p>
+                    </div>
+                    <div class="p-8 border border-purple-500/30 rounded-lg bg-gradient-to-br from-purple-900/20 to-transparent hover:border-purple-400 transition-all group">
+                        <i data-lucide="shield-check" class="w-12 h-12 text-purple-400 mb-4 group-hover:scale-110 transition-transform"></i>
+                        <h3 class="font-orbitron text-xl font-bold mb-2">100% SEGURO</h3>
+                        <p class="text-gray-400">Garantia de funcionamento ou seu dinheiro de volta. Todos os produtos testados antes do envio.</p>
+                    </div>
+                    <div class="p-8 border border-yellow-500/30 rounded-lg bg-gradient-to-br from-yellow-900/20 to-transparent hover:border-yellow-400 transition-all group">
+                        <i data-lucide="headphones" class="w-12 h-12 text-yellow-400 mb-4 group-hover:scale-110 transition-transform"></i>
+                        <h3 class="font-orbitron text-xl font-bold mb-2">SUPORTE DEDICADO</h3>
+                        <p class="text-gray-400">Suporte técnico especializado para ajudar na instalação e configuração dos seus produtos digitais.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PRODUCTS SECTION -->
+        <section id="products" class="hidden-section pt-24 min-h-screen">
+            <div class="container mx-auto px-6">
+                <div class="flex flex-col md:flex-row justify-between items-center mb-12">
+                    <h2 class="font-orbitron text-4xl font-bold mb-4 md:mb-0">
+                        <span class="text-cyan-400">NOSSOS</span> PRODUTOS
+                    </h2>
+                    
+                    <div class="flex gap-4 flex-wrap justify-center">
+                        <button onclick="filterProducts('all')" class="filter-btn active px-6 py-2 border border-cyan-400 rounded-full hover:bg-cyan-400 hover:text-black transition-all font-bold" data-category="all">TODOS</button>
+                        <button onclick="filterProducts('games')" class="filter-btn px-6 py-2 border border-gray-600 rounded-full hover:border-cyan-400 hover:text-cyan-400 transition-all font-bold" data-category="games">PACKS JOGOS</button>
+                        <button onclick="filterProducts('iptv')" class="filter-btn px-6 py-2 border border-gray-600 rounded-full hover:border-cyan-400 hover:text-cyan-400 transition-all font-bold" data-category="iptv">IPTV</button>
+                        <button onclick="filterProducts('robux')" class="filter-btn px-6 py-2 border border-gray-600 rounded-full hover:border-cyan-400 hover:text-cyan-400 transition-all font-bold" data-category="robux">ROBUX</button>
+                    </div>
+                </div>
+
+                <div id="products-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"></div>
+            </div>
+        </section>
+
+        <!-- CART SECTION -->
+        <section id="cart" class="hidden-section pt-24 min-h-screen">
+            <div class="container mx-auto px-6 max-w-4xl">
+                <h2 class="font-orbitron text-4xl font-bold mb-8 text-center">
+                    <span class="text-cyan-400">SEU</span> CARRINHO
+                </h2>
+                
+                <div id="cart-content" class="bg-gray-900/50 border border-cyan-500/30 rounded-lg p-6 min-h-[400px]"></div>
+            </div>
+        </section>
+
+        <!-- MY ORDERS SECTION -->
+        <section id="my-orders" class="hidden-section pt-24 min-h-screen">
+            <div class="container mx-auto px-6 max-w-4xl">
+                <h2 class="font-orbitron text-4xl font-bold mb-8 text-center">
+                    <span class="text-cyan-400">MEUS</span> PEDIDOS
+                </h2>
+                
+                <div id="customer-orders-list" class="space-y-6"></div>
+            </div>
+        </section>
+
+        <!-- CHECKOUT SUCCESS MODAL -->
+        <div id="checkout-modal" class="modal-overlay hidden">
+            <div class="modal-content">
+                <div class="w-20 h-20 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <i data-lucide="check-circle" class="w-12 h-12 text-green-400"></i>
+                </div>
+                <h3 class="font-orbitron text-2xl font-bold mb-4 text-green-400">PEDIDO REALIZADO!</h3>
+                <p class="text-gray-300 mb-6">
+                    Seu pedido foi registrado com sucesso. Nossa equipe irá processar o pagamento e 
+                    enviar seus dados de acesso manualmente em até <strong>2 horas</strong>.
+                </p>
+                <div class="bg-black/50 p-4 rounded-lg mb-6 text-left">
+                    <p class="text-sm text-gray-400 mb-2">Número do Pedido:</p>
+                    <p class="font-orbitron text-xl text-cyan-400 font-bold" id="order-number-display">#000000</p>
+                </div>
+                <p class="text-sm text-gray-400 mb-4">Um email de confirmação foi enviado para <span id="order-email-display" class="text-cyan-400"></span></p>
+                <button onclick="closeCheckoutModal()" class="btn-primary w-full">
+                    IR PARA MEUS PEDIDOS
+                </button>
+            </div>
+        </div>
+
+        <!-- ADMIN PANEL -->
+        <div id="admin-panel" class="fixed inset-0 bg-black/95 z-50 hidden">
+            <div class="flex h-full">
+                <!-- Sidebar -->
+                <div class="admin-sidebar w-64 p-6 border-r border-cyan-500/30 hidden md:block flex flex-col">
+                    <div class="flex items-center gap-3 mb-8">
+                        <i data-lucide="shield" class="w-8 h-8 text-purple-400"></i>
+                        <div>
+                            <h2 class="font-orbitron text-xl font-bold text-purple-400">ADMIN</h2>
+                            <p class="text-xs text-gray-400">Painel de Controle</p>
+                        </div>
+                    </div>
+                    
+                    <nav class="space-y-4 flex-1">
+                        <button onclick="showAdminTab('products')" class="admin-nav-btn w-full text-left px-4 py-3 rounded bg-cyan-500/20 border-l-4 border-cyan-400 font-bold flex items-center gap-3">
+                            <i data-lucide="package" class="w-5 h-5"></i> Produtos
+                        </button>
+                        <button onclick="showAdminTab('orders')" class="admin-nav-btn w-full text-left px-4 py-3 rounded hover:bg-cyan-500/10 border-l-4 border-transparent hover:border-cyan-400/50 font-bold flex items-center gap-3 transition-all">
+                            <i data-lucide="shopping-bag" class="w-5 h-5"></i> Pendentes
+                            <span id="admin-pending-badge" class="ml-auto bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center hidden">0</span>
+                        </button>
+                        <button onclick="showAdminTab('delivered')" class="admin-nav-btn w-full text-left px-4 py-3 rounded hover:bg-cyan-500/10 border-l-4 border-transparent hover:border-cyan-400/50 font-bold flex items-center gap-3 transition-all">
+                            <i data-lucide="check-circle" class="w-5 h-5"></i> Entregues
+                        </button>
+                    </nav>
+                    
+                    <div class="pt-6 border-t border-cyan-500/20 space-y-3">
+                        <button onclick="showSection('home')" class="w-full py-3 border border-cyan-500/30 rounded-lg hover:bg-cyan-500/10 transition-all font-bold flex items-center justify-center gap-2 text-cyan-400">
+                            <i data-lucide="store" class="w-5 h-5"></i>
+                            Ver Loja
+                        </button>
+                        <button onclick="logoutAdmin()" class="w-full py-3 bg-red-500/20 border border-red-500/50 rounded-lg hover:bg-red-500/30 transition-all font-bold flex items-center justify-center gap-2 text-red-400">
+                            <i data-lucide="log-out" class="w-5 h-5"></i>
+                            Sair do Painel
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Content -->
+                <div class="flex-1 p-6 overflow-y-auto">
+                    <div class="flex justify-between items-center mb-8 md:hidden">
+                        <h2 class="font-orbitron text-2xl font-bold text-purple-400">PAINEL ADMIN</h2>
+                        <div class="flex gap-2">
+                            <button onclick="showSection('home')" class="p-2 text-cyan-400">
+                                <i data-lucide="store" class="w-6 h-6"></i>
+                            </button>
+                            <button onclick="logoutAdmin()" class="p-2 text-red-400">
+                                <i data-lucide="log-out" class="w-6 h-6"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Products Management -->
+                    <div id="admin-products" class="admin-tab">
+                        <div class="flex justify-between items-center mb-6">
+                            <h3 class="font-orbitron text-2xl font-bold text-cyan-400">Gerenciar Produtos</h3>
+                            <button onclick="openProductModal()" class="btn-primary flex items-center gap-2">
+                                <i data-lucide="plus" class="w-5 h-5"></i> Novo Produto
+                            </button>
+                        </div>
+
+                        <div class="bg-gray-900/50 border border-cyan-500/20 rounded-lg overflow-hidden">
+                            <table class="w-full">
+                                <thead class="bg-cyan-900/30">
+                                    <tr>
+                                        <th class="p-4 text-left font-orbitron">Produto</th>
+                                        <th class="p-4 text-left font-orbitron">Tipo</th>
+                                        <th class="p-4 text-left font-orbitron">Preço</th>
+                                        <th class="p-4 text-left font-orbitron">Ações</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="admin-products-list"></tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Orders Management -->
+                    <div id="admin-orders" class="admin-tab hidden">
+                        <h3 class="font-orbitron text-2xl font-bold text-yellow-400 mb-6 flex items-center gap-3">
+                            <i data-lucide="clock" class="w-8 h-8"></i>
+                            Pedidos Pendentes de Entrega
+                        </h3>
+                        <div id="admin-orders-list" class="space-y-4"></div>
+                    </div>
+
+                    <!-- Delivered Orders -->
+                    <div id="admin-delivered" class="admin-tab hidden">
+                        <h3 class="font-orbitron text-2xl font-bold text-green-400 mb-6 flex items-center gap-3">
+                            <i data-lucide="check-circle" class="w-8 h-8"></i>
+                            Pedidos Entregues
+                        </h3>
+                        <div id="admin-delivered-list" class="space-y-4"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Product Modal -->
+        <div id="product-modal" class="modal-overlay hidden">
+            <div class="bg-gray-900 border border-cyan-500 rounded-lg w-full max-w-2xl p-6 relative max-h-[90vh] overflow-y-auto">
+                <button onclick="closeProductModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+                
+                <h3 class="font-orbitron text-2xl font-bold mb-6 text-cyan-400" id="modal-title">Novo Produto</h3>
+                
+                <form id="product-form" onsubmit="saveProduct(event)" class="space-y-4">
+                    <input type="hidden" id="product-id">
+                    
+                    <div>
+                        <label class="block text-sm font-bold mb-2 text-cyan-300">Nome do Produto</label>
+                        <input type="text" id="product-name" required class="admin-input w-full p-3 rounded" placeholder="Ex: Pack 1000 Jogos PC">
+                    </div>
+                    
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-bold mb-2 text-cyan-300">Preço (R$)</label>
+                            <input type="number" id="product-price" step="0.01" required class="admin-input w-full p-3 rounded" placeholder="29.99">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-bold mb-2 text-cyan-300">Categoria</label>
+                            <select id="product-category" class="admin-input w-full p-3 rounded">
+                                <option value="games">Pack de Jogos</option>
+                                <option value="iptv">IPTV</option>
+                                <option value="robux">Robux</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-bold mb-2 text-cyan-300">URL da Imagem</label>
+                        <input type="url" id="product-image" required class="admin-input w-full p-3 rounded" placeholder="https://exemplo.com/imagem.jpg">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-bold mb-2 text-cyan-300">Descrição</label>
+                        <textarea id="product-description" rows="3" class="admin-input w-full p-3 rounded" placeholder="Descrição do produto..."></textarea>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-bold mb-2 text-cyan-300">Tipo de Entrega</label>
+                        <select id="product-delivery-type" class="admin-input w-full p-3 rounded">
+                            <option value="login">Dados de Login</option>
+                            <option value="key">Chave/Serial</option>
+                            <option value="file">Arquivo/Link</option>
+                            <option value="credit">Crédito na Conta</option>
+                        </select>
+                    </div>
+                    
+                    <div class="flex gap-4 pt-4">
+                        <button type="button" onclick="closeProductModal()" class="flex-1 py-3 border border-gray-600 rounded hover:border-white transition-all font-bold">Cancelar</button>
+                        <button type="submit" class="flex-1 btn-primary">Salvar Produto</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Delivery Modal -->
+        <div id="delivery-modal" class="modal-overlay hidden">
+            <div class="bg-gray-900 border-2 border-green-500 rounded-lg w-full max-w-2xl p-6 relative max-h-[90vh] overflow-y-auto">
+                <button onclick="closeDeliveryModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+                
+                <h3 class="font-orbitron text-2xl font-bold mb-2 text-green-400 flex items-center gap-3">
+                    <i data-lucide="send" class="w-6 h-6"></i>
+                    REALIZAR ENTREGA
+                </h3>
+                <p class="text-gray-400 mb-6 text-sm">Pedido #<span id="delivery-order-id"></span> - <span id="delivery-customer-email"></span></p>
+                
+                <div class="bg-black/30 p-4 rounded-lg mb-6">
+                    <h4 class="font-bold text-cyan-400 mb-2">Produtos:</h4>
+                    <ul id="delivery-items-list" class="space-y-2 text-sm"></ul>
+                </div>
+
+                <form id="delivery-form" onsubmit="processDelivery(event)" class="space-y-4">
+                    <input type="hidden" id="delivery-order-number">
+                    
+                    <div>
+                        <label class="block text-sm font-bold mb-2 text-green-300">Dados de Entrega</label>
+                        <textarea id="delivery-data" rows="6" required class="admin-input w-full p-3 rounded font-mono text-sm" placeholder="Exemplo para IPTV:
 URL: http://exemplo.com:8080
 Usuário: cliente123
 Senha: senha456
@@ -590,36 +993,47 @@ Expira: 30 dias
 Ou para Robux:
 Código Gift Card: 1234-5678-9012
 Valor: 800 Robux"></textarea>
-                    <p class="text-xs text-gray-500 mt-2">Estes dados serão enviados ao cliente por email e exibidos na área "Meus Pedidos"</p>
-                </div>
+                        <p class="text-xs text-gray-500 mt-2">Estes dados serão enviados ao cliente por email e exibidos na área "Meus Pedidos"</p>
+                    </div>
 
-                <div>
-                    <label class="block text-sm font-bold mb-2 text-green-300">Observações (opcional)</label>
-                    <input type="text" id="delivery-notes" class="admin-input w-full p-3 rounded" placeholder="Instruções extras para o cliente...">
-                </div>
-                
-                <div class="flex gap-4 pt-4">
-                    <button type="button" onclick="closeDeliveryModal()" class="flex-1 py-3 border border-gray-600 rounded hover:border-white transition-all font-bold">Cancelar</button>
-                    <button type="submit" class="flex-1 py-3 bg-green-600 hover:bg-green-500 text-white font-bold rounded transition-all flex items-center justify-center gap-2">
-                        <i data-lucide="check" class="w-5 h-5"></i>
-                        CONFIRMAR ENTREGA
-                    </button>
-                </div>
-            </form>
+                    <div>
+                        <label class="block text-sm font-bold mb-2 text-green-300">Observações (opcional)</label>
+                        <input type="text" id="delivery-notes" class="admin-input w-full p-3 rounded" placeholder="Instruções extras para o cliente...">
+                    </div>
+                    
+                    <div class="flex gap-4 pt-4">
+                        <button type="button" onclick="closeDeliveryModal()" class="flex-1 py-3 border border-gray-600 rounded hover:border-white transition-all font-bold">Cancelar</button>
+                        <button type="submit" class="flex-1 py-3 bg-green-600 hover:bg-green-500 text-white font-bold rounded transition-all flex items-center justify-center gap-2">
+                            <i data-lucide="check" class="w-5 h-5"></i>
+                            CONFIRMAR ENTREGA
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
-    </div>
 
-    <!-- Toast Notification -->
-    <div id="toast" class="fixed bottom-6 right-6 bg-cyan-500 text-black px-6 py-4 rounded-lg shadow-2xl transform translate-y-20 opacity-0 transition-all duration-300 z-[80] font-bold flex items-center gap-3">
-        <i data-lucide="check-circle" class="w-6 h-6"></i>
-        <span id="toast-message">Operação realizada!</span>
+        <!-- Toast Notification -->
+        <div id="toast" class="fixed bottom-24 right-6 bg-cyan-500 text-black px-6 py-4 rounded-lg shadow-2xl transform translate-y-20 opacity-0 transition-all duration-300 z-[80] font-bold flex items-center gap-3">
+            <i data-lucide="check-circle" class="w-6 h-6"></i>
+            <span id="toast-message">Operação realizada!</span>
+        </div>
+
+        <!-- Support Email Button -->
+        <a href="mailto:financeiros062@gmail.com?subject=Suporte%20Community%20Story" class="support-email">
+            <i data-lucide="mail" class="w-5 h-5 text-cyan-400"></i>
+            <div>
+                <p class="text-xs text-gray-400">Suporte</p>
+                <p class="font-bold text-sm">financeiros062@gmail.com</p>
+            </div>
+        </a>
     </div>
 
     <!-- JAVASCRIPT -->
     <script>
-        // Inicializar ícones
-        lucide.createIcons();
-
+        // CONFIGURAÇÕES
+        const ADMIN_PASSWORD = 'Dan@8838';
+        const SUPPORT_EMAIL = 'financeiros062@gmail.com';
+        
         // Dados iniciais
         let products = [
             {
@@ -681,15 +1095,139 @@ Valor: 800 Robux"></textarea>
         let cart = [];
         let orders = [];
         let currentFilter = 'all';
+        let currentUser = null;
+        let isAdmin = false;
 
         // Inicialização
         document.addEventListener('DOMContentLoaded', () => {
             createParticles();
-            renderProducts();
-            updateCartBadge();
+            lucide.createIcons();
+            checkSession();
         });
 
-        // Criar partículas flutuantes
+        // SISTEMA DE LOGIN
+        function handleLogin(e) {
+            e.preventDefault();
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            
+            // Verificar se é admin
+            if (email === 'admin@community.com' && password === ADMIN_PASSWORD) {
+                isAdmin = true;
+                currentUser = { email: email, name: 'Administrador' };
+                showMainContent();
+                showToast('Bem-vindo, Administrador!');
+                return;
+            }
+            
+            // Verificar usuário normal (simulado - em produção seria no backend)
+            const users = JSON.parse(localStorage.getItem('cs_users') || '[]');
+            const user = users.find(u => u.email === email && u.password === password);
+            
+            if (user) {
+                currentUser = user;
+                isAdmin = false;
+                showMainContent();
+                showToast(`Bem-vindo, ${user.name}!`);
+            } else {
+                showToast('Email ou senha incorretos!');
+            }
+        }
+
+        function handleRegister(e) {
+            e.preventDefault();
+            const name = document.getElementById('register-name').value;
+            const email = document.getElementById('register-email').value;
+            const password = document.getElementById('register-password').value;
+            
+            const users = JSON.parse(localStorage.getItem('cs_users') || '[]');
+            
+            if (users.find(u => u.email === email)) {
+                showToast('Este email já está cadastrado!');
+                return;
+            }
+            
+            users.push({ name, email, password });
+            localStorage.setItem('cs_users', JSON.stringify(users));
+            
+            showToast('Conta criada com sucesso! Faça login.');
+            showLogin();
+        }
+
+        function handleAdminLogin(e) {
+            e.preventDefault();
+            const password = document.getElementById('admin-password').value;
+            
+            if (password === ADMIN_PASSWORD) {
+                isAdmin = true;
+                currentUser = { email: 'admin@community.com', name: 'Administrador' };
+                showMainContent();
+                toggleAdmin();
+                showToast('Painel administrativo acessado!');
+            } else {
+                showToast('Senha de administrador incorreta!');
+            }
+        }
+
+        function showLogin() {
+            hideAllScreens();
+            document.getElementById('login-screen').classList.remove('hidden');
+        }
+
+        function showRegister() {
+            hideAllScreens();
+            document.getElementById('register-screen').classList.remove('hidden');
+        }
+
+        function showAdminLogin() {
+            hideAllScreens();
+            document.getElementById('admin-login-screen').classList.remove('hidden');
+        }
+
+        function hideAllScreens() {
+            document.getElementById('login-screen').classList.add('hidden');
+            document.getElementById('register-screen').classList.add('hidden');
+            document.getElementById('admin-login-screen').classList.add('hidden');
+            document.getElementById('main-content').classList.add('hidden');
+        }
+
+        function showMainContent() {
+            hideAllScreens();
+            document.getElementById('main-content').classList.remove('hidden');
+            updateUserDisplay();
+            renderProducts();
+            
+            if (isAdmin) {
+                document.getElementById('admin-nav-btn').classList.remove('hidden');
+            }
+        }
+
+        function updateUserDisplay() {
+            if (currentUser) {
+                document.getElementById('user-name-display').textContent = currentUser.name;
+                document.getElementById('user-email-display').textContent = currentUser.email;
+            }
+        }
+
+        function logout() {
+            currentUser = null;
+            isAdmin = false;
+            cart = [];
+            showLogin();
+            showToast('Você saiu da conta.');
+        }
+
+        function logoutAdmin() {
+            toggleAdmin();
+            logout();
+        }
+
+        function checkSession() {
+            // Verificar se há sessão salva (simulado)
+            showLogin();
+        }
+
+        // Criar partículas
         function createParticles() {
             const container = document.getElementById('particles');
             for (let i = 0; i < 50; i++) {
@@ -702,7 +1240,7 @@ Valor: 800 Robux"></textarea>
             }
         }
 
-        // Navegação entre seções
+        // Navegação
         function showSection(sectionName) {
             document.querySelectorAll('section').forEach(section => {
                 section.classList.remove('active-section');
@@ -721,7 +1259,6 @@ Valor: 800 Robux"></textarea>
             if (sectionName === 'my-orders') renderCustomerOrders();
         }
 
-        // Menu mobile
         function toggleMobileMenu() {
             const menu = document.getElementById('mobile-menu');
             menu.classList.toggle('hidden');
@@ -752,7 +1289,7 @@ Valor: 800 Robux"></textarea>
             event.currentTarget.classList.add('bg-cyan-500/20', 'border-cyan-400');
         }
 
-        // Renderizar produtos na loja
+        // Produtos
         function renderProducts() {
             const grid = document.getElementById('products-grid');
             const filtered = currentFilter === 'all' 
@@ -760,7 +1297,7 @@ Valor: 800 Robux"></textarea>
                 : products.filter(p => p.category === currentFilter);
             
             grid.innerHTML = filtered.map(product => `
-                <div class="product-card relative rounded-lg overflow-hidden group border border-gray-800 hover:border-cyan-400">
+                <div class="product-card relative rounded-lg overflow-hidden group">
                     <div class="digital-badge">Digital</div>
                     <div class="relative h-64 overflow-hidden">
                         <img src="${product.image}" alt="${product.name}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
@@ -793,7 +1330,6 @@ Valor: 800 Robux"></textarea>
             return names[cat] || cat;
         }
 
-        // Filtro de produtos
         function filterProducts(category) {
             currentFilter = category;
             
@@ -893,18 +1429,13 @@ Valor: 800 Robux"></textarea>
                     <div class="bg-yellow-500/10 border border-yellow-500/30 p-4 rounded-lg mb-6">
                         <p class="text-sm text-yellow-400 flex items-center gap-2">
                             <i data-lucide="alert-circle" class="w-5 h-5"></i>
-                            Após o pagamento, você receberá seus dados de acesso manualmente em até 2 horas no email informado.
+                            Após o pagamento, você receberá seus dados de acesso manualmente em até 2 horas no email: <strong>${currentUser?.email || 'cadastrado'}</strong>
                         </p>
                     </div>
                     
                     <div class="flex justify-between items-center mb-6">
                         <span class="text-xl font-orbitron">TOTAL:</span>
                         <span class="text-3xl font-orbitron font-bold text-cyan-400">R$ ${total.toFixed(2)}</span>
-                    </div>
-                    
-                    <div class="mb-4">
-                        <label class="block text-sm font-bold mb-2 text-cyan-300">Email para entrega *</label>
-                        <input type="email" id="customer-email" required class="admin-input w-full p-3 rounded" placeholder="seu@email.com">
                     </div>
                     
                     <button onclick="checkout()" class="w-full py-4 bg-gradient-to-r from-green-600 to-green-500 hover:from-green-500 hover:to-green-400 text-white font-bold font-orbitron text-lg rounded-lg transition-all transform hover:scale-[1.02] flex items-center justify-center gap-3">
@@ -931,13 +1462,6 @@ Valor: 800 Robux"></textarea>
 
         // Checkout
         function checkout() {
-            const email = document.getElementById('customer-email')?.value;
-            
-            if (!email || !email.includes('@')) {
-                showToast('Por favor, insira um email válido para entrega!');
-                return;
-            }
-            
             if (cart.length === 0) {
                 showToast('Seu carrinho está vazio!');
                 return;
@@ -948,7 +1472,8 @@ Valor: 800 Robux"></textarea>
             
             const newOrder = {
                 id: orderNumber,
-                email: email,
+                email: currentUser.email,
+                userName: currentUser.name,
                 items: [...cart],
                 total: total,
                 status: 'pending',
@@ -960,11 +1485,15 @@ Valor: 800 Robux"></textarea>
             
             orders.push(newOrder);
             
+            // Simular envio de email
+            console.log(`Email enviado para ${SUPPORT_EMAIL}: Novo pedido ${orderNumber}`);
+            
             cart = [];
             updateCartBadge();
             renderCart();
             
             document.getElementById('order-number-display').textContent = '#' + orderNumber;
+            document.getElementById('order-email-display').textContent = currentUser.email;
             document.getElementById('checkout-modal').classList.remove('hidden');
             
             updateAdminBadge();
@@ -978,8 +1507,9 @@ Valor: 800 Robux"></textarea>
         // Pedidos do cliente
         function renderCustomerOrders() {
             const container = document.getElementById('customer-orders-list');
+            const userOrders = orders.filter(o => o.email === currentUser?.email);
             
-            if (orders.length === 0) {
+            if (userOrders.length === 0) {
                 container.innerHTML = `
                     <div class="text-center py-20 text-gray-400 bg-gray-900/30 rounded-lg border border-cyan-500/20">
                         <i data-lucide="package" class="w-16 h-16 mx-auto mb-4 opacity-30"></i>
@@ -991,7 +1521,7 @@ Valor: 800 Robux"></textarea>
                 return;
             }
             
-            const sortedOrders = [...orders].sort((a, b) => b.id.localeCompare(a.id));
+            const sortedOrders = [...userOrders].sort((a, b) => b.id.localeCompare(a.id));
             
             container.innerHTML = sortedOrders.map(order => `
                 <div class="bg-gray-900/50 border ${order.status === 'delivered' ? 'border-green-500/50' : 'border-yellow-500/50'} rounded-lg p-6">
@@ -1033,12 +1563,13 @@ Valor: 800 Robux"></textarea>
                                 </div>
                             ` : ''}
                             <p class="text-xs text-gray-500 mt-3">Entregue em: ${order.deliveredAt}</p>
+                            <p class="text-xs text-cyan-400 mt-2">Um email com estes dados também foi enviado para ${order.email}</p>
                         </div>
                     ` : `
                         <div class="delivery-box locked mt-4 bg-yellow-500/10">
                             <i data-lucide="lock" class="w-12 h-12 text-yellow-500 mx-auto mb-2"></i>
                             <p class="text-yellow-400 font-bold">Aguardando processamento</p>
-                            <p class="text-sm text-gray-400 mt-2">Seus dados serão liberados aqui após confirmação do pagamento</p>
+                            <p class="text-sm text-gray-400 mt-2">Seus dados serão liberados aqui e enviados por email após confirmação do pagamento</p>
                         </div>
                     `}
                 </div>
@@ -1058,7 +1589,7 @@ Valor: 800 Robux"></textarea>
 
         function updateOrderBadge() {
             const badge = document.getElementById('order-badge');
-            const pendingCount = orders.filter(o => o.status === 'pending').length;
+            const pendingCount = orders.filter(o => o.email === currentUser?.email && o.status === 'pending').length;
             
             if (pendingCount > 0) {
                 badge.textContent = pendingCount;
@@ -1109,7 +1640,6 @@ Valor: 800 Robux"></textarea>
             const pending = orders.filter(o => o.status === 'pending');
             const delivered = orders.filter(o => o.status === 'delivered');
             
-            // Pendentes
             if (pending.length === 0) {
                 pendingContainer.innerHTML = `
                     <div class="text-center py-12 text-gray-500 bg-gray-900/30 rounded-lg border border-dashed border-gray-700">
@@ -1124,7 +1654,8 @@ Valor: 800 Robux"></textarea>
                             <div>
                                 <h4 class="font-orbitron text-lg font-bold text-yellow-400">Pedido #${order.id}</h4>
                                 <p class="text-sm text-gray-400">${order.date}</p>
-                                <p class="text-cyan-300 mt-1">${order.email}</p>
+                                <p class="text-cyan-300 mt-1">${order.userName || 'Cliente'}</p>
+                                <p class="text-gray-400 text-sm">${order.email}</p>
                             </div>
                             <div class="text-right">
                                 <p class="font-orbitron text-2xl font-bold text-cyan-400">R$ ${order.total.toFixed(2)}</p>
@@ -1154,7 +1685,6 @@ Valor: 800 Robux"></textarea>
                 `).join('');
             }
             
-            // Entregues
             if (delivered.length === 0) {
                 deliveredContainer.innerHTML = `
                     <div class="text-center py-12 text-gray-500 bg-gray-900/30 rounded-lg border border-dashed border-gray-700">
@@ -1169,7 +1699,7 @@ Valor: 800 Robux"></textarea>
                             <div>
                                 <h4 class="font-orbitron text-lg font-bold text-green-400">Pedido #${order.id}</h4>
                                 <p class="text-sm text-gray-400">${order.date}</p>
-                                <p class="text-gray-300 mt-1">${order.email}</p>
+                                <p class="text-gray-300 mt-1">${order.userName || 'Cliente'} - ${order.email}</p>
                             </div>
                             <div class="text-right">
                                 <p class="font-orbitron text-xl font-bold text-gray-400">R$ ${order.total.toFixed(2)}</p>
@@ -1241,9 +1771,13 @@ Valor: 800 Robux"></textarea>
                 order.deliveryNotes = deliveryNotes;
                 order.deliveredAt = new Date().toLocaleString('pt-BR');
                 
+                // Simular envio de email para o cliente
+                console.log(`Email enviado para ${order.email}: Seus dados de acesso chegaram!`);
+                console.log(`Cópia enviada para ${SUPPORT_EMAIL}: Entrega realizada ${orderId}`);
+                
                 renderAdminOrders();
                 closeDeliveryModal();
-                showToast('Entrega realizada com sucesso! Cliente notificado.');
+                showToast('Entrega realizada! Email enviado ao cliente.');
             }
         }
 
@@ -1337,6 +1871,10 @@ Valor: 800 Robux"></textarea>
         
         document.getElementById('delivery-modal')?.addEventListener('click', function(e) {
             if (e.target === this) closeDeliveryModal();
+        });
+
+        document.getElementById('checkout-modal')?.addEventListener('click', function(e) {
+            if (e.target === this) closeCheckoutModal();
         });
     </script>
 </body>
