@@ -5,19 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Community Story | Digital Store Advanced</title>
     
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;500;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
-    
-    <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
-    
-    <!-- QRCode.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-    
-    <!-- Chart.js para Dashboard -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <script>
@@ -36,12 +27,14 @@
                             purple: '#9d00ff',
                             gold: '#ffd700',
                             green: '#00ff88',
-                            red: '#ff0066'
+                            red: '#ff0066',
+                            orange: '#ff8800'
                         },
                         dark: {
                             bg: '#0a0a0f',
                             card: '#12121a',
-                            surface: '#1a1a2e'
+                            surface: '#1a1a2e',
+                            deeper: '#050508'
                         }
                     },
                     animation: {
@@ -50,6 +43,7 @@
                         'glow': 'glow 2s ease-in-out infinite alternate',
                         'slide-in': 'slideIn 0.5s ease-out',
                         'fade-in': 'fadeIn 0.3s ease-out',
+                        'spin-slow': 'spin 3s linear infinite',
                     },
                     keyframes: {
                         float: {
@@ -78,7 +72,6 @@
         :root {
             --glass-bg: rgba(20, 20, 35, 0.7);
             --glass-border: rgba(0, 243, 255, 0.2);
-            --glass-highlight: rgba(255, 255, 255, 0.1);
         }
 
         body {
@@ -88,7 +81,6 @@
             overflow-x: hidden;
         }
 
-        /* Glassmorphism Utilities */
         .glass {
             background: var(--glass-bg);
             backdrop-filter: blur(12px);
@@ -98,33 +90,16 @@
         }
 
         .glass-strong {
-            background: rgba(15, 15, 25, 0.85);
+            background: rgba(15, 15, 25, 0.9);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             border: 1px solid rgba(0, 243, 255, 0.3);
         }
 
-        .glass-panel {
-            background: linear-gradient(135deg, rgba(0, 243, 255, 0.1), rgba(157, 0, 255, 0.1));
-            backdrop-filter: blur(16px);
-            border: 1px solid rgba(0, 243, 255, 0.2);
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-        }
-
-        /* Neon Effects */
         .neon-text {
-            text-shadow: 0 0 10px currentColor, 0 0 20px currentColor, 0 0 40px currentColor;
+            text-shadow: 0 0 10px currentColor, 0 0 20px currentColor;
         }
 
-        .neon-border {
-            box-shadow: 0 0 10px rgba(0, 243, 255, 0.5), inset 0 0 10px rgba(0, 243, 255, 0.2);
-        }
-
-        .neon-glow:hover {
-            box-shadow: 0 0 20px rgba(0, 243, 255, 0.6), 0 0 40px rgba(0, 243, 255, 0.3);
-        }
-
-        /* Grid Background */
         .cyber-grid {
             background-image: 
                 linear-gradient(rgba(0, 243, 255, 0.05) 1px, transparent 1px),
@@ -133,23 +108,6 @@
             mask-image: linear-gradient(to bottom, transparent, black 20%, black 80%, transparent);
         }
 
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-            height: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #0a0a0f;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: linear-gradient(180deg, #00f3ff, #9d00ff);
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: linear-gradient(180deg, #00f3ff, #ff00ff);
-        }
-
-        /* Glitch Effect */
         .glitch {
             position: relative;
         }
@@ -191,7 +149,6 @@
             80% { transform: translate(-3px, -3px); }
         }
 
-        /* Scanlines */
         .scanlines {
             position: fixed;
             top: 0;
@@ -205,44 +162,19 @@
             opacity: 0.3;
         }
 
-        /* Status Badges */
-        .status-badge {
-            @apply px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider;
-        }
-        .status-pending { @apply bg-yellow-500/20 text-yellow-400 border border-yellow-500/50; }
-        .status-paid { @apply bg-cyan-500/20 text-cyan-400 border border-cyan-500/50; }
-        .status-delivered { @apply bg-green-500/20 text-green-400 border border-green-500/50; }
-        .status-cancelled { @apply bg-red-500/20 text-red-400 border border-red-500/50; }
-
-        /* Loading Animation */
-        .loading-dots::after {
-            content: ' .';
-            animation: dots 1.5s steps(5, end) infinite;
-        }
-        @keyframes dots {
-            0%, 20% { content: ' .'; }
-            40% { content: ' ..'; }
-            60% { content: ' ...'; }
-            80%, 100% { content: ''; }
-        }
-
-        /* Card Hover Effects */
         .product-card {
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            transform-style: preserve-3d;
         }
         .product-card:hover {
-            transform: translateY(-10px) rotateX(5deg);
+            transform: translateY(-10px) scale(1.02);
             box-shadow: 0 20px 40px rgba(0, 243, 255, 0.2);
         }
 
-        /* Input Focus Effects */
         .input-glow:focus {
             outline: none;
             box-shadow: 0 0 0 3px rgba(0, 243, 255, 0.3), 0 0 20px rgba(0, 243, 255, 0.2);
         }
 
-        /* Bank Card Styles */
         .bank-card {
             background: linear-gradient(135deg, #1a1a2e 0%, #0f0f1e 100%);
             border: 2px solid rgba(0, 243, 255, 0.3);
@@ -257,14 +189,6 @@
             box-shadow: 0 0 30px rgba(0, 255, 136, 0.4);
         }
 
-        /* Data Grid */
-        .data-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.5rem;
-        }
-
-        /* Toast Notification */
         .toast {
             transform: translateX(100%);
             transition: transform 0.3s ease-out;
@@ -273,13 +197,44 @@
             transform: translateX(0);
         }
 
-        /* Modal Animation */
-        .modal-enter {
-            animation: modalIn 0.3s ease-out forwards;
+        .coupon-valid {
+            animation: couponPulse 0.5s ease;
         }
-        @keyframes modalIn {
-            from { opacity: 0; transform: scale(0.9); }
-            to { opacity: 1; transform: scale(1); }
+        @keyframes couponPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); box-shadow: 0 0 30px rgba(0, 255, 136, 0.6); }
+            100% { transform: scale(1); }
+        }
+
+        .admin-lock {
+            position: relative;
+            overflow: hidden;
+        }
+        .admin-lock::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: repeating-linear-gradient(
+                45deg,
+                transparent,
+                transparent 10px,
+                rgba(255, 0, 0, 0.1) 10px,
+                rgba(255, 0, 0, 0.1) 20px
+            );
+            pointer-events: none;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0a0a0f;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, #00f3ff, #9d00ff);
+            border-radius: 4px;
         }
     </style>
 </head>
@@ -377,31 +332,57 @@
         </div>
     </div>
 
-    <!-- LOGIN ADMIN -->
+    <!-- LOGIN ADMIN COM SENHA -->
     <div id="admin-login-screen" class="fixed inset-0 z-50 flex items-center justify-center p-4 hidden">
-        <div class="glass-strong rounded-2xl p-8 w-full max-w-md border-neon-purple/50">
+        <div class="glass-strong rounded-2xl p-8 w-full max-w-md border-neon-purple/50 relative admin-lock">
+            <div class="absolute top-4 right-4 flex items-center gap-2 text-neon-red text-xs font-bold uppercase tracking-wider">
+                <i data-lucide="lock" class="w-4 h-4"></i>
+                Acesso Restrito
+            </div>
+            
             <div class="text-center mb-8">
-                <i data-lucide="shield" class="w-16 h-16 text-neon-purple mx-auto mb-4"></i>
-                <h1 class="font-orbitron text-3xl font-bold text-neon-purple mb-2">Painel Administrativo</h1>
-                <p class="text-gray-400">Acesso restrito</p>
+                <div class="w-20 h-20 mx-auto mb-4 rounded-full bg-neon-purple/20 border-2 border-neon-purple flex items-center justify-center animate-pulse">
+                    <i data-lucide="shield-alert" class="w-10 h-10 text-neon-purple"></i>
+                </div>
+                <h1 class="font-orbitron text-3xl font-bold text-neon-purple mb-2">ÁREA RESTRITA</h1>
+                <p class="text-gray-400">Painel Administrativo</p>
             </div>
 
             <form id="admin-login-form" onsubmit="handleAdminLogin(event)" class="space-y-4">
                 <div>
-                    <label class="block text-sm font-bold text-neon-purple mb-2 uppercase">Senha Mestra</label>
+                    <label class="block text-sm font-bold text-neon-purple mb-2 uppercase flex items-center gap-2">
+                        <i data-lucide="key" class="w-4 h-4"></i>
+                        Senha de Administrador
+                    </label>
                     <input type="password" id="admin-password" required 
-                        class="w-full px-4 py-3 bg-dark-surface/50 border border-neon-purple/50 rounded-lg text-white input-glow focus:border-neon-purple"
+                        class="w-full px-4 py-3 bg-dark-surface/50 border border-neon-purple/50 rounded-lg text-white input-glow focus:border-neon-purple font-mono tracking-widest"
                         placeholder="••••••••">
+                    <p class="text-xs text-gray-500 mt-2">Acesso permitido apenas para administradores autorizados.</p>
                 </div>
+                
+                <div class="p-3 bg-neon-purple/10 border border-neon-purple/30 rounded-lg">
+                    <label class="flex items-center gap-3 cursor-pointer">
+                        <input type="checkbox" id="admin-remember" class="w-5 h-5 rounded border-neon-purple text-neon-purple focus:ring-neon-purple">
+                        <span class="text-sm text-neon-purple font-bold">Manter sessão admin por 24h</span>
+                    </label>
+                </div>
+
                 <button type="submit" 
                     class="w-full py-3 bg-neon-purple hover:bg-purple-600 text-white font-bold rounded-lg transition-all flex items-center justify-center gap-2 shadow-lg shadow-purple-500/25">
                     <i data-lucide="unlock" class="w-5 h-5"></i>
-                    Acessar Painel
+                    Acessar Painel de Controle
                 </button>
-                <button type="button" onclick="showLogin()" 
-                    class="w-full py-3 border border-gray-600 text-gray-400 rounded-lg hover:border-neon-cyan hover:text-neon-cyan transition-all">
-                    Voltar para Loja
-                </button>
+                
+                <div class="grid grid-cols-2 gap-2">
+                    <button type="button" onclick="showLogin()" 
+                        class="py-2 border border-gray-600 text-gray-400 rounded-lg hover:border-neon-cyan hover:text-neon-cyan transition-all text-sm">
+                        Voltar para Loja
+                    </button>
+                    <button type="button" onclick="showRegister()" 
+                        class="py-2 border border-gray-600 text-gray-400 rounded-lg hover:border-neon-cyan hover:text-neon-cyan transition-all text-sm">
+                        Criar Conta
+                    </button>
+                </div>
             </form>
         </div>
     </div>
@@ -524,15 +505,14 @@
                             </button>
                         </div>
 
-                        <!-- Stats -->
                         <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mt-20 max-w-4xl mx-auto">
                             <div class="glass p-4 rounded-xl">
-                                <div class="text-3xl font-orbitron font-bold text-neon-cyan">10k+</div>
+                                <div class="text-3xl font-orbitron font-bold text-neon-cyan" id="stat-users">0</div>
                                 <div class="text-sm text-gray-400">Clientes</div>
                             </div>
                             <div class="glass p-4 rounded-xl">
-                                <div class="text-3xl font-orbitron font-bold text-neon-purple">50k+</div>
-                                <div class="text-sm text-gray-400">Entregas</div>
+                                <div class="text-3xl font-orbitron font-bold text-neon-purple" id="stat-orders">0</div>
+                                <div class="text-sm text-gray-400">Vendas</div>
                             </div>
                             <div class="glass p-4 rounded-xl">
                                 <div class="text-3xl font-orbitron font-bold text-neon-gold">99%</div>
@@ -542,33 +522,6 @@
                                 <div class="text-3xl font-orbitron font-bold text-neon-green">24/7</div>
                                 <div class="text-sm text-gray-400">Suporte</div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Features Grid -->
-                <div class="container mx-auto px-6 py-20">
-                    <div class="grid md:grid-cols-3 gap-8">
-                        <div class="glass p-8 rounded-2xl hover:border-neon-cyan transition-all duration-300 group">
-                            <div class="w-14 h-14 rounded-xl bg-neon-cyan/20 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                                <i data-lucide="qr-code" class="w-7 h-7 text-neon-cyan"></i>
-                            </div>
-                            <h3 class="font-orbitron text-xl font-bold mb-3">PAGAMENTO VIA PIX</h3>
-                            <p class="text-gray-400 leading-relaxed">Pagamento instantâneo com QR Code ou Copia e Cola. Processamento automático em minutos.</p>
-                        </div>
-                        <div class="glass p-8 rounded-2xl hover:border-neon-purple transition-all duration-300 group">
-                            <div class="w-14 h-14 rounded-xl bg-neon-purple/20 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                                <i data-lucide="shield-check" class="w-7 h-7 text-neon-purple"></i>
-                            </div>
-                            <h3 class="font-orbitron text-xl font-bold mb-3">100% SEGURO</h3>
-                            <p class="text-gray-400 leading-relaxed">Garantia de funcionamento ou seu dinheiro de volta. Todos os produtos testados antes do envio.</p>
-                        </div>
-                        <div class="glass p-8 rounded-2xl hover:border-neon-gold transition-all duration-300 group">
-                            <div class="w-14 h-14 rounded-xl bg-neon-gold/20 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                                <i data-lucide="headphones" class="w-7 h-7 text-neon-gold"></i>
-                            </div>
-                            <h3 class="font-orbitron text-xl font-bold mb-3">SUPORTE DEDICADO</h3>
-                            <p class="text-gray-400 leading-relaxed">Suporte técnico especializado para ajudar na instalação e configuração dos seus produtos digitais.</p>
                         </div>
                     </div>
                 </div>
@@ -582,11 +535,8 @@
                             <span class="text-neon-cyan">NOSSOS</span> PRODUTOS
                         </h2>
                         
-                        <div class="flex gap-2 flex-wrap justify-center">
+                        <div class="flex gap-2 flex-wrap justify-center" id="category-filters">
                             <button onclick="filterProducts('all')" class="filter-btn active px-6 py-2 rounded-full border border-neon-cyan bg-neon-cyan text-black font-bold transition-all hover:scale-105" data-category="all">TODOS</button>
-                            <button onclick="filterProducts('games')" class="filter-btn px-6 py-2 rounded-full border border-gray-600 text-gray-300 hover:border-neon-cyan hover:text-neon-cyan font-bold transition-all" data-category="games">GAMES</button>
-                            <button onclick="filterProducts('iptv')" class="filter-btn px-6 py-2 rounded-full border border-gray-600 text-gray-300 hover:border-neon-cyan hover:text-neon-cyan font-bold transition-all" data-category="iptv">IPTV</button>
-                            <button onclick="filterProducts('robux')" class="filter-btn px-6 py-2 rounded-full border border-gray-600 text-gray-300 hover:border-neon-cyan hover:text-neon-cyan font-bold transition-all" data-category="robux">ROBUX</button>
                         </div>
                     </div>
 
@@ -600,6 +550,19 @@
                     <h2 class="font-orbitron text-4xl font-bold mb-8 text-center">
                         <span class="text-neon-cyan">SEU</span> CARRINHO
                     </h2>
+                    
+                    <!-- Coupon Section -->
+                    <div class="glass rounded-xl p-4 mb-6 border-neon-gold/30">
+                        <div class="flex gap-2">
+                            <input type="text" id="coupon-input" placeholder="Digite o cupom de desconto..." 
+                                class="flex-1 px-4 py-2 bg-dark-surface border border-neon-gold/30 rounded-lg text-white uppercase placeholder-gray-500 focus:border-neon-gold focus:outline-none">
+                            <button onclick="applyCoupon()" class="px-6 py-2 bg-neon-gold text-black font-bold rounded-lg hover:scale-105 transition-transform">
+                                APLICAR
+                            </button>
+                        </div>
+                        <p id="coupon-message" class="text-sm mt-2 hidden"></p>
+                    </div>
+
                     <div id="cart-content" class="glass rounded-2xl p-6 min-h-[400px]"></div>
                 </div>
             </section>
@@ -622,10 +585,12 @@
                 <aside class="w-64 glass-strong border-r border-neon-cyan/20 hidden md:flex flex-col">
                     <div class="p-6 border-b border-neon-cyan/20">
                         <div class="flex items-center gap-3">
-                            <i data-lucide="shield" class="w-8 h-8 text-neon-purple"></i>
+                            <div class="w-10 h-10 rounded-lg bg-neon-purple/20 border border-neon-purple flex items-center justify-center">
+                                <i data-lucide="shield" class="w-6 h-6 text-neon-purple"></i>
+                            </div>
                             <div>
-                                <h2 class="font-orbitron text-lg font-bold text-neon-purple">ADMIN PANEL</h2>
-                                <p class="text-xs text-gray-400">v2.0 Advanced</p>
+                                <h2 class="font-orbitron text-lg font-bold text-neon-purple">ADMIN</h2>
+                                <p class="text-xs text-gray-400">v3.0 Pro</p>
                             </div>
                         </div>
                     </div>
@@ -636,6 +601,12 @@
                         </button>
                         <button onclick="showAdminTab('products')" class="admin-nav-btn w-full text-left px-4 py-3 rounded-xl hover:bg-neon-cyan/10 border-l-4 border-transparent hover:border-neon-cyan/50 text-gray-300 font-bold flex items-center gap-3 transition-all">
                             <i data-lucide="package" class="w-5 h-5"></i> Produtos
+                        </button>
+                        <button onclick="showAdminTab('categories')" class="admin-nav-btn w-full text-left px-4 py-3 rounded-xl hover:bg-neon-cyan/10 border-l-4 border-transparent hover:border-neon-cyan/50 text-gray-300 font-bold flex items-center gap-3 transition-all">
+                            <i data-lucide="folder-tree" class="w-5 h-5"></i> Categorias
+                        </button>
+                        <button onclick="showAdminTab('coupons')" class="admin-nav-btn w-full text-left px-4 py-3 rounded-xl hover:bg-neon-cyan/10 border-l-4 border-transparent hover:border-neon-cyan/50 text-gray-300 font-bold flex items-center gap-3 transition-all">
+                            <i data-lucide="ticket" class="w-5 h-5"></i> Cupons
                         </button>
                         <button onclick="showAdminTab('orders')" class="admin-nav-btn w-full text-left px-4 py-3 rounded-xl hover:bg-neon-cyan/10 border-l-4 border-transparent hover:border-neon-cyan/50 text-gray-300 font-bold flex items-center gap-3 transition-all">
                             <i data-lucide="shopping-bag" class="w-5 h-5"></i> Pendentes
@@ -650,6 +621,7 @@
                         </button>
                         <button onclick="showAdminTab('users')" class="admin-nav-btn w-full text-left px-4 py-3 rounded-xl hover:bg-neon-cyan/10 border-l-4 border-transparent hover:border-neon-cyan/50 text-gray-300 font-bold flex items-center gap-3 transition-all">
                             <i data-lucide="users" class="w-5 h-5"></i> Usuários
+                            <span id="admin-users-badge" class="ml-auto bg-neon-purple text-white text-xs rounded-full w-5 h-5 flex items-center justify-center hidden">0</span>
                         </button>
                         <button onclick="showAdminTab('banking')" class="admin-nav-btn w-full text-left px-4 py-3 rounded-xl hover:bg-neon-cyan/10 border-l-4 border-transparent hover:border-neon-cyan/50 text-gray-300 font-bold flex items-center gap-3 transition-all">
                             <i data-lucide="landmark" class="w-5 h-5"></i> Contas Bancárias
@@ -664,14 +636,13 @@
                             <i data-lucide="store" class="w-5 h-5"></i> Ver Loja
                         </button>
                         <button onclick="logoutAdmin()" class="w-full py-3 bg-red-500/20 border border-red-500/50 rounded-xl hover:bg-red-500/30 transition-all font-bold flex items-center justify-center gap-2 text-red-400">
-                            <i data-lucide="log-out" class="w-5 h-5"></i> Sair
+                            <i data-lucide="log-out" class="w-5 h-5"></i> Sair do Painel
                         </button>
                     </div>
                 </aside>
 
                 <!-- Admin Content -->
                 <div class="flex-1 overflow-y-auto bg-dark-bg/50">
-                    <!-- Mobile Header -->
                     <div class="md:hidden glass p-4 flex justify-between items-center">
                         <h2 class="font-orbitron text-xl font-bold text-neon-purple">ADMIN</h2>
                         <div class="flex gap-2">
@@ -686,7 +657,6 @@
                         <div id="admin-dashboard" class="admin-tab">
                             <h3 class="font-orbitron text-3xl font-bold mb-6 text-neon-cyan">Dashboard</h3>
                             
-                            <!-- Stats Cards -->
                             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
                                 <div class="glass p-6 rounded-2xl border-l-4 border-neon-cyan">
                                     <div class="flex justify-between items-start">
@@ -700,19 +670,19 @@
                                 <div class="glass p-6 rounded-2xl border-l-4 border-neon-purple">
                                     <div class="flex justify-between items-start">
                                         <div>
-                                            <p class="text-gray-400 text-sm">Pedidos Hoje</p>
-                                            <p class="text-2xl font-orbitron font-bold text-neon-purple mt-1" id="dash-today-orders">0</p>
+                                            <p class="text-gray-400 text-sm">Total Usuários</p>
+                                            <p class="text-2xl font-orbitron font-bold text-neon-purple mt-1" id="dash-total-users">0</p>
                                         </div>
-                                        <i data-lucide="shopping-bag" class="w-8 h-8 text-neon-purple opacity-50"></i>
+                                        <i data-lucide="users" class="w-8 h-8 text-neon-purple opacity-50"></i>
                                     </div>
                                 </div>
                                 <div class="glass p-6 rounded-2xl border-l-4 border-neon-gold">
                                     <div class="flex justify-between items-start">
                                         <div>
-                                            <p class="text-gray-400 text-sm">Clientes</p>
-                                            <p class="text-2xl font-orbitron font-bold text-neon-gold mt-1" id="dash-total-users">0</p>
+                                            <p class="text-gray-400 text-sm">Cupons Ativos</p>
+                                            <p class="text-2xl font-orbitron font-bold text-neon-gold mt-1" id="dash-active-coupons">0</p>
                                         </div>
-                                        <i data-lucide="users" class="w-8 h-8 text-neon-gold opacity-50"></i>
+                                        <i data-lucide="ticket" class="w-8 h-8 text-neon-gold opacity-50"></i>
                                     </div>
                                 </div>
                                 <div class="glass p-6 rounded-2xl border-l-4 border-neon-green">
@@ -726,7 +696,6 @@
                                 </div>
                             </div>
 
-                            <!-- Charts -->
                             <div class="grid lg:grid-cols-2 gap-6">
                                 <div class="glass p-6 rounded-2xl">
                                     <h4 class="font-orbitron text-lg font-bold mb-4">Vendas dos Últimos 7 Dias</h4>
@@ -736,6 +705,45 @@
                                     <h4 class="font-orbitron text-lg font-bold mb-4">Produtos Mais Vendidos</h4>
                                     <canvas id="productsChart" height="200"></canvas>
                                 </div>
+                            </div>
+                        </div>
+
+                        <!-- CATEGORIES TAB -->
+                        <div id="admin-categories" class="admin-tab hidden">
+                            <div class="flex justify-between items-center mb-6">
+                                <h3 class="font-orbitron text-3xl font-bold text-neon-orange">Gerenciar Categorias</h3>
+                                <button onclick="openCategoryModal()" class="px-6 py-3 bg-neon-orange text-black font-bold rounded-lg hover:scale-105 transition-transform flex items-center gap-2">
+                                    <i data-lucide="plus" class="w-5 h-5"></i> Nova Categoria
+                                </button>
+                            </div>
+                            
+                            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4" id="categories-grid">
+                                <!-- Categories will be rendered here -->
+                            </div>
+                        </div>
+
+                        <!-- COUPONS TAB -->
+                        <div id="admin-coupons" class="admin-tab hidden">
+                            <div class="flex justify-between items-center mb-6">
+                                <h3 class="font-orbitron text-3xl font-bold text-neon-gold">Gerenciar Cupons</h3>
+                                <button onclick="openCouponModal()" class="px-6 py-3 bg-neon-gold text-black font-bold rounded-lg hover:scale-105 transition-transform flex items-center gap-2">
+                                    <i data-lucide="plus" class="w-5 h-5"></i> Novo Cupom
+                                </button>
+                            </div>
+                            
+                            <div class="glass rounded-2xl overflow-hidden">
+                                <table class="w-full">
+                                    <thead class="bg-neon-gold/10">
+                                        <tr>
+                                            <th class="p-4 text-left font-orbitron text-neon-gold">Código</th>
+                                            <th class="p-4 text-left font-orbitron text-neon-gold">Desconto</th>
+                                            <th class="p-4 text-left font-orbitron text-neon-gold">Usos</th>
+                                            <th class="p-4 text-left font-orbitron text-neon-gold">Status</th>
+                                            <th class="p-4 text-left font-orbitron text-neon-gold">Ações</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="admin-coupons-list" class="divide-y divide-neon-gold/10"></tbody>
+                                </table>
                             </div>
                         </div>
 
@@ -762,7 +770,7 @@
                             </div>
                         </div>
 
-                        <!-- ORDERS TAB (PENDING) -->
+                        <!-- ORDERS TABS -->
                         <div id="admin-orders" class="admin-tab hidden">
                             <h3 class="font-orbitron text-3xl font-bold text-yellow-400 mb-6 flex items-center gap-3">
                                 <i data-lucide="clock" class="w-8 h-8"></i> Aguardando Pagamento
@@ -770,7 +778,6 @@
                             <div id="admin-orders-list" class="space-y-4"></div>
                         </div>
 
-                        <!-- PAID TAB -->
                         <div id="admin-paid" class="admin-tab hidden">
                             <h3 class="font-orbitron text-3xl font-bold text-neon-cyan mb-6 flex items-center gap-3">
                                 <i data-lucide="credit-card" class="w-8 h-8"></i> Pagos - Aguardando Entrega
@@ -778,7 +785,6 @@
                             <div id="admin-paid-list" class="space-y-4"></div>
                         </div>
 
-                        <!-- DELIVERED TAB -->
                         <div id="admin-delivered" class="admin-tab hidden">
                             <h3 class="font-orbitron text-3xl font-bold text-neon-green mb-6 flex items-center gap-3">
                                 <i data-lucide="check-circle" class="w-8 h-8"></i> Pedidos Entregues
@@ -789,10 +795,10 @@
                         <!-- USERS TAB -->
                         <div id="admin-users" class="admin-tab hidden">
                             <div class="flex justify-between items-center mb-6">
-                                <h3 class="font-orbitron text-3xl font-bold text-neon-purple mb-4">Gerenciar Usuários</h3>
+                                <h3 class="font-orbitron text-3xl font-bold text-neon-purple mb-4">Todos os Usuários</h3>
                                 <div class="relative">
-                                    <input type="text" id="user-search" placeholder="Buscar usuário..." 
-                                        class="pl-10 pr-4 py-2 bg-dark-surface border border-neon-cyan/30 rounded-lg text-white focus:border-neon-cyan focus:outline-none w-64"
+                                    <input type="text" id="user-search" placeholder="Buscar por nome ou email..." 
+                                        class="pl-10 pr-4 py-2 bg-dark-surface border border-neon-purple/30 rounded-lg text-white focus:border-neon-purple focus:outline-none w-64"
                                         oninput="filterUsers()">
                                     <i data-lucide="search" class="w-5 h-5 text-gray-400 absolute left-3 top-2.5"></i>
                                 </div>
@@ -802,10 +808,11 @@
                                 <table class="w-full">
                                     <thead class="bg-neon-purple/10">
                                         <tr>
-                                            <th class="p-4 text-left font-orbitron text-neon-purple">Nome</th>
+                                            <th class="p-4 text-left font-orbitron text-neon-purple">Usuário</th>
                                             <th class="p-4 text-left font-orbitron text-neon-purple">Email</th>
                                             <th class="p-4 text-left font-orbitron text-neon-purple">Cadastro</th>
                                             <th class="p-4 text-left font-orbitron text-neon-purple">Pedidos</th>
+                                            <th class="p-4 text-left font-orbitron text-neon-purple">Total Gasto</th>
                                             <th class="p-4 text-left font-orbitron text-neon-purple">Ações</th>
                                         </tr>
                                     </thead>
@@ -817,13 +824,21 @@
                         <!-- BANKING TAB -->
                         <div id="admin-banking" class="admin-tab hidden">
                             <h3 class="font-orbitron text-3xl font-bold text-neon-gold mb-6 flex items-center gap-3">
-                                <i data-lucide="landmark" class="w-8 h-8"></i> Contas Bancárias
+                                <i data-lucide="landmark" class="w-8 h-8"></i> Vincular Contas Bancárias
                             </h3>
                             
+                            <div class="mb-6 p-4 bg-neon-gold/10 border border-neon-gold/30 rounded-xl">
+                                <p class="text-sm text-neon-gold flex items-center gap-2">
+                                    <i data-lucide="info" class="w-5 h-5"></i>
+                                    Configure sua conta bancária para receber pagamentos via Pix. O sistema usará automaticamente a conta marcada como "Principal".
+                                </p>
+                            </div>
+
                             <div class="grid md:grid-cols-2 gap-6 mb-8">
                                 <!-- PagBank -->
-                                <div class="bank-card p-6 rounded-2xl cursor-pointer" onclick="selectBank('pagbank')" id="bank-pagbank">
-                                    <div class="flex justify-between items-start mb-4">
+                                <div class="bank-card p-6 rounded-2xl cursor-pointer relative overflow-hidden" id="bank-card-pagbank" onclick="selectBank('pagbank')">
+                                    <div class="absolute top-0 right-0 w-20 h-20 bg-gradient-to-bl from-green-500/20 to-transparent"></div>
+                                    <div class="flex justify-between items-start mb-4 relative z-10">
                                         <div class="flex items-center gap-3">
                                             <div class="w-12 h-12 rounded-full bg-green-500/20 flex items-center justify-center">
                                                 <i data-lucide="landmark" class="w-6 h-6 text-green-400"></i>
@@ -833,18 +848,22 @@
                                                 <p class="text-sm text-gray-400">PagSeguro</p>
                                             </div>
                                         </div>
-                                        <div class="bank-status hidden" id="status-pagbank">
-                                            <span class="px-3 py-1 bg-neon-green/20 text-neon-green rounded-full text-xs font-bold border border-neon-green">ATIVO</span>
+                                        <div class="hidden" id="badge-pagbank">
+                                            <span class="px-3 py-1 bg-neon-green/20 text-neon-green rounded-full text-xs font-bold border border-neon-green">PRINCIPAL</span>
                                         </div>
                                     </div>
-                                    <button onclick="configureBank('pagbank')" class="w-full py-2 border border-green-500/50 rounded-lg text-green-400 hover:bg-green-500/20 transition-all text-sm font-bold">
-                                        Configurar Conta
+                                    <div class="space-y-2 text-sm text-gray-400 mb-4" id="info-pagbank">
+                                        <p>Não configurado</p>
+                                    </div>
+                                    <button onclick="event.stopPropagation(); configureBank('pagbank')" class="w-full py-2 border border-green-500/50 rounded-lg text-green-400 hover:bg-green-500/20 transition-all text-sm font-bold flex items-center justify-center gap-2">
+                                        <i data-lucide="settings" class="w-4 h-4"></i> Configurar
                                     </button>
                                 </div>
 
                                 <!-- Itaú -->
-                                <div class="bank-card p-6 rounded-2xl cursor-pointer" onclick="selectBank('itau')" id="bank-itau">
-                                    <div class="flex justify-between items-start mb-4">
+                                <div class="bank-card p-6 rounded-2xl cursor-pointer relative overflow-hidden" id="bank-card-itau" onclick="selectBank('itau')">
+                                    <div class="absolute top-0 right-0 w-20 h-20 bg-gradient-to-bl from-orange-500/20 to-transparent"></div>
+                                    <div class="flex justify-between items-start mb-4 relative z-10">
                                         <div class="flex items-center gap-3">
                                             <div class="w-12 h-12 rounded-full bg-orange-500/20 flex items-center justify-center">
                                                 <i data-lucide="building-2" class="w-6 h-6 text-orange-400"></i>
@@ -854,18 +873,22 @@
                                                 <p class="text-sm text-gray-400">Banco Itaú Unibanco</p>
                                             </div>
                                         </div>
-                                        <div class="bank-status hidden" id="status-itau">
-                                            <span class="px-3 py-1 bg-neon-green/20 text-neon-green rounded-full text-xs font-bold border border-neon-green">ATIVO</span>
+                                        <div class="hidden" id="badge-itau">
+                                            <span class="px-3 py-1 bg-neon-green/20 text-neon-green rounded-full text-xs font-bold border border-neon-green">PRINCIPAL</span>
                                         </div>
                                     </div>
-                                    <button onclick="configureBank('itau')" class="w-full py-2 border border-orange-500/50 rounded-lg text-orange-400 hover:bg-orange-500/20 transition-all text-sm font-bold">
-                                        Configurar Conta
+                                    <div class="space-y-2 text-sm text-gray-400 mb-4" id="info-itau">
+                                        <p>Não configurado</p>
+                                    </div>
+                                    <button onclick="event.stopPropagation(); configureBank('itau')" class="w-full py-2 border border-orange-500/50 rounded-lg text-orange-400 hover:bg-orange-500/20 transition-all text-sm font-bold flex items-center justify-center gap-2">
+                                        <i data-lucide="settings" class="w-4 h-4"></i> Configurar
                                     </button>
                                 </div>
 
                                 <!-- PayPal -->
-                                <div class="bank-card p-6 rounded-2xl cursor-pointer" onclick="selectBank('paypal')" id="bank-paypal">
-                                    <div class="flex justify-between items-start mb-4">
+                                <div class="bank-card p-6 rounded-2xl cursor-pointer relative overflow-hidden" id="bank-card-paypal" onclick="selectBank('paypal')">
+                                    <div class="absolute top-0 right-0 w-20 h-20 bg-gradient-to-bl from-blue-500/20 to-transparent"></div>
+                                    <div class="flex justify-between items-start mb-4 relative z-10">
                                         <div class="flex items-center gap-3">
                                             <div class="w-12 h-12 rounded-full bg-blue-500/20 flex items-center justify-center">
                                                 <i data-lucide="globe" class="w-6 h-6 text-blue-400"></i>
@@ -875,18 +898,22 @@
                                                 <p class="text-sm text-gray-400">Internacional</p>
                                             </div>
                                         </div>
-                                        <div class="bank-status hidden" id="status-paypal">
-                                            <span class="px-3 py-1 bg-neon-green/20 text-neon-green rounded-full text-xs font-bold border border-neon-green">ATIVO</span>
+                                        <div class="hidden" id="badge-paypal">
+                                            <span class="px-3 py-1 bg-neon-green/20 text-neon-green rounded-full text-xs font-bold border border-neon-green">PRINCIPAL</span>
                                         </div>
                                     </div>
-                                    <button onclick="configureBank('paypal')" class="w-full py-2 border border-blue-500/50 rounded-lg text-blue-400 hover:bg-blue-500/20 transition-all text-sm font-bold">
-                                        Configurar Conta
+                                    <div class="space-y-2 text-sm text-gray-400 mb-4" id="info-paypal">
+                                        <p>Não configurado</p>
+                                    </div>
+                                    <button onclick="event.stopPropagation(); configureBank('paypal')" class="w-full py-2 border border-blue-500/50 rounded-lg text-blue-400 hover:bg-blue-500/20 transition-all text-sm font-bold flex items-center justify-center gap-2">
+                                        <i data-lucide="settings" class="w-4 h-4"></i> Configurar
                                     </button>
                                 </div>
 
                                 <!-- PicPay -->
-                                <div class="bank-card p-6 rounded-2xl cursor-pointer" onclick="selectBank('picpay')" id="bank-picpay">
-                                    <div class="flex justify-between items-start mb-4">
+                                <div class="bank-card p-6 rounded-2xl cursor-pointer relative overflow-hidden" id="bank-card-picpay" onclick="selectBank('picpay')">
+                                    <div class="absolute top-0 right-0 w-20 h-20 bg-gradient-to-bl from-green-400/20 to-transparent"></div>
+                                    <div class="flex justify-between items-start mb-4 relative z-10">
                                         <div class="flex items-center gap-3">
                                             <div class="w-12 h-12 rounded-full bg-green-400/20 flex items-center justify-center">
                                                 <i data-lucide="smartphone" class="w-6 h-6 text-green-300"></i>
@@ -896,46 +923,55 @@
                                                 <p class="text-sm text-gray-400">Carteira Digital</p>
                                             </div>
                                         </div>
-                                        <div class="bank-status hidden" id="status-picpay">
-                                            <span class="px-3 py-1 bg-neon-green/20 text-neon-green rounded-full text-xs font-bold border border-neon-green">ATIVO</span>
+                                        <div class="hidden" id="badge-picpay">
+                                            <span class="px-3 py-1 bg-neon-green/20 text-neon-green rounded-full text-xs font-bold border border-neon-green">PRINCIPAL</span>
                                         </div>
                                     </div>
-                                    <button onclick="configureBank('picpay')" class="w-full py-2 border border-green-400/50 rounded-lg text-green-300 hover:bg-green-400/20 transition-all text-sm font-bold">
-                                        Configurar Conta
+                                    <div class="space-y-2 text-sm text-gray-400 mb-4" id="info-picpay">
+                                        <p>Não configurado</p>
+                                    </div>
+                                    <button onclick="event.stopPropagation(); configureBank('picpay')" class="w-full py-2 border border-green-400/50 rounded-lg text-green-300 hover:bg-green-400/20 transition-all text-sm font-bold flex items-center justify-center gap-2">
+                                        <i data-lucide="settings" class="w-4 h-4"></i> Configurar
                                     </button>
                                 </div>
                             </div>
 
-                            <!-- Configuração Ativa -->
-                            <div id="active-bank-config" class="glass p-6 rounded-2xl border-neon-gold/30 hidden">
-                                <h4 class="font-orbitron text-xl font-bold mb-4 text-neon-gold">Conta Principal Configurada</h4>
-                                <div id="bank-config-details"></div>
+                            <!-- QR Code Preview -->
+                            <div id="bank-qr-preview" class="glass p-6 rounded-2xl border-neon-gold/30 hidden">
+                                <h4 class="font-orbitron text-xl font-bold mb-4 text-neon-gold">Preview do QR Code</h4>
+                                <div class="flex items-center gap-6">
+                                    <div id="preview-qr-container" class="bg-white p-4 rounded-xl"></div>
+                                    <div class="flex-1">
+                                        <p class="text-sm text-gray-400 mb-2">Chave Pix Principal:</p>
+                                        <p class="font-mono text-neon-cyan break-all" id="preview-pix-key"></p>
+                                        <p class="text-sm text-gray-400 mt-4 mb-2">Conta Vinculada:</p>
+                                        <p class="text-white" id="preview-account"></p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
                         <!-- SETTINGS TAB -->
                         <div id="admin-settings" class="admin-tab hidden">
                             <h3 class="font-orbitron text-3xl font-bold text-gray-400 mb-6">Configurações do Sistema</h3>
-                            <div class="glass p-6 rounded-2xl max-w-2xl">
-                                <div class="space-y-4">
-                                    <div class="flex justify-between items-center p-4 bg-dark-surface rounded-lg">
-                                        <div>
-                                            <h4 class="font-bold">Modo Manutenção</h4>
-                                            <p class="text-sm text-gray-400">Temporariamente fechar a loja</p>
-                                        </div>
-                                        <button class="w-14 h-7 rounded-full bg-gray-600 relative transition-colors" onclick="this.classList.toggle('bg-neon-cyan'); this.querySelector('div').classList.toggle('translate-x-7')">
-                                            <div class="w-5 h-5 bg-white rounded-full absolute top-1 left-1 transition-transform"></div>
-                                        </button>
+                            <div class="glass p-6 rounded-2xl max-w-2xl space-y-4">
+                                <div class="flex justify-between items-center p-4 bg-dark-surface rounded-lg">
+                                    <div>
+                                        <h4 class="font-bold">Modo Manutenção</h4>
+                                        <p class="text-sm text-gray-400">Temporariamente fechar a loja</p>
                                     </div>
-                                    <div class="flex justify-between items-center p-4 bg-dark-surface rounded-lg">
-                                        <div>
-                                            <h4 class="font-bold">Notificações Email</h4>
-                                            <p class="text-sm text-gray-400">Enviar emails automáticos</p>
-                                        </div>
-                                        <button class="w-14 h-7 rounded-full bg-neon-cyan relative transition-colors" onclick="this.classList.toggle('bg-gray-600'); this.querySelector('div').classList.toggle('translate-x-7')">
-                                            <div class="w-5 h-5 bg-white rounded-full absolute top-1 left-1 transition-transform translate-x-7"></div>
-                                        </button>
+                                    <button class="w-14 h-7 rounded-full bg-gray-600 relative transition-colors" onclick="this.classList.toggle('bg-neon-cyan'); this.querySelector('div').classList.toggle('translate-x-7')">
+                                        <div class="w-5 h-5 bg-white rounded-full absolute top-1 left-1 transition-transform"></div>
+                                    </button>
+                                </div>
+                                <div class="flex justify-between items-center p-4 bg-dark-surface rounded-lg">
+                                    <div>
+                                        <h4 class="font-bold">Notificações Email</h4>
+                                        <p class="text-sm text-gray-400">Enviar emails automáticos</p>
                                     </div>
+                                    <button class="w-14 h-7 rounded-full bg-neon-cyan relative transition-colors" onclick="this.classList.toggle('bg-gray-600'); this.querySelector('div').classList.toggle('translate-x-7')">
+                                        <div class="w-5 h-5 bg-white rounded-full absolute top-1 left-1 transition-transform translate-x-7"></div>
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -946,6 +982,110 @@
         </div>
 
         <!-- MODAIS -->
+
+        <!-- Category Modal -->
+        <div id="category-modal" class="fixed inset-0 bg-black/90 z-[60] hidden flex items-center justify-center p-4 backdrop-blur-sm">
+            <div class="glass-strong rounded-2xl p-6 max-w-md w-full modal-enter border-neon-orange/30">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="font-orbitron text-2xl font-bold text-neon-orange" id="category-modal-title">Nova Categoria</h3>
+                    <button onclick="closeCategoryModal()" class="text-gray-400 hover:text-white">
+                        <i data-lucide="x" class="w-6 h-6"></i>
+                    </button>
+                </div>
+
+                <form id="category-form" onsubmit="saveCategory(event)" class="space-y-4">
+                    <input type="hidden" id="category-id">
+                    
+                    <div>
+                        <label class="block text-sm font-bold text-neon-orange mb-2">Nome da Categoria</label>
+                        <input type="text" id="category-name" required 
+                            class="w-full px-4 py-3 bg-dark-surface border border-neon-orange/30 rounded-lg text-white focus:border-neon-orange focus:outline-none"
+                            placeholder="Ex: Jogos PC">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-bold text-neon-orange mb-2">ID (slug)</label>
+                        <input type="text" id="category-slug" required 
+                            class="w-full px-4 py-3 bg-dark-surface border border-neon-orange/30 rounded-lg text-white focus:border-neon-orange focus:outline-none"
+                            placeholder="Ex: games-pc">
+                        <p class="text-xs text-gray-500 mt-1">Usado para identificação interna</p>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-bold text-neon-orange mb-2">Cor do Tema</label>
+                        <select id="category-color" class="w-full px-4 py-3 bg-dark-surface border border-neon-orange/30 rounded-lg text-white focus:border-neon-orange focus:outline-none">
+                            <option value="cyan">Ciano (Padrão)</option>
+                            <option value="purple">Roxo</option>
+                            <option value="gold">Dourado</option>
+                            <option value="green">Verde</option>
+                            <option value="orange">Laranja</option>
+                            <option value="pink">Rosa</option>
+                        </select>
+                    </div>
+                    
+                    <div class="flex gap-4 pt-4">
+                        <button type="button" onclick="closeCategoryModal()" class="flex-1 py-3 border border-gray-600 rounded-lg hover:border-white transition-all font-bold">Cancelar</button>
+                        <button type="submit" class="flex-1 py-3 bg-neon-orange text-black font-bold rounded-lg hover:scale-[1.02] transition-transform">Salvar Categoria</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Coupon Modal -->
+        <div id="coupon-modal" class="fixed inset-0 bg-black/90 z-[60] hidden flex items-center justify-center p-4 backdrop-blur-sm">
+            <div class="glass-strong rounded-2xl p-6 max-w-md w-full modal-enter border-neon-gold/30">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="font-orbitron text-2xl font-bold text-neon-gold" id="coupon-modal-title">Novo Cupom</h3>
+                    <button onclick="closeCouponModal()" class="text-gray-400 hover:text-white">
+                        <i data-lucide="x" class="w-6 h-6"></i>
+                    </button>
+                </div>
+
+                <form id="coupon-form" onsubmit="saveCoupon(event)" class="space-y-4">
+                    <input type="hidden" id="coupon-id">
+                    
+                    <div>
+                        <label class="block text-sm font-bold text-neon-gold mb-2">Código do Cupom</label>
+                        <input type="text" id="coupon-code" required 
+                            class="w-full px-4 py-3 bg-dark-surface border border-neon-gold/30 rounded-lg text-white uppercase focus:border-neon-gold focus:outline-none"
+                            placeholder="EX: PROMO20">
+                    </div>
+                    
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-bold text-neon-gold mb-2">Tipo</label>
+                            <select id="coupon-type" class="w-full px-4 py-3 bg-dark-surface border border-neon-gold/30 rounded-lg text-white focus:border-neon-gold focus:outline-none">
+                                <option value="percentage">Porcentagem (%)</option>
+                                <option value="fixed">Valor Fixo (R$)</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-bold text-neon-gold mb-2">Valor</label>
+                            <input type="number" id="coupon-value" required step="0.01"
+                                class="w-full px-4 py-3 bg-dark-surface border border-neon-gold/30 rounded-lg text-white focus:border-neon-gold focus:outline-none"
+                                placeholder="20">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-bold text-neon-gold mb-2">Limite de Usos (0 = ilimitado)</label>
+                        <input type="number" id="coupon-limit" value="0" min="0"
+                            class="w-full px-4 py-3 bg-dark-surface border border-neon-gold/30 rounded-lg text-white focus:border-neon-gold focus:outline-none">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-bold text-neon-gold mb-2">Data de Expiração (opcional)</label>
+                        <input type="date" id="coupon-expiry"
+                            class="w-full px-4 py-3 bg-dark-surface border border-neon-gold/30 rounded-lg text-white focus:border-neon-gold focus:outline-none">
+                    </div>
+                    
+                    <div class="flex gap-4 pt-4">
+                        <button type="button" onclick="closeCouponModal()" class="flex-1 py-3 border border-gray-600 rounded-lg hover:border-white transition-all font-bold">Cancelar</button>
+                        <button type="submit" class="flex-1 py-3 bg-neon-gold text-black font-bold rounded-lg hover:scale-[1.02] transition-transform">Salvar Cupom</button>
+                    </div>
+                </form>
+            </div>
+        </div>
 
         <!-- Payment Modal -->
         <div id="payment-modal" class="fixed inset-0 bg-black/90 z-[60] hidden flex items-center justify-center p-4 backdrop-blur-sm">
@@ -1049,9 +1189,7 @@
                         <div>
                             <label class="block text-sm font-bold text-neon-cyan mb-2">Categoria</label>
                             <select id="product-category" class="w-full px-4 py-3 bg-dark-surface border border-neon-cyan/30 rounded-lg text-white focus:border-neon-cyan focus:outline-none">
-                                <option value="games">Pack de Jogos</option>
-                                <option value="iptv">IPTV</option>
-                                <option value="robux">Robux</option>
+                                <!-- Populated dynamically -->
                             </select>
                         </div>
                         
@@ -1116,7 +1254,6 @@ URL: http://exemplo.com:8080
 Usuário: cliente123
 Senha: senha456
 Expira: 30 dias"></textarea>
-                        <p class="text-xs text-gray-500 mt-2">Estes dados serão enviados ao cliente por email</p>
                     </div>
 
                     <div>
@@ -1138,7 +1275,7 @@ Expira: 30 dias"></textarea>
 
         <!-- Bank Config Modal -->
         <div id="bank-config-modal" class="fixed inset-0 bg-black/90 z-[70] hidden flex items-center justify-center p-4 backdrop-blur-sm">
-            <div class="glass-strong rounded-2xl p-6 max-w-lg w-full modal-enter">
+            <div class="glass-strong rounded-2xl p-6 max-w-lg w-full modal-enter border-neon-gold/30">
                 <div class="flex justify-between items-center mb-6">
                     <h3 class="font-orbitron text-2xl font-bold text-neon-gold" id="bank-modal-title">Configurar Banco</h3>
                     <button onclick="closeBankModal()" class="text-gray-400 hover:text-white">
@@ -1149,9 +1286,7 @@ Expira: 30 dias"></textarea>
                 <form id="bank-form" onsubmit="saveBankConfig(event)" class="space-y-4">
                     <input type="hidden" id="bank-type">
                     
-                    <div id="bank-fields">
-                        <!-- Campos dinâmicos baseados no banco selecionado -->
-                    </div>
+                    <div id="bank-fields"></div>
 
                     <div class="flex items-center gap-2 p-3 bg-neon-green/10 border border-neon-green/30 rounded-lg">
                         <input type="checkbox" id="bank-active" class="w-5 h-5 rounded border-neon-cyan text-neon-cyan focus:ring-neon-cyan">
@@ -1165,6 +1300,19 @@ Expira: 30 dias"></textarea>
                         </button>
                     </div>
                 </form>
+            </div>
+        </div>
+
+        <!-- User Details Modal -->
+        <div id="user-details-modal" class="fixed inset-0 bg-black/90 z-[60] hidden flex items-center justify-center p-4 backdrop-blur-sm">
+            <div class="glass-strong rounded-2xl p-6 max-w-2xl w-full max-h-[90vh] overflow-y-auto modal-enter border-neon-purple/30">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="font-orbitron text-2xl font-bold text-neon-purple">Detalhes do Usuário</h3>
+                    <button onclick="closeUserDetailsModal()" class="text-gray-400 hover:text-white">
+                        <i data-lucide="x" class="w-6 h-6"></i>
+                    </button>
+                </div>
+                <div id="user-details-content"></div>
             </div>
         </div>
 
@@ -1188,26 +1336,36 @@ Expira: 30 dias"></textarea>
         const CONFIG = {
             ADMIN_PASSWORD: 'Dan@8838',
             SUPPORT_EMAIL: 'financeiros062@gmail.com',
-            SESSION_TIMEOUT: 24 * 60 * 60 * 1000, // 24 horas
-            PIX_EXPIRATION: 600 // 10 minutos em segundos
+            SESSION_TIMEOUT: 24 * 60 * 60 * 1000,
+            PIX_EXPIRATION: 600
         };
 
         // ESTADO GLOBAL
         let state = {
             currentUser: null,
             isAdmin: false,
+            isAdminAuthenticated: false,
             cart: [],
             orders: [],
             products: [],
             users: [],
+            categories: [],
+            coupons: [],
             banking: {},
             currentFilter: 'all',
             currentOrder: null,
             paymentTimer: null,
+            appliedCoupon: null,
             charts: {}
         };
 
         // DADOS INICIAIS
+        const initialCategories = [
+            { id: 'games', name: 'Pack de Jogos', slug: 'games', color: 'cyan' },
+            { id: 'iptv', name: 'IPTV', slug: 'iptv', color: 'purple' },
+            { id: 'robux', name: 'Robux', slug: 'robux', color: 'gold' }
+        ];
+
         const initialProducts = [
             {
                 id: 1,
@@ -1238,36 +1396,6 @@ Expira: 30 dias"></textarea>
                 description: "800 Robux para sua conta Roblox. Entrega via gift card ou crédito direto.",
                 deliveryType: "credit",
                 sales: 89
-            },
-            {
-                id: 4,
-                name: "Pack FIFA 24 + NBA 2K24",
-                price: 59.99,
-                category: "games",
-                image: "https://images.unsplash.com/photo-1493711662062-fa541f7f3d24?w=500&auto=format&fit=crop&q=60",
-                description: "Os dois maiores esportes em um pack único. Acesso offline/online.",
-                deliveryType: "key",
-                sales: 34
-            },
-            {
-                id: 5,
-                name: "IPTV Premium 90 Dias",
-                price: 69.99,
-                category: "iptv",
-                image: "https://images.unsplash.com/photo-1522869635100-9f4c5e86aa37?w=500&auto=format&fit=crop&q=60",
-                description: "Plano trimestral com todos os canais premium inclusos.",
-                deliveryType: "login",
-                sales: 67
-            },
-            {
-                id: 6,
-                name: "2200 Robux",
-                price: 79.99,
-                category: "robux",
-                image: "https://images.unsplash.com/photo-1625806786037-2af5f7c9d720?w=500&auto=format&fit=crop&q=60",
-                description: "Pacote 2200 Robux + Bônus exclusivos. Melhor custo-benefício.",
-                deliveryType: "credit",
-                sales: 56
             }
         ];
 
@@ -1280,13 +1408,16 @@ Expira: 30 dias"></textarea>
         });
 
         function initializeData() {
-            // Carregar dados do localStorage ou usar iniciais
             state.products = JSON.parse(localStorage.getItem('cs_products')) || [...initialProducts];
             state.users = JSON.parse(localStorage.getItem('cs_users')) || [];
+            state.categories = JSON.parse(localStorage.getItem('cs_categories')) || [...initialCategories];
+            state.coupons = JSON.parse(localStorage.getItem('cs_coupons')) || [];
             state.orders = JSON.parse(localStorage.getItem('cs_orders')) || [];
             state.banking = JSON.parse(localStorage.getItem('cs_banking')) || {};
-            
-            // Salvar se não existirem
+
+            if (!localStorage.getItem('cs_categories')) {
+                localStorage.setItem('cs_categories', JSON.stringify(state.categories));
+            }
             if (!localStorage.getItem('cs_products')) {
                 localStorage.setItem('cs_products', JSON.stringify(state.products));
             }
@@ -1295,11 +1426,12 @@ Expira: 30 dias"></textarea>
         function saveToStorage() {
             localStorage.setItem('cs_products', JSON.stringify(state.products));
             localStorage.setItem('cs_users', JSON.stringify(state.users));
+            localStorage.setItem('cs_categories', JSON.stringify(state.categories));
+            localStorage.setItem('cs_coupons', JSON.stringify(state.coupons));
             localStorage.setItem('cs_orders', JSON.stringify(state.orders));
             localStorage.setItem('cs_banking', JSON.stringify(state.banking));
         }
 
-        // SISTEMA DE PARTÍCULAS
         function createParticles() {
             const container = document.getElementById('particles');
             for (let i = 0; i < 50; i++) {
@@ -1318,7 +1450,6 @@ Expira: 30 dias"></textarea>
             const email = document.getElementById('login-email').value;
             const password = document.getElementById('login-password').value;
 
-            // Verificar se é admin
             if (email === 'admin@community.com' && password === CONFIG.ADMIN_PASSWORD) {
                 state.isAdmin = true;
                 state.currentUser = { email, name: 'Administrador', role: 'admin', createdAt: new Date().toISOString() };
@@ -1328,7 +1459,6 @@ Expira: 30 dias"></textarea>
                 return;
             }
 
-            // Verificar usuário comum
             const user = state.users.find(u => u.email === email && u.password === password);
             if (user) {
                 state.currentUser = user;
@@ -1371,16 +1501,26 @@ Expira: 30 dias"></textarea>
         function handleAdminLogin(e) {
             e.preventDefault();
             const password = document.getElementById('admin-password').value;
+            const remember = document.getElementById('admin-remember').checked;
             
             if (password === CONFIG.ADMIN_PASSWORD) {
                 state.isAdmin = true;
+                state.isAdminAuthenticated = true;
                 state.currentUser = { email: 'admin@community.com', name: 'Administrador', role: 'admin' };
+                
+                if (remember) {
+                    localStorage.setItem('cs_admin_session', JSON.stringify({
+                        authenticated: true,
+                        expires: Date.now() + (24 * 60 * 60 * 1000)
+                    }));
+                }
+                
                 startSession();
                 showMainContent();
                 toggleAdmin();
                 showToast('Painel administrativo acessado!');
             } else {
-                showToast('Senha incorreta!', 'error');
+                showToast('Senha de administrador incorreta!', 'error');
             }
         }
 
@@ -1395,6 +1535,12 @@ Expira: 30 dias"></textarea>
 
         function checkSession() {
             const session = JSON.parse(localStorage.getItem('cs_session'));
+            const adminSession = JSON.parse(localStorage.getItem('cs_admin_session'));
+            
+            if (adminSession && adminSession.expires > Date.now()) {
+                state.isAdminAuthenticated = true;
+            }
+            
             if (session && session.expires > Date.now()) {
                 state.currentUser = session.user;
                 state.isAdmin = session.isAdmin;
@@ -1410,8 +1556,11 @@ Expira: 30 dias"></textarea>
         function logout() {
             state.currentUser = null;
             state.isAdmin = false;
+            state.isAdminAuthenticated = false;
             state.cart = [];
+            state.appliedCoupon = null;
             localStorage.removeItem('cs_session');
+            localStorage.removeItem('cs_admin_session');
             showLogin();
             showToast('Você saiu da conta.');
         }
@@ -1449,6 +1598,8 @@ Expira: 30 dias"></textarea>
             document.getElementById('main-content').classList.remove('hidden');
             updateUserDisplay();
             renderProducts();
+            renderCategoryFilters();
+            updatePublicStats();
             
             if (state.isAdmin) {
                 document.getElementById('admin-nav-btn').classList.remove('hidden');
@@ -1460,6 +1611,11 @@ Expira: 30 dias"></textarea>
                 document.getElementById('user-name-display').textContent = state.currentUser.name;
                 document.getElementById('user-email-display').textContent = state.currentUser.email;
             }
+        }
+
+        function updatePublicStats() {
+            document.getElementById('stat-users').textContent = state.users.length;
+            document.getElementById('stat-orders').textContent = state.orders.filter(o => o.status !== 'pending_payment').length;
         }
 
         function showSection(sectionName) {
@@ -1486,6 +1642,28 @@ Expira: 30 dias"></textarea>
             menu.classList.toggle('flex');
         }
 
+        // CATEGORIAS
+        function renderCategoryFilters() {
+            const container = document.getElementById('category-filters');
+            const baseHTML = `<button onclick="filterProducts('all')" class="filter-btn active px-6 py-2 rounded-full border border-neon-cyan bg-neon-cyan text-black font-bold transition-all hover:scale-105" data-category="all">TODOS</button>`;
+            
+            const categoriesHTML = state.categories.map(cat => `
+                <button onclick="filterProducts('${cat.slug}')" class="filter-btn px-6 py-2 rounded-full border border-gray-600 text-gray-300 hover:border-neon-cyan hover:text-neon-cyan font-bold transition-all" data-category="${cat.slug}">${cat.name}</button>
+            `).join('');
+            
+            container.innerHTML = baseHTML + categoriesHTML;
+        }
+
+        function getCategoryName(slug) {
+            const cat = state.categories.find(c => c.slug === slug || c.id === slug);
+            return cat ? cat.name : slug;
+        }
+
+        function getCategoryColor(slug) {
+            const cat = state.categories.find(c => c.slug === slug || c.id === slug);
+            return cat ? cat.color : 'cyan';
+        }
+
         // PRODUTOS
         function renderProducts() {
             const grid = document.getElementById('products-grid');
@@ -1493,10 +1671,12 @@ Expira: 30 dias"></textarea>
                 ? state.products 
                 : state.products.filter(p => p.category === state.currentFilter);
             
-            grid.innerHTML = filtered.map(product => `
+            grid.innerHTML = filtered.map(product => {
+                const catColor = getCategoryColor(product.category);
+                return `
                 <div class="product-card glass rounded-2xl overflow-hidden group relative">
-                    <div class="absolute top-4 left-4 z-10 px-3 py-1 bg-gradient-to-r from-neon-pink to-neon-purple rounded-full text-xs font-bold uppercase">
-                        Digital
+                    <div class="absolute top-4 left-4 z-10 px-3 py-1 bg-gradient-to-r from-neon-${catColor} to-${catColor}-600 rounded-full text-xs font-bold uppercase text-black">
+                        ${getCategoryName(product.category)}
                     </div>
                     <div class="relative h-56 overflow-hidden">
                         <img src="${product.image}" alt="${product.name}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
@@ -1506,7 +1686,6 @@ Expira: 30 dias"></textarea>
                         </div>
                     </div>
                     <div class="p-6">
-                        <span class="text-xs font-bold text-neon-cyan uppercase tracking-wider">${getCategoryName(product.category)}</span>
                         <h3 class="font-orbitron text-xl font-bold mt-2 mb-3 group-hover:text-neon-cyan transition-colors">${product.name}</h3>
                         <p class="text-gray-400 text-sm mb-4 line-clamp-2">${product.description}</p>
                         <div class="flex items-center gap-2 mb-4 text-xs text-gray-500">
@@ -1520,14 +1699,9 @@ Expira: 30 dias"></textarea>
                         </button>
                     </div>
                 </div>
-            `).join('');
+            `}).join('');
             
             lucide.createIcons();
-        }
-
-        function getCategoryName(cat) {
-            const names = { games: 'Pack de Jogos', iptv: 'IPTV', robux: 'Robux' };
-            return names[cat] || cat;
         }
 
         function filterProducts(category) {
@@ -1546,7 +1720,7 @@ Expira: 30 dias"></textarea>
             renderProducts();
         }
 
-        // CARRINHO
+        // CARRINHO E CUPONS
         function addToCart(productId) {
             const product = state.products.find(p => p.id === productId);
             const existingItem = state.cart.find(item => item.id === productId);
@@ -1580,6 +1754,60 @@ Expira: 30 dias"></textarea>
             }
         }
 
+        function applyCoupon() {
+            const code = document.getElementById('coupon-input').value.toUpperCase().trim();
+            const messageEl = document.getElementById('coupon-message');
+            
+            if (!code) {
+                showToast('Digite um cupom!', 'error');
+                return;
+            }
+            
+            const coupon = state.coupons.find(c => c.code === code && c.active !== false);
+            
+            if (!coupon) {
+                messageEl.textContent = 'Cupom inválido ou expirado.';
+                messageEl.className = 'text-sm mt-2 text-red-400';
+                messageEl.classList.remove('hidden');
+                state.appliedCoupon = null;
+                renderCart();
+                return;
+            }
+            
+            if (coupon.limit > 0 && coupon.used >= coupon.limit) {
+                messageEl.textContent = 'Limite de usos atingido.';
+                messageEl.className = 'text-sm mt-2 text-red-400';
+                messageEl.classList.remove('hidden');
+                return;
+            }
+            
+            if (coupon.expiry && new Date(coupon.expiry) < new Date()) {
+                messageEl.textContent = 'Cupom expirado.';
+                messageEl.className = 'text-sm mt-2 text-red-400';
+                messageEl.classList.remove('hidden');
+                return;
+            }
+            
+            state.appliedCoupon = coupon;
+            messageEl.textContent = `Cupom ${coupon.code} aplicado! ${coupon.type === 'percentage' ? coupon.value + '% OFF' : 'R$ ' + coupon.value.toFixed(2) + ' OFF'}`;
+            messageEl.className = 'text-sm mt-2 text-neon-green font-bold';
+            messageEl.classList.remove('hidden');
+            
+            renderCart();
+            showToast('Cupom aplicado com sucesso!');
+        }
+
+        function calculateDiscount(total) {
+            if (!state.appliedCoupon) return 0;
+            
+            const coupon = state.appliedCoupon;
+            if (coupon.type === 'percentage') {
+                return total * (coupon.value / 100);
+            } else {
+                return Math.min(coupon.value, total);
+            }
+        }
+
         function renderCart() {
             const container = document.getElementById('cart-content');
             
@@ -1597,7 +1825,9 @@ Expira: 30 dias"></textarea>
                 return;
             }
             
-            const total = state.cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const subtotal = state.cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const discount = calculateDiscount(subtotal);
+            const total = subtotal - discount;
             
             container.innerHTML = `
                 <div class="space-y-4 mb-6">
@@ -1626,14 +1856,21 @@ Expira: 30 dias"></textarea>
                 </div>
                 
                 <div class="border-t border-neon-cyan/20 pt-6">
-                    <div class="bg-neon-cyan/10 border border-neon-cyan/30 p-4 rounded-xl mb-6 flex items-center gap-3">
-                        <i data-lucide="qr-code" class="w-6 h-6 text-neon-cyan"></i>
-                        <p class="text-sm text-neon-cyan">Pagamento via Pix com QR Code. Processamento automático.</p>
-                    </div>
-                    
-                    <div class="flex justify-between items-center mb-6">
-                        <span class="text-xl font-orbitron">TOTAL:</span>
-                        <span class="text-3xl font-orbitron font-bold text-neon-cyan">R$ ${total.toFixed(2)}</span>
+                    <div class="space-y-2 mb-4">
+                        <div class="flex justify-between text-gray-400">
+                            <span>Subtotal:</span>
+                            <span>R$ ${subtotal.toFixed(2)}</span>
+                        </div>
+                        ${discount > 0 ? `
+                        <div class="flex justify-between text-neon-green">
+                            <span>Desconto (${state.appliedCoupon.code}):</span>
+                            <span>- R$ ${discount.toFixed(2)}</span>
+                        </div>
+                        ` : ''}
+                        <div class="flex justify-between text-xl font-bold font-orbitron">
+                            <span class="text-white">TOTAL:</span>
+                            <span class="text-neon-cyan">R$ ${total.toFixed(2)}</span>
+                        </div>
                     </div>
                     
                     <button onclick="initiateCheckout()" class="w-full py-4 bg-gradient-to-r from-neon-green to-green-600 hover:from-green-400 hover:to-green-500 text-black font-bold font-orbitron text-lg rounded-xl transition-all transform hover:scale-[1.02] flex items-center justify-center gap-3 shadow-lg shadow-green-500/25">
@@ -1665,7 +1902,10 @@ Expira: 30 dias"></textarea>
                 return;
             }
 
-            const total = state.cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const subtotal = state.cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const discount = calculateDiscount(subtotal);
+            const total = subtotal - discount;
+            
             const orderNumber = 'CS' + Date.now().toString().slice(-6);
 
             state.currentOrder = {
@@ -1674,37 +1914,50 @@ Expira: 30 dias"></textarea>
                 userName: state.currentUser.name,
                 userId: state.currentUser.id,
                 items: [...state.cart],
+                subtotal: subtotal,
+                discount: discount,
+                coupon: state.appliedCoupon ? state.appliedCoupon.code : null,
                 total: total,
                 status: 'pending_payment',
                 date: new Date().toLocaleString('pt-BR'),
                 createdAt: new Date().toISOString(),
                 deliveryData: null,
                 deliveryNotes: null,
-                deliveredAt: null,
-                pixCode: generatePixCode(total, orderNumber)
+                deliveredAt: null
             };
 
             state.orders.push(state.currentOrder);
-            saveToStorage();
             
+            // Atualizar uso do cupom
+            if (state.appliedCoupon) {
+                const coupon = state.coupons.find(c => c.code === state.appliedCoupon.code);
+                if (coupon) {
+                    coupon.used = (coupon.used || 0) + 1;
+                    saveToStorage();
+                }
+            }
+            
+            saveToStorage();
             showPaymentModal(state.currentOrder);
         }
 
         function generatePixCode(amount, orderId) {
-            // Simulação de código Pix
-            const key = '1da17be3-3d2d-4713-bc09-0f1ddab43680';
-            return `00020126580014BR.GOV.BCB.PIX0114${key}5204000053039865404${amount.toFixed(2)}5802BR5913Community Story6009SAO PAULO62070503***6304${orderId}`;
+            const activeBank = Object.entries(state.banking).find(([_, config]) => config.active);
+            const pixKey = activeBank ? activeBank[1].pixKey : '1da17be3-3d2d-4713-bc09-0f1ddab43680';
+            return `00020126580014BR.GOV.BCB.PIX0114${pixKey}5204000053039865404${amount.toFixed(2)}5802BR5913Community Story6009SAO PAULO62070503***6304${orderId}`;
         }
 
         function showPaymentModal(order) {
             document.getElementById('payment-amount').textContent = `R$ ${order.total.toFixed(2)}`;
             document.getElementById('payment-order-id').textContent = order.id;
-            document.getElementById('pix-code').textContent = order.pixCode;
+            
+            const pixCode = generatePixCode(order.total, order.id);
+            document.getElementById('pix-code').textContent = pixCode;
             
             const qrContainer = document.getElementById('qr-code-container');
             qrContainer.innerHTML = '';
             new QRCode(qrContainer, {
-                text: order.pixCode,
+                text: pixCode,
                 width: 180,
                 height: 180,
                 colorDark: '#000000',
@@ -1753,7 +2006,6 @@ Expira: 30 dias"></textarea>
                 document.getElementById('order-number-display').textContent = '#' + state.currentOrder.id;
                 document.getElementById('checkout-modal').classList.remove('hidden');
                 
-                // Atualizar estatísticas do usuário
                 const user = state.users.find(u => u.id === state.currentUser.id);
                 if (user) {
                     user.orders++;
@@ -1762,6 +2014,7 @@ Expira: 30 dias"></textarea>
                 }
                 
                 state.cart = [];
+                state.appliedCoupon = null;
                 updateCartBadge();
                 renderCart();
             }
@@ -1772,6 +2025,13 @@ Expira: 30 dias"></textarea>
             document.getElementById('payment-modal').classList.add('hidden');
             
             if (state.currentOrder && state.currentOrder.status === 'pending_payment') {
+                // Devolver uso do cupom
+                if (state.currentOrder.coupon) {
+                    const coupon = state.coupons.find(c => c.code === state.currentOrder.coupon);
+                    if (coupon && coupon.used > 0) {
+                        coupon.used--;
+                    }
+                }
                 state.orders = state.orders.filter(o => o.id !== state.currentOrder.id);
                 saveToStorage();
             }
@@ -1780,7 +2040,6 @@ Expira: 30 dias"></textarea>
         }
 
         function closePaymentModal() {
-            // Não fecha, apenas cancela
             cancelPayment();
         }
 
@@ -1815,7 +2074,7 @@ Expira: 30 dias"></textarea>
                             <h3 class="font-orbitron text-xl font-bold text-neon-cyan">Pedido #${order.id}</h3>
                             <p class="text-sm text-gray-400">${order.date}</p>
                         </div>
-                        <span class="status-badge ${getStatusClass(order.status)}">
+                        <span class="px-3 py-1 rounded-full text-xs font-bold uppercase ${getStatusClass(order.status)} border ${getStatusBorder(order.status)}">
                             ${getStatusText(order.status)}
                         </span>
                     </div>
@@ -1828,6 +2087,13 @@ Expira: 30 dias"></textarea>
                             </div>
                         `).join('')}
                     </div>
+                    
+                    ${order.discount > 0 ? `
+                    <div class="flex justify-between text-sm text-neon-green mb-2">
+                        <span>Desconto (${order.coupon}):</span>
+                        <span>- R$ ${order.discount.toFixed(2)}</span>
+                    </div>
+                    ` : ''}
                     
                     <div class="border-t border-gray-700 pt-4 flex justify-between items-center">
                         <span class="text-gray-400">Total:</span>
@@ -1849,9 +2115,9 @@ Expira: 30 dias"></textarea>
         }
 
         function getStatusClass(status) {
-            if (status === 'delivered') return 'status-delivered';
-            if (status === 'paid') return 'status-paid';
-            return 'status-pending';
+            if (status === 'delivered') return 'bg-neon-green/20 text-neon-green';
+            if (status === 'paid') return 'bg-neon-cyan/20 text-neon-cyan';
+            return 'bg-yellow-500/20 text-yellow-400';
         }
 
         function getStatusText(status) {
@@ -1907,6 +2173,11 @@ Expira: 30 dias"></textarea>
 
         // ADMIN PANEL
         function toggleAdmin() {
+            if (state.isAdmin && !state.isAdminAuthenticated && !JSON.parse(localStorage.getItem('cs_admin_session') || '{}').authenticated) {
+                showAdminLogin();
+                return;
+            }
+            
             const panel = document.getElementById('admin-panel');
             panel.classList.toggle('hidden');
             if (!panel.classList.contains('hidden')) {
@@ -1916,7 +2187,8 @@ Expira: 30 dias"></textarea>
 
         function showAdminTab(tabName) {
             document.querySelectorAll('.admin-tab').forEach(tab => tab.classList.add('hidden'));
-            document.getElementById('admin-' + tabName).classList.remove('hidden');
+            const target = document.getElementById('admin-' + tabName);
+            if (target) target.classList.remove('hidden');
             
             document.querySelectorAll('.admin-nav-btn').forEach(btn => {
                 btn.classList.remove('bg-neon-cyan/20', 'border-neon-cyan', 'text-white');
@@ -1928,9 +2200,10 @@ Expira: 30 dias"></textarea>
                 event.currentTarget.classList.add('bg-neon-cyan/20', 'border-neon-cyan', 'text-white');
             }
 
-            // Carregar dados específicos
             if (tabName === 'dashboard') loadDashboard();
             if (tabName === 'products') renderAdminProducts();
+            if (tabName === 'categories') renderAdminCategories();
+            if (tabName === 'coupons') renderAdminCoupons();
             if (tabName === 'orders') renderAdminOrders();
             if (tabName === 'paid') renderAdminPaid();
             if (tabName === 'delivered') renderAdminDelivered();
@@ -1940,27 +2213,18 @@ Expira: 30 dias"></textarea>
 
         // DASHBOARD
         function loadDashboard() {
-            // Calcular estatísticas
             const totalSales = state.orders
                 .filter(o => o.status === 'paid' || o.status === 'delivered')
                 .reduce((sum, o) => sum + o.total, 0);
             
-            const todayOrders = state.orders.filter(o => {
-                const orderDate = new Date(o.createdAt).toDateString();
-                const today = new Date().toDateString();
-                return orderDate === today;
-            }).length;
-
             document.getElementById('dash-total-sales').textContent = `R$ ${totalSales.toFixed(2)}`;
-            document.getElementById('dash-today-orders').textContent = todayOrders;
             document.getElementById('dash-total-users').textContent = state.users.length;
+            document.getElementById('dash-active-coupons').textContent = state.coupons.filter(c => c.active !== false && (!c.expiry || new Date(c.expiry) >= new Date())).length;
 
-            // Gráficos
             renderCharts();
         }
 
         function renderCharts() {
-            // Gráfico de vendas (simulado)
             const salesCtx = document.getElementById('salesChart').getContext('2d');
             if (state.charts.sales) state.charts.sales.destroy();
             
@@ -1987,7 +2251,6 @@ Expira: 30 dias"></textarea>
                 }
             });
 
-            // Gráfico de produtos
             const productsCtx = document.getElementById('productsChart').getContext('2d');
             if (state.charts.products) state.charts.products.destroy();
             
@@ -1997,9 +2260,7 @@ Expira: 30 dias"></textarea>
                     labels: state.products.map(p => p.name.substring(0, 15) + '...'),
                     datasets: [{
                         data: state.products.map(p => p.sales || 0),
-                        backgroundColor: [
-                            '#00f3ff', '#ff00ff', '#9d00ff', '#ffd700', '#00ff88', '#ff0066'
-                        ]
+                        backgroundColor: ['#00f3ff', '#ff00ff', '#9d00ff', '#ffd700', '#00ff88', '#ff0066']
                     }]
                 },
                 options: {
@@ -2011,9 +2272,205 @@ Expira: 30 dias"></textarea>
             });
         }
 
-        // ADMIN PRODUTOS
+        // CATEGORIAS ADMIN
+        function renderAdminCategories() {
+            const grid = document.getElementById('categories-grid');
+            grid.innerHTML = state.categories.map(cat => `
+                <div class="glass p-6 rounded-xl border-l-4 border-neon-${cat.color} relative group">
+                    <div class="flex justify-between items-start mb-4">
+                        <h4 class="font-orbitron text-lg font-bold text-neon-${cat.color}">${cat.name}</h4>
+                        <span class="text-xs text-gray-500 uppercase">${cat.slug}</span>
+                    </div>
+                    <p class="text-sm text-gray-400 mb-4">${state.products.filter(p => p.category === cat.slug).length} produtos</p>
+                    <div class="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                        <button onclick="editCategory('${cat.id}')" class="flex-1 py-2 bg-blue-500/20 text-blue-400 rounded-lg hover:bg-blue-500/40 transition-all text-sm font-bold">
+                            Editar
+                        </button>
+                        <button onclick="deleteCategory('${cat.id}')" class="flex-1 py-2 bg-red-500/20 text-red-400 rounded-lg hover:bg-red-500/40 transition-all text-sm font-bold">
+                            Excluir
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function openCategoryModal(id = null) {
+            const modal = document.getElementById('category-modal');
+            const form = document.getElementById('category-form');
+            const title = document.getElementById('category-modal-title');
+            
+            form.reset();
+            
+            if (id) {
+                const cat = state.categories.find(c => c.id === id);
+                document.getElementById('category-id').value = cat.id;
+                document.getElementById('category-name').value = cat.name;
+                document.getElementById('category-slug').value = cat.slug;
+                document.getElementById('category-color').value = cat.color;
+                title.textContent = 'Editar Categoria';
+            } else {
+                document.getElementById('category-id').value = '';
+                title.textContent = 'Nova Categoria';
+            }
+            
+            modal.classList.remove('hidden');
+        }
+
+        function closeCategoryModal() {
+            document.getElementById('category-modal').classList.add('hidden');
+        }
+
+        function saveCategory(e) {
+            e.preventDefault();
+            
+            const id = document.getElementById('category-id').value;
+            const data = {
+                name: document.getElementById('category-name').value,
+                slug: document.getElementById('category-slug').value,
+                color: document.getElementById('category-color').value
+            };
+            
+            if (id) {
+                const index = state.categories.findIndex(c => c.id === id);
+                data.id = id;
+                state.categories[index] = data;
+                showToast('Categoria atualizada!');
+            } else {
+                data.id = Date.now().toString();
+                state.categories.push(data);
+                showToast('Categoria criada!');
+            }
+            
+            saveToStorage();
+            closeCategoryModal();
+            renderAdminCategories();
+            renderCategoryFilters();
+        }
+
+        function editCategory(id) {
+            openCategoryModal(id);
+        }
+
+        function deleteCategory(id) {
+            if (confirm('Tem certeza? Os produtos desta categoria ficarão sem categoria.')) {
+                state.categories = state.categories.filter(c => c.id !== id);
+                saveToStorage();
+                renderAdminCategories();
+                renderCategoryFilters();
+                showToast('Categoria excluída!');
+            }
+        }
+
+        // CUPONS ADMIN
+        function renderAdminCoupons() {
+            const tbody = document.getElementById('admin-coupons-list');
+            tbody.innerHTML = state.coupons.map(coupon => {
+                const isExpired = coupon.expiry && new Date(coupon.expiry) < new Date();
+                const isLimitReached = coupon.limit > 0 && (coupon.used || 0) >= coupon.limit;
+                const active = !isExpired && !isLimitReached && coupon.active !== false;
+                
+                return `
+                <tr class="hover:bg-neon-gold/5 transition-colors">
+                    <td class="p-4 font-bold text-neon-gold">${coupon.code}</td>
+                    <td class="p-4">
+                        ${coupon.type === 'percentage' ? coupon.value + '%' : 'R$ ' + coupon.value.toFixed(2)}
+                    </td>
+                    <td class="p-4">
+                        <span class="${isLimitReached ? 'text-red-400' : 'text-gray-300'}">
+                            ${coupon.used || 0}${coupon.limit > 0 ? '/' + coupon.limit : ''}
+                        </span>
+                    </td>
+                    <td class="p-4">
+                        <span class="px-3 py-1 rounded-full text-xs font-bold ${active ? 'bg-neon-green/20 text-neon-green border border-neon-green' : 'bg-red-500/20 text-red-400 border border-red-500'}">
+                            ${active ? 'ATIVO' : 'INATIVO'}
+                        </span>
+                    </td>
+                    <td class="p-4">
+                        <div class="flex gap-2">
+                            <button onclick="toggleCoupon('${coupon.id}')" class="p-2 ${active ? 'bg-yellow-500/20 text-yellow-400' : 'bg-green-500/20 text-green-400'} rounded-lg hover:opacity-80 transition-all">
+                                <i data-lucide="${active ? 'pause' : 'play'}" class="w-4 h-4"></i>
+                            </button>
+                            <button onclick="deleteCoupon('${coupon.id}')" class="p-2 bg-red-500/20 text-red-400 rounded-lg hover:bg-red-500/40 transition-all">
+                                <i data-lucide="trash-2" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            `}).join('');
+            
+            lucide.createIcons();
+        }
+
+        function openCouponModal() {
+            document.getElementById('coupon-modal').classList.remove('hidden');
+            document.getElementById('coupon-form').reset();
+            document.getElementById('coupon-id').value = '';
+        }
+
+        function closeCouponModal() {
+            document.getElementById('coupon-modal').classList.add('hidden');
+        }
+
+        function saveCoupon(e) {
+            e.preventDefault();
+            
+            const id = document.getElementById('coupon-id').value;
+            const data = {
+                code: document.getElementById('coupon-code').value.toUpperCase(),
+                type: document.getElementById('coupon-type').value,
+                value: parseFloat(document.getElementById('coupon-value').value),
+                limit: parseInt(document.getElementById('coupon-limit').value) || 0,
+                expiry: document.getElementById('coupon-expiry').value || null,
+                used: 0,
+                active: true
+            };
+            
+            if (state.coupons.find(c => c.code === data.code && c.id !== id)) {
+                showToast('Código já existe!', 'error');
+                return;
+            }
+            
+            if (id) {
+                const index = state.coupons.findIndex(c => c.id === id);
+                data.id = id;
+                data.used = state.coupons[index].used;
+                state.coupons[index] = data;
+            } else {
+                data.id = Date.now().toString();
+                state.coupons.push(data);
+            }
+            
+            saveToStorage();
+            closeCouponModal();
+            renderAdminCoupons();
+            showToast('Cupom salvo!');
+        }
+
+        function toggleCoupon(id) {
+            const coupon = state.coupons.find(c => c.id === id);
+            coupon.active = coupon.active === false ? true : false;
+            saveToStorage();
+            renderAdminCoupons();
+            showToast(coupon.active ? 'Cupom ativado!' : 'Cupom pausado!');
+        }
+
+        function deleteCoupon(id) {
+            if (confirm('Excluir cupom permanentemente?')) {
+                state.coupons = state.coupons.filter(c => c.id !== id);
+                saveToStorage();
+                renderAdminCoupons();
+                showToast('Cupom excluído!');
+            }
+        }
+
+        // PRODUTOS ADMIN
         function renderAdminProducts() {
             const tbody = document.getElementById('admin-products-list');
+            
+            // Atualizar select de categorias
+            const catSelect = document.getElementById('product-category');
+            catSelect.innerHTML = state.categories.map(c => `<option value="${c.slug}">${c.name}</option>`).join('');
+            
             tbody.innerHTML = state.products.map(product => `
                 <tr class="hover:bg-neon-cyan/5 transition-colors">
                     <td class="p-4">
@@ -2044,40 +2501,25 @@ Expira: 30 dias"></textarea>
             lucide.createIcons();
         }
 
-        // ADMIN PEDIDOS
+        // PEDIDOS ADMIN
         function renderAdminOrders() {
             const container = document.getElementById('admin-orders-list');
             const pending = state.orders.filter(o => o.status === 'pending_payment');
-            
-            if (pending.length === 0) {
-                container.innerHTML = emptyState('Nenhum pedido pendente');
-            } else {
-                container.innerHTML = pending.map(order => renderOrderCard(order, 'pending')).join('');
-            }
+            container.innerHTML = pending.length === 0 ? emptyState('Nenhum pedido pendente') : pending.map(order => renderOrderCard(order, 'pending')).join('');
             updateAdminBadges();
         }
 
         function renderAdminPaid() {
             const container = document.getElementById('admin-paid-list');
             const paid = state.orders.filter(o => o.status === 'paid');
-            
-            if (paid.length === 0) {
-                container.innerHTML = emptyState('Nenhum pedido aguardando entrega');
-            } else {
-                container.innerHTML = paid.map(order => renderOrderCard(order, 'paid')).join('');
-            }
+            container.innerHTML = paid.length === 0 ? emptyState('Nenhum pedido aguardando entrega') : paid.map(order => renderOrderCard(order, 'paid')).join('');
             updateAdminBadges();
         }
 
         function renderAdminDelivered() {
             const container = document.getElementById('admin-delivered-list');
             const delivered = state.orders.filter(o => o.status === 'delivered');
-            
-            if (delivered.length === 0) {
-                container.innerHTML = emptyState('Nenhum pedido entregue ainda');
-            } else {
-                container.innerHTML = delivered.map(order => renderOrderCard(order, 'delivered')).join('');
-            }
+            container.innerHTML = delivered.length === 0 ? emptyState('Nenhum pedido entregue') : delivered.map(order => renderOrderCard(order, 'delivered')).join('');
         }
 
         function renderOrderCard(order, type) {
@@ -2094,14 +2536,11 @@ Expira: 30 dias"></textarea>
                         </div>
                         <div class="text-right">
                             <p class="font-orbitron text-2xl font-bold text-neon-cyan">R$ ${order.total.toFixed(2)}</p>
-                            <span class="inline-block mt-2 px-3 py-1 rounded-full text-xs font-bold ${getStatusClass(order.status)}">
-                                ${getStatusText(order.status).toUpperCase()}
-                            </span>
+                            ${order.discount > 0 ? `<p class="text-xs text-neon-green">Desconto: R$ ${order.discount.toFixed(2)}</p>` : ''}
                         </div>
                     </div>
                     
-                    <div class="bg-dark-surface p-3 rounded-lg mb-4">
-                        <p class="text-sm font-bold text-gray-400 mb-2">Itens:</p>
+                    <div class="bg-dark-surface p-3 rounded mb-4">
                         <ul class="space-y-1 text-sm">
                             ${order.items.map(item => `
                                 <li class="flex justify-between">
@@ -2131,28 +2570,34 @@ Expira: 30 dias"></textarea>
         }
 
         function updateAdminBadges() {
-            const pendingCount = state.orders.filter(o => o.status === 'pending_payment').length;
-            const paidCount = state.orders.filter(o => o.status === 'paid').length;
+            const pending = state.orders.filter(o => o.status === 'pending_payment').length;
+            const paid = state.orders.filter(o => o.status === 'paid').length;
             
             const pendingBadge = document.getElementById('admin-pending-badge');
             const paidBadge = document.getElementById('admin-paid-badge');
+            const usersBadge = document.getElementById('admin-users-badge');
             
-            if (pendingCount > 0) {
-                pendingBadge.textContent = pendingCount;
+            if (pending > 0) {
+                pendingBadge.textContent = pending;
                 pendingBadge.classList.remove('hidden');
             } else {
                 pendingBadge.classList.add('hidden');
             }
             
-            if (paidCount > 0) {
-                paidBadge.textContent = paidCount;
+            if (paid > 0) {
+                paidBadge.textContent = paid;
                 paidBadge.classList.remove('hidden');
             } else {
                 paidBadge.classList.add('hidden');
             }
+            
+            if (state.users.length > 0) {
+                usersBadge.textContent = state.users.length;
+                usersBadge.classList.remove('hidden');
+            }
         }
 
-        // ADMIN USUÁRIOS
+        // USUÁRIOS ADMIN
         function renderAdminUsers() {
             const tbody = document.getElementById('admin-users-list');
             const searchTerm = document.getElementById('user-search')?.value.toLowerCase() || '';
@@ -2167,24 +2612,33 @@ Expira: 30 dias"></textarea>
                 const totalSpent = userOrders.reduce((sum, o) => sum + (o.status !== 'pending_payment' ? o.total : 0), 0);
                 
                 return `
-                    <tr class="hover:bg-neon-purple/5 transition-colors">
-                        <td class="p-4 font-bold">${user.name}</td>
-                        <td class="p-4 text-gray-400">${user.email}</td>
-                        <td class="p-4 text-gray-400">${new Date(user.createdAt).toLocaleDateString('pt-BR')}</td>
-                        <td class="p-4">
-                            <span class="px-2 py-1 bg-neon-cyan/20 text-neon-cyan rounded text-xs font-bold">
-                                ${userOrders.length} pedidos
-                            </span>
-                            <span class="ml-2 text-neon-green text-xs">R$ ${totalSpent.toFixed(2)}</span>
-                        </td>
-                        <td class="p-4">
-                            <button onclick="viewUserDetails('${user.id}')" class="p-2 bg-blue-500/20 text-blue-400 rounded-lg hover:bg-blue-500/40 transition-all">
-                                <i data-lucide="eye" class="w-4 h-4"></i>
-                            </button>
-                        </td>
-                    </tr>
-                `;
-            }).join('');
+                <tr class="hover:bg-neon-purple/5 transition-colors">
+                    <td class="p-4">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-neon-purple to-blue-600 flex items-center justify-center">
+                                <span class="font-bold text-white">${user.name.charAt(0).toUpperCase()}</span>
+                            </div>
+                            <div>
+                                <p class="font-bold">${user.name}</p>
+                                <p class="text-xs text-gray-400">ID: ${user.id.slice(-6)}</p>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="p-4 text-gray-400">${user.email}</td>
+                    <td class="p-4 text-gray-400">${new Date(user.createdAt).toLocaleDateString('pt-BR')}</td>
+                    <td class="p-4">
+                        <span class="px-2 py-1 bg-neon-cyan/20 text-neon-cyan rounded text-xs font-bold">
+                            ${userOrders.length}
+                        </span>
+                    </td>
+                    <td class="p-4 text-neon-green font-bold">R$ ${totalSpent.toFixed(2)}</td>
+                    <td class="p-4">
+                        <button onclick="viewUserDetails('${user.id}')" class="p-2 bg-blue-500/20 text-blue-400 rounded-lg hover:bg-blue-500/40 transition-all">
+                            <i data-lucide="eye" class="w-4 h-4"></i>
+                        </button>
+                    </td>
+                </tr>
+            `}).join('');
             
             lucide.createIcons();
         }
@@ -2196,56 +2650,106 @@ Expira: 30 dias"></textarea>
         function viewUserDetails(userId) {
             const user = state.users.find(u => u.id === userId);
             const userOrders = state.orders.filter(o => o.userId === userId);
-            alert(`Detalhes de ${user.name}:\nEmail: ${user.email}\nPedidos: ${userOrders.length}\nTotal gasto: R$ ${userOrders.reduce((sum, o) => sum + (o.status !== 'pending_payment' ? o.total : 0), 0).toFixed(2)}`);
+            const totalSpent = userOrders.reduce((sum, o) => sum + (o.status !== 'pending_payment' ? o.total : 0), 0);
+            
+            const modal = document.getElementById('user-details-modal');
+            const content = document.getElementById('user-details-content');
+            
+            content.innerHTML = `
+                <div class="grid md:grid-cols-2 gap-6 mb-6">
+                    <div class="glass p-4 rounded-xl">
+                        <p class="text-sm text-gray-400">Nome</p>
+                        <p class="font-bold text-lg">${user.name}</p>
+                    </div>
+                    <div class="glass p-4 rounded-xl">
+                        <p class="text-sm text-gray-400">Email</p>
+                        <p class="font-bold text-lg text-neon-cyan">${user.email}</p>
+                    </div>
+                    <div class="glass p-4 rounded-xl">
+                        <p class="text-sm text-gray-400">Cadastro</p>
+                        <p class="font-bold text-lg">${new Date(user.createdAt).toLocaleString('pt-BR')}</p>
+                    </div>
+                    <div class="glass p-4 rounded-xl">
+                        <p class="text-sm text-gray-400">Total Gasto</p>
+                        <p class="font-bold text-lg text-neon-green">R$ ${totalSpent.toFixed(2)}</p>
+                    </div>
+                </div>
+                
+                <h4 class="font-orbitron text-lg font-bold mb-4 text-neon-purple">Histórico de Pedidos (${userOrders.length})</h4>
+                <div class="space-y-3 max-h-60 overflow-y-auto">
+                    ${userOrders.length === 0 ? '<p class="text-gray-400">Nenhum pedido</p>' : userOrders.map(o => `
+                        <div class="flex justify-between items-center p-3 bg-dark-surface rounded-lg">
+                            <div>
+                                <p class="font-bold text-sm">#${o.id}</p>
+                                <p class="text-xs text-gray-400">${o.date}</p>
+                            </div>
+                            <div class="text-right">
+                                <p class="font-bold text-neon-cyan">R$ ${o.total.toFixed(2)}</p>
+                                <span class="text-xs px-2 py-1 rounded ${o.status === 'delivered' ? 'bg-neon-green/20 text-neon-green' : o.status === 'paid' ? 'bg-neon-cyan/20 text-neon-cyan' : 'bg-yellow-500/20 text-yellow-400'}">
+                                    ${o.status === 'delivered' ? 'Entregue' : o.status === 'paid' ? 'Pago' : 'Pendente'}
+                                </span>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+            
+            modal.classList.remove('hidden');
+            lucide.createIcons();
+        }
+
+        function closeUserDetailsModal() {
+            document.getElementById('user-details-modal').classList.add('hidden');
         }
 
         // BANKING
         function renderBanking() {
-            // Atualizar UI baseado nas configurações salvas
             Object.keys(state.banking).forEach(bank => {
                 const config = state.banking[bank];
+                const card = document.getElementById(`bank-card-${bank}`);
+                const badge = document.getElementById(`badge-${bank}`);
+                const info = document.getElementById(`info-${bank}`);
+                
                 if (config.active) {
-                    document.getElementById(`bank-${bank}`).classList.add('active');
-                    document.getElementById(`status-${bank}`).classList.remove('hidden');
+                    card.classList.add('active');
+                    badge.classList.remove('hidden');
                 } else {
-                    document.getElementById(`bank-${bank}`).classList.remove('active');
-                    document.getElementById(`status-${bank}`).classList.add('hidden');
+                    card.classList.remove('active');
+                    badge.classList.add('hidden');
+                }
+                
+                if (config.pixKey) {
+                    info.innerHTML = `
+                        <p class="text-neon-cyan font-mono text-xs">${config.pixKey.substring(0, 20)}...</p>
+                        <p class="text-xs text-gray-500">Configurado em: ${new Date(config.configuredAt).toLocaleDateString('pt-BR')}</p>
+                    `;
                 }
             });
-
-            // Mostrar configuração ativa
+            
+            // Preview QR
             const activeBank = Object.entries(state.banking).find(([_, config]) => config.active);
-            const configDiv = document.getElementById('active-bank-config');
+            const previewDiv = document.getElementById('bank-qr-preview');
             
             if (activeBank) {
-                configDiv.classList.remove('hidden');
-                document.getElementById('bank-config-details').innerHTML = `
-                    <div class="grid grid-cols-2 gap-4 text-sm">
-                        <div>
-                            <p class="text-gray-400">Banco:</p>
-                            <p class="font-bold text-white capitalize">${activeBank[0]}</p>
-                        </div>
-                        <div>
-                            <p class="text-gray-400">Chave Pix:</p>
-                            <p class="font-bold text-neon-cyan">${activeBank[1].pixKey || 'Não configurada'}</p>
-                        </div>
-                        ${activeBank[1].account ? `
-                            <div>
-                                <p class="text-gray-400">Conta:</p>
-                                <p class="font-bold text-white">${activeBank[1].account}</p>
-                            </div>
-                        ` : ''}
-                    </div>
-                `;
+                previewDiv.classList.remove('hidden');
+                document.getElementById('preview-pix-key').textContent = activeBank[1].pixKey;
+                document.getElementById('preview-account').textContent = activeBank[0].toUpperCase();
+                
+                const qrContainer = document.getElementById('preview-qr-container');
+                qrContainer.innerHTML = '';
+                new QRCode(qrContainer, {
+                    text: activeBank[1].pixKey,
+                    width: 120,
+                    height: 120
+                });
             } else {
-                configDiv.classList.add('hidden');
+                previewDiv.classList.add('hidden');
             }
         }
 
         function selectBank(bank) {
-            // Visual feedback apenas
             document.querySelectorAll('.bank-card').forEach(card => card.classList.remove('ring-2', 'ring-neon-cyan'));
-            document.getElementById(`bank-${bank}`).classList.add('ring-2', 'ring-neon-cyan');
+            document.getElementById(`bank-card-${bank}`).classList.add('ring-2', 'ring-neon-cyan');
         }
 
         function configureBank(bank) {
@@ -2259,59 +2763,68 @@ Expira: 30 dias"></textarea>
             const config = state.banking[bank] || {};
             document.getElementById('bank-active').checked = config.active || false;
             
-            // Campos específicos por banco
             const fieldsHTML = {
                 pagbank: `
-                    <div>
-                        <label class="block text-sm font-bold text-neon-gold mb-2">Email PagBank</label>
-                        <input type="email" id="bank-email" value="${config.email || ''}" 
-                            class="w-full px-4 py-3 bg-dark-surface border border-neon-gold/30 rounded-lg text-white focus:border-neon-gold focus:outline-none">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-bold text-neon-gold mb-2">Chave Pix</label>
-                        <input type="text" id="bank-pix" value="${config.pixKey || ''}" 
-                            class="w-full px-4 py-3 bg-dark-surface border border-neon-gold/30 rounded-lg text-white focus:border-neon-gold focus:outline-none">
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-bold text-neon-gold mb-2">Email PagBank</label>
+                            <input type="email" id="bank-email" value="${config.email || ''}" 
+                                class="w-full px-4 py-3 bg-dark-surface border border-neon-gold/30 rounded-lg text-white focus:border-neon-gold focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-bold text-neon-gold mb-2">Chave Pix</label>
+                            <input type="text" id="bank-pix" value="${config.pixKey || ''}" 
+                                class="w-full px-4 py-3 bg-dark-surface border border-neon-gold/30 rounded-lg text-white focus:border-neon-gold focus:outline-none font-mono">
+                        </div>
                     </div>
                 `,
                 itau: `
-                    <div>
-                        <label class="block text-sm font-bold text-neon-gold mb-2">Agência</label>
-                        <input type="text" id="bank-agency" value="${config.agency || ''}" 
-                            class="w-full px-4 py-3 bg-dark-surface border border-neon-gold/30 rounded-lg text-white focus:border-neon-gold focus:outline-none">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-bold text-neon-gold mb-2">Conta</label>
-                        <input type="text" id="bank-account" value="${config.account || ''}" 
-                            class="w-full px-4 py-3 bg-dark-surface border border-neon-gold/30 rounded-lg text-white focus:border-neon-gold focus:outline-none">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-bold text-neon-gold mb-2">Chave Pix</label>
-                        <input type="text" id="bank-pix" value="${config.pixKey || ''}" 
-                            class="w-full px-4 py-3 bg-dark-surface border border-neon-gold/30 rounded-lg text-white focus:border-neon-gold focus:outline-none">
+                    <div class="space-y-4">
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-bold text-neon-gold mb-2">Agência</label>
+                                <input type="text" id="bank-agency" value="${config.agency || ''}" 
+                                    class="w-full px-4 py-3 bg-dark-surface border border-neon-gold/30 rounded-lg text-white focus:border-neon-gold focus:outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-bold text-neon-gold mb-2">Conta</label>
+                                <input type="text" id="bank-account" value="${config.account || ''}" 
+                                    class="w-full px-4 py-3 bg-dark-surface border border-neon-gold/30 rounded-lg text-white focus:border-neon-gold focus:outline-none">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-bold text-neon-gold mb-2">Chave Pix</label>
+                            <input type="text" id="bank-pix" value="${config.pixKey || ''}" 
+                                class="w-full px-4 py-3 bg-dark-surface border border-neon-gold/30 rounded-lg text-white focus:border-neon-gold focus:outline-none font-mono">
+                        </div>
                     </div>
                 `,
                 paypal: `
-                    <div>
-                        <label class="block text-sm font-bold text-neon-gold mb-2">Email PayPal</label>
-                        <input type="email" id="bank-email" value="${config.email || ''}" 
-                            class="w-full px-4 py-3 bg-dark-surface border border-neon-gold/30 rounded-lg text-white focus:border-neon-gold focus:outline-none">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-bold text-neon-gold mb-2">Client ID (opcional)</label>
-                        <input type="text" id="bank-clientid" value="${config.clientId || ''}" 
-                            class="w-full px-4 py-3 bg-dark-surface border border-neon-gold/30 rounded-lg text-white focus:border-neon-gold focus:outline-none">
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-bold text-neon-gold mb-2">Email PayPal</label>
+                            <input type="email" id="bank-email" value="${config.email || ''}" 
+                                class="w-full px-4 py-3 bg-dark-surface border border-neon-gold/30 rounded-lg text-white focus:border-neon-gold focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-bold text-neon-gold mb-2">Client ID (opcional)</label>
+                            <input type="text" id="bank-clientid" value="${config.clientId || ''}" 
+                                class="w-full px-4 py-3 bg-dark-surface border border-neon-gold/30 rounded-lg text-white focus:border-neon-gold focus:outline-none font-mono">
+                        </div>
                     </div>
                 `,
                 picpay: `
-                    <div>
-                        <label class="block text-sm font-bold text-neon-gold mb-2">CPF/CNPJ vinculado</label>
-                        <input type="text" id="bank-document" value="${config.document || ''}" 
-                            class="w-full px-4 py-3 bg-dark-surface border border-neon-gold/30 rounded-lg text-white focus:border-neon-gold focus:outline-none">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-bold text-neon-gold mb-2">Chave Pix PicPay</label>
-                        <input type="text" id="bank-pix" value="${config.pixKey || ''}" 
-                            class="w-full px-4 py-3 bg-dark-surface border border-neon-gold/30 rounded-lg text-white focus:border-neon-gold focus:outline-none">
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-bold text-neon-gold mb-2">CPF/CNPJ vinculado</label>
+                            <input type="text" id="bank-document" value="${config.document || ''}" 
+                                class="w-full px-4 py-3 bg-dark-surface border border-neon-gold/30 rounded-lg text-white focus:border-neon-gold focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-bold text-neon-gold mb-2">Chave Pix PicPay</label>
+                            <input type="text" id="bank-pix" value="${config.pixKey || ''}" 
+                                class="w-full px-4 py-3 bg-dark-surface border border-neon-gold/30 rounded-lg text-white focus:border-neon-gold focus:outline-none font-mono">
+                        </div>
                     </div>
                 `
             };
@@ -2329,16 +2842,17 @@ Expira: 30 dias"></textarea>
             const bank = document.getElementById('bank-type').value;
             const isActive = document.getElementById('bank-active').checked;
             
-            const config = { active: isActive };
+            const config = { 
+                active: isActive,
+                configuredAt: new Date().toISOString()
+            };
             
-            // Coletar campos dinâmicos
             const inputs = document.querySelectorAll('#bank-fields input');
             inputs.forEach(input => {
                 const key = input.id.replace('bank-', '');
                 config[key] = input.value;
             });
             
-            // Se ativando este banco, desativar outros
             if (isActive) {
                 Object.keys(state.banking).forEach(key => {
                     if (state.banking[key]) state.banking[key].active = false;
@@ -2350,7 +2864,7 @@ Expira: 30 dias"></textarea>
             
             closeBankModal();
             renderBanking();
-            showToast(`Configuração ${bank.toUpperCase()} salva!`);
+            showToast(`Conta ${bank.toUpperCase()} configurada!`);
         }
 
         // PRODUTO MODAL
@@ -2358,6 +2872,10 @@ Expira: 30 dias"></textarea>
             const modal = document.getElementById('product-modal');
             const form = document.getElementById('product-form');
             const title = document.getElementById('modal-title');
+            
+            // Atualizar categorias no select
+            const catSelect = document.getElementById('product-category');
+            catSelect.innerHTML = state.categories.map(c => `<option value="${c.slug}">${c.name}</option>`).join('');
             
             form.reset();
             
@@ -2469,14 +2987,10 @@ Expira: 30 dias"></textarea>
                 
                 saveToStorage();
                 
-                // Simular envio de email
-                console.log(`📧 Email enviado para ${order.email}: Seus dados chegaram!`);
-                console.log(`📧 Cópia para ${CONFIG.SUPPORT_EMAIL}: Entrega ${orderId}`);
-                
                 renderAdminPaid();
                 renderAdminDelivered();
                 closeDeliveryModal();
-                showToast('Entrega realizada! Email enviado.');
+                showToast('Entrega realizada! Email enviado ao cliente.');
             }
         }
 
@@ -2510,13 +3024,7 @@ Expira: 30 dias"></textarea>
 
         // Fechar modais ao clicar fora
         window.onclick = function(event) {
-            if (event.target.classList.contains('modal-overlay') || 
-                event.target.id === 'payment-modal' || 
-                event.target.id === 'checkout-modal' ||
-                event.target.id === 'product-modal' ||
-                event.target.id === 'delivery-modal' ||
-                event.target.id === 'bank-config-modal') {
-                // Não fechar payment modal ao clicar fora, apenas via botão
+            if (event.target.classList.contains('fixed') && event.target.classList.contains('inset-0')) {
                 if (event.target.id !== 'payment-modal') {
                     event.target.classList.add('hidden');
                 }
