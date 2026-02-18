@@ -14,6 +14,9 @@
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
     
+    <!-- QRCode.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    
     <style>
         :root {
             --neon-cyan: #00f3ff;
@@ -240,6 +243,7 @@
         }
         
         .status-pending { color: #ffd700; }
+        .status-paid { color: #00f3ff; }
         .status-delivered { color: #00ff00; }
         
         .delivery-box {
@@ -298,6 +302,22 @@
         .btn-secondary:hover {
             background: var(--neon-cyan);
             color: #000;
+        }
+        
+        .btn-success {
+            background: linear-gradient(135deg, #00ff88, #00cc6a);
+            color: #000;
+            font-weight: bold;
+            padding: 12px 24px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .btn-success:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 255, 136, 0.4);
         }
         
         .login-container {
@@ -375,12 +395,13 @@
         .modal-overlay {
             position: fixed;
             inset: 0;
-            background: rgba(0, 0, 0, 0.9);
+            background: rgba(0, 0, 0, 0.95);
             display: flex;
             align-items: center;
             justify-content: center;
             z-index: 1000;
             backdrop-filter: blur(5px);
+            padding: 20px;
         }
         
         .modal-content {
@@ -388,37 +409,65 @@
             border: 2px solid var(--neon-cyan);
             border-radius: 20px;
             padding: 40px;
-            max-width: 500px;
-            width: 90%;
-            text-align: center;
+            max-width: 600px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
             box-shadow: 0 25px 50px rgba(0, 243, 255, 0.2);
         }
         
-        .password-strength {
-            height: 4px;
-            background: #333;
-            border-radius: 2px;
-            margin-top: 8px;
-            overflow: hidden;
+        .modal-content.payment-modal {
+            max-width: 500px;
         }
         
-        .password-strength-bar {
-            height: 100%;
-            width: 0;
+        .qr-container {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            display: inline-block;
+            margin: 20px 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        
+        .pix-code-box {
+            background: rgba(0,0,0,0.5);
+            border: 1px solid var(--neon-cyan);
+            border-radius: 10px;
+            padding: 15px;
+            margin: 15px 0;
+            position: relative;
+        }
+        
+        .pix-code-text {
+            font-family: monospace;
+            font-size: 0.85rem;
+            color: #00ff88;
+            word-break: break-all;
+            line-height: 1.5;
+        }
+        
+        .copy-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--neon-cyan);
+            color: black;
+            border: none;
+            padding: 5px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            font-weight: bold;
             transition: all 0.3s;
         }
         
-        .loading-spinner {
-            width: 40px;
-            height: 40px;
-            border: 3px solid rgba(0, 243, 255, 0.3);
-            border-top-color: var(--neon-cyan);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
+        .copy-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0, 243, 255, 0.4);
         }
         
-        @keyframes spin {
-            to { transform: rotate(360deg); }
+        .copy-btn.copied {
+            background: #00ff88;
         }
         
         .notification-badge {
@@ -488,13 +537,64 @@
             background: rgba(0, 243, 255, 0.2);
             margin: 10px 0;
         }
+        
+        .timer-box {
+            background: linear-gradient(135deg, rgba(255,0,100,0.2), rgba(255,0,100,0.1));
+            border: 1px solid #ff0066;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 20px 0;
+            text-align: center;
+        }
+        
+        .timer-text {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #ff0066;
+            font-family: 'Orbitron', monospace;
+        }
+        
+        .payment-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+        
+        .payment-status.pending {
+            background: rgba(255, 193, 7, 0.2);
+            color: #ffc107;
+            border: 1px solid #ffc107;
+        }
+        
+        .payment-status.approved {
+            background: rgba(0, 255, 136, 0.2);
+            color: #00ff88;
+            border: 1px solid #00ff88;
+            animation: pulse 2s infinite;
+        }
+        
+        .loading-dots:after {
+            content: ' .';
+            animation: dots 1.5s steps(5, end) infinite;
+        }
+        
+        @keyframes dots {
+            0%, 20% { content: ' .'; }
+            40% { content: ' ..'; }
+            60% { content: ' ...'; }
+            80%, 100% { content: ''; }
+        }
     </style>
 </head>
 <body class="min-h-screen relative">
     <div class="scanlines"></div>
     <div id="particles" class="fixed inset-0 pointer-events-none overflow-hidden"></div>
 
-    <!-- TELA DE LOGIN (Aparece primeiro) -->
+    <!-- TELA DE LOGIN -->
     <div id="login-screen" class="login-container">
         <div class="cyber-grid absolute inset-0 opacity-20"></div>
         
@@ -608,7 +708,7 @@
         </div>
     </div>
 
-    <!-- CONTEÚDO PRINCIPAL (Após login) -->
+    <!-- CONTEÚDO PRINCIPAL -->
     <div id="main-content" class="hidden">
         <!-- Navigation -->
         <nav class="fixed top-0 w-full z-50 bg-black/80 backdrop-blur-md border-b border-cyan-500/30">
@@ -696,7 +796,7 @@
                 
                 <div class="relative z-10 text-center px-6 max-w-5xl">
                     <div class="mb-6 inline-block px-4 py-2 border border-cyan-400/50 rounded-full bg-cyan-400/10 text-cyan-400 text-sm font-bold tracking-wider">
-                        ✓ ENTREGA DIGITAL MANUAL • SUPORTE 24/7
+                        ✓ PAGAMENTO VIA PIX • ENTREGA DIGITAL • SUPORTE 24/7
                     </div>
                     <h2 class="font-orbitron text-5xl md:text-7xl font-black mb-6 leading-tight">
                         <span class="block text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-500">PACKS DE JOGOS</span>
@@ -705,7 +805,7 @@
                     <p class="text-xl md:text-2xl text-gray-300 mb-8 max-w-2xl mx-auto">
                         Adquira os melhores <span class="text-cyan-400">packs de jogos</span>, 
                         <span class="text-purple-400">canais IPTV</span> e 
-                        <span class="text-yellow-400">Robux</span> com entrega manual e segura.
+                        <span class="text-yellow-400">Robux</span> com pagamento via Pix e entrega manual.
                     </p>
                     <div class="flex flex-col sm:flex-row gap-4 justify-center">
                         <button onclick="showSection('products')" class="btn-primary text-lg flex items-center justify-center gap-2">
@@ -722,9 +822,9 @@
             <div class="container mx-auto px-6 py-20">
                 <div class="grid md:grid-cols-3 gap-8">
                     <div class="p-8 border border-cyan-500/30 rounded-lg bg-gradient-to-br from-cyan-900/20 to-transparent hover:border-cyan-400 transition-all group">
-                        <i data-lucide="send" class="w-12 h-12 text-cyan-400 mb-4 group-hover:scale-110 transition-transform"></i>
-                        <h3 class="font-orbitron text-xl font-bold mb-2">ENTREGA MANUAL</h3>
-                        <p class="text-gray-400">Após a confirmação do pagamento, nossa equipe envia seus dados de acesso manualmente em até 2 horas.</p>
+                        <i data-lucide="qr-code" class="w-12 h-12 text-cyan-400 mb-4 group-hover:scale-110 transition-transform"></i>
+                        <h3 class="font-orbitron text-xl font-bold mb-2">PAGAMENTO VIA PIX</h3>
+                        <p class="text-gray-400">Pagamento instantâneo com QR Code ou Copia e Cola. Processamento em minutos.</p>
                     </div>
                     <div class="p-8 border border-purple-500/30 rounded-lg bg-gradient-to-br from-purple-900/20 to-transparent hover:border-purple-400 transition-all group">
                         <i data-lucide="shield-check" class="w-12 h-12 text-purple-400 mb-4 group-hover:scale-110 transition-transform"></i>
@@ -782,15 +882,90 @@
             </div>
         </section>
 
+        <!-- PAYMENT MODAL -->
+        <div id="payment-modal" class="modal-overlay hidden">
+            <div class="modal-content payment-modal text-center">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="font-orbitron text-2xl font-bold text-cyan-400 flex items-center gap-3">
+                        <i data-lucide="qr-code" class="w-8 h-8"></i>
+                        PAGAMENTO VIA PIX
+                    </h3>
+                    <button onclick="closePaymentModal()" class="text-gray-400 hover:text-white">
+                        <i data-lucide="x" class="w-6 h-6"></i>
+                    </button>
+                </div>
+
+                <div class="payment-status pending mb-4">
+                    <i data-lucide="clock" class="w-5 h-5"></i>
+                    <span class="loading-dots">Aguardando pagamento</span>
+                </div>
+
+                <div class="bg-black/30 p-4 rounded-lg mb-4">
+                    <p class="text-gray-400 text-sm mb-1">Valor a pagar:</p>
+                    <p class="font-orbitron text-3xl font-bold text-cyan-400" id="payment-amount">R$ 0,00</p>
+                    <p class="text-xs text-gray-500 mt-1">Pedido #<span id="payment-order-id"></span></p>
+                </div>
+
+                <div class="timer-box">
+                    <p class="text-sm text-gray-400 mb-2">Tempo restante para pagamento:</p>
+                    <div class="timer-text" id="payment-timer">10:00</div>
+                </div>
+
+                <div class="qr-container" id="qr-code-container">
+                    <!-- QR Code gerado aqui -->
+                </div>
+
+                <div class="pix-code-box">
+                    <p class="text-sm text-gray-400 mb-2 text-left">Código Pix (Copia e Cola):</p>
+                    <div class="pix-code-text" id="pix-code"></div>
+                    <button class="copy-btn" onclick="copyPixCode()">
+                        <i data-lucide="copy" class="w-4 h-4 inline mr-1"></i>
+                        COPIAR
+                    </button>
+                </div>
+
+                <div class="space-y-3 mt-6">
+                    <p class="text-sm text-gray-400">Como pagar:</p>
+                    <ol class="text-left text-sm text-gray-300 space-y-2 bg-black/20 p-4 rounded-lg">
+                        <li class="flex items-start gap-2">
+                            <span class="text-cyan-400 font-bold">1.</span>
+                            Abra o app do seu banco
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-cyan-400 font-bold">2.</span>
+                            Escaneie o QR Code ou cole o código Pix
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-cyan-400 font-bold">3.</span>
+                            Confirme o pagamento
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-cyan-400 font-bold">4.</span>
+                            Aguarde a confirmação automática
+                        </li>
+                    </ol>
+                </div>
+
+                <button onclick="simulatePayment()" class="btn-success w-full mt-6 flex items-center justify-center gap-2">
+                    <i data-lucide="check-circle" class="w-5 h-5"></i>
+                    JÁ FIZ O PAGAMENTO
+                </button>
+
+                <button onclick="cancelPayment()" class="btn-secondary w-full mt-3 text-sm">
+                    Cancelar Pagamento
+                </button>
+            </div>
+        </div>
+
         <!-- CHECKOUT SUCCESS MODAL -->
         <div id="checkout-modal" class="modal-overlay hidden">
-            <div class="modal-content">
+            <div class="modal-content text-center">
                 <div class="w-20 h-20 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
                     <i data-lucide="check-circle" class="w-12 h-12 text-green-400"></i>
                 </div>
-                <h3 class="font-orbitron text-2xl font-bold mb-4 text-green-400">PEDIDO REALIZADO!</h3>
+                <h3 class="font-orbitron text-2xl font-bold mb-4 text-green-400">PAGAMENTO CONFIRMADO!</h3>
                 <p class="text-gray-300 mb-6">
-                    Seu pedido foi registrado com sucesso. Nossa equipe irá processar o pagamento e 
+                    Seu pagamento foi recebido com sucesso! Nossa equipe irá processar e 
                     enviar seus dados de acesso manualmente em até <strong>2 horas</strong>.
                 </p>
                 <div class="bg-black/50 p-4 rounded-lg mb-6 text-left">
@@ -824,6 +999,10 @@
                         <button onclick="showAdminTab('orders')" class="admin-nav-btn w-full text-left px-4 py-3 rounded hover:bg-cyan-500/10 border-l-4 border-transparent hover:border-cyan-400/50 font-bold flex items-center gap-3 transition-all">
                             <i data-lucide="shopping-bag" class="w-5 h-5"></i> Pendentes
                             <span id="admin-pending-badge" class="ml-auto bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center hidden">0</span>
+                        </button>
+                        <button onclick="showAdminTab('paid')" class="admin-nav-btn w-full text-left px-4 py-3 rounded hover:bg-cyan-500/10 border-l-4 border-transparent hover:border-cyan-400/50 font-bold flex items-center gap-3 transition-all">
+                            <i data-lucide="credit-card" class="w-5 h-5"></i> Pagos
+                            <span id="admin-paid-badge" class="ml-auto bg-cyan-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center hidden">0</span>
                         </button>
                         <button onclick="showAdminTab('delivered')" class="admin-nav-btn w-full text-left px-4 py-3 rounded hover:bg-cyan-500/10 border-l-4 border-transparent hover:border-cyan-400/50 font-bold flex items-center gap-3 transition-all">
                             <i data-lucide="check-circle" class="w-5 h-5"></i> Entregues
@@ -884,9 +1063,18 @@
                     <div id="admin-orders" class="admin-tab hidden">
                         <h3 class="font-orbitron text-2xl font-bold text-yellow-400 mb-6 flex items-center gap-3">
                             <i data-lucide="clock" class="w-8 h-8"></i>
-                            Pedidos Pendentes de Entrega
+                            Pedidos Aguardando Pagamento
                         </h3>
                         <div id="admin-orders-list" class="space-y-4"></div>
+                    </div>
+
+                    <!-- Paid Orders -->
+                    <div id="admin-paid" class="admin-tab hidden">
+                        <h3 class="font-orbitron text-2xl font-bold text-cyan-400 mb-6 flex items-center gap-3">
+                            <i data-lucide="credit-card" class="w-8 h-8"></i>
+                            Pedidos Pagos (Aguardando Entrega)
+                        </h3>
+                        <div id="admin-paid-list" class="space-y-4"></div>
                     </div>
 
                     <!-- Delivered Orders -->
@@ -1033,6 +1221,7 @@ Valor: 800 Robux"></textarea>
         // CONFIGURAÇÕES
         const ADMIN_PASSWORD = 'Dan@8838';
         const SUPPORT_EMAIL = 'financeiros062@gmail.com';
+        const PIX_KEY = '1da17be3-3d2d-4713-bc09-0f1ddab43680';
         
         // Dados iniciais
         let products = [
@@ -1097,6 +1286,8 @@ Valor: 800 Robux"></textarea>
         let currentFilter = 'all';
         let currentUser = null;
         let isAdmin = false;
+        let currentOrder = null;
+        let paymentTimer = null;
 
         // Inicialização
         document.addEventListener('DOMContentLoaded', () => {
@@ -1111,7 +1302,6 @@ Valor: 800 Robux"></textarea>
             const email = document.getElementById('login-email').value;
             const password = document.getElementById('login-password').value;
             
-            // Verificar se é admin
             if (email === 'admin@community.com' && password === ADMIN_PASSWORD) {
                 isAdmin = true;
                 currentUser = { email: email, name: 'Administrador' };
@@ -1120,7 +1310,6 @@ Valor: 800 Robux"></textarea>
                 return;
             }
             
-            // Verificar usuário normal (simulado - em produção seria no backend)
             const users = JSON.parse(localStorage.getItem('cs_users') || '[]');
             const user = users.find(u => u.email === email && u.password === password);
             
@@ -1223,7 +1412,6 @@ Valor: 800 Robux"></textarea>
         }
 
         function checkSession() {
-            // Verificar se há sessão salva (simulado)
             showLogin();
         }
 
@@ -1426,10 +1614,10 @@ Valor: 800 Robux"></textarea>
                 </div>
                 
                 <div class="border-t border-cyan-500/30 pt-6">
-                    <div class="bg-yellow-500/10 border border-yellow-500/30 p-4 rounded-lg mb-6">
-                        <p class="text-sm text-yellow-400 flex items-center gap-2">
-                            <i data-lucide="alert-circle" class="w-5 h-5"></i>
-                            Após o pagamento, você receberá seus dados de acesso manualmente em até 2 horas no email: <strong>${currentUser?.email || 'cadastrado'}</strong>
+                    <div class="bg-cyan-500/10 border border-cyan-500/30 p-4 rounded-lg mb-6">
+                        <p class="text-sm text-cyan-400 flex items-center gap-2">
+                            <i data-lucide="qr-code" class="w-5 h-5"></i>
+                            Pagamento via Pix com QR Code e Copia e Cola. Processamento automático após confirmação.
                         </p>
                     </div>
                     
@@ -1438,9 +1626,9 @@ Valor: 800 Robux"></textarea>
                         <span class="text-3xl font-orbitron font-bold text-cyan-400">R$ ${total.toFixed(2)}</span>
                     </div>
                     
-                    <button onclick="checkout()" class="w-full py-4 bg-gradient-to-r from-green-600 to-green-500 hover:from-green-500 hover:to-green-400 text-white font-bold font-orbitron text-lg rounded-lg transition-all transform hover:scale-[1.02] flex items-center justify-center gap-3">
-                        <i data-lucide="credit-card" class="w-6 h-6"></i>
-                        FINALIZAR COMPRA
+                    <button onclick="initiateCheckout()" class="w-full py-4 bg-gradient-to-r from-green-600 to-green-500 hover:from-green-500 hover:to-green-400 text-white font-bold font-orbitron text-lg rounded-lg transition-all transform hover:scale-[1.02] flex items-center justify-center gap-3">
+                        <i data-lucide="qr-code" class="w-6 h-6"></i>
+                        PAGAR COM PIX
                     </button>
                 </div>
             `;
@@ -1460,8 +1648,8 @@ Valor: 800 Robux"></textarea>
             }
         }
 
-        // Checkout
-        function checkout() {
+        // SISTEMA DE PAGAMENTO PIX
+        function initiateCheckout() {
             if (cart.length === 0) {
                 showToast('Seu carrinho está vazio!');
                 return;
@@ -1470,33 +1658,133 @@ Valor: 800 Robux"></textarea>
             const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
             const orderNumber = 'CS' + Date.now().toString().slice(-6);
             
-            const newOrder = {
+            currentOrder = {
                 id: orderNumber,
                 email: currentUser.email,
                 userName: currentUser.name,
                 items: [...cart],
                 total: total,
-                status: 'pending',
+                status: 'pending_payment',
                 date: new Date().toLocaleString('pt-BR'),
                 deliveryData: null,
                 deliveryNotes: null,
-                deliveredAt: null
+                deliveredAt: null,
+                pixCode: generatePixCode(total, orderNumber)
             };
             
-            orders.push(newOrder);
+            orders.push(currentOrder);
             
-            // Simular envio de email
-            console.log(`Email enviado para ${SUPPORT_EMAIL}: Novo pedido ${orderNumber}`);
+            // Mostrar modal de pagamento
+            showPaymentModal(currentOrder);
+        }
+
+        function generatePixCode(amount, orderId) {
+            // Gera um código Pix simulado baseado na chave fornecida
+            const pixPayload = `00020126580014BR.GOV.BCB.PIX0114${PIX_KEY}5204000053039865404${amount.toFixed(2)}5802BR5913Community Story6009SAO PAULO62070503***6304`;
+            return pixPayload;
+        }
+
+        function showPaymentModal(order) {
+            document.getElementById('payment-amount').textContent = `R$ ${order.total.toFixed(2)}`;
+            document.getElementById('payment-order-id').textContent = order.id;
+            document.getElementById('pix-code').textContent = order.pixCode;
             
-            cart = [];
-            updateCartBadge();
-            renderCart();
+            // Gerar QR Code
+            const qrContainer = document.getElementById('qr-code-container');
+            qrContainer.innerHTML = '';
+            new QRCode(qrContainer, {
+                text: order.pixCode,
+                width: 200,
+                height: 200,
+                colorDark: '#000000',
+                colorLight: '#ffffff',
+                correctLevel: QRCode.CorrectLevel.M
+            });
             
-            document.getElementById('order-number-display').textContent = '#' + orderNumber;
-            document.getElementById('order-email-display').textContent = currentUser.email;
-            document.getElementById('checkout-modal').classList.remove('hidden');
+            document.getElementById('payment-modal').classList.remove('hidden');
             
-            updateAdminBadge();
+            // Iniciar timer de 10 minutos
+            startPaymentTimer(600); // 600 segundos = 10 minutos
+        }
+
+        function startPaymentTimer(seconds) {
+            const timerElement = document.getElementById('payment-timer');
+            let remaining = seconds;
+            
+            if (paymentTimer) clearInterval(paymentTimer);
+            
+            paymentTimer = setInterval(() => {
+                const minutes = Math.floor(remaining / 60);
+                const secs = remaining % 60;
+                timerElement.textContent = `${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+                
+                if (remaining <= 0) {
+                    clearInterval(paymentTimer);
+                    cancelPayment();
+                    showToast('Tempo de pagamento expirado. Tente novamente.');
+                }
+                
+                remaining--;
+            }, 1000);
+        }
+
+        function copyPixCode() {
+            const pixCode = document.getElementById('pix-code').textContent;
+            navigator.clipboard.writeText(pixCode).then(() => {
+                const btn = document.querySelector('.copy-btn');
+                btn.innerHTML = '<i data-lucide="check" class="w-4 h-4 inline mr-1"></i> COPIADO!';
+                btn.classList.add('copied');
+                showToast('Código Pix copiado!');
+                
+                setTimeout(() => {
+                    btn.innerHTML = '<i data-lucide="copy" class="w-4 h-4 inline mr-1"></i> COPIAR';
+                    btn.classList.remove('copied');
+                    lucide.createIcons();
+                }, 2000);
+            });
+        }
+
+        function simulatePayment() {
+            // Simula confirmação do pagamento
+            clearInterval(paymentTimer);
+            
+            if (currentOrder) {
+                currentOrder.status = 'paid';
+                
+                document.getElementById('payment-modal').classList.add('hidden');
+                
+                // Mostrar sucesso
+                document.getElementById('order-number-display').textContent = '#' + currentOrder.id;
+                document.getElementById('order-email-display').textContent = currentUser.email;
+                document.getElementById('checkout-modal').classList.remove('hidden');
+                
+                // Limpar carrinho
+                cart = [];
+                updateCartBadge();
+                renderCart();
+                
+                // Notificar admin
+                console.log(`Novo pagamento recebido: Pedido ${currentOrder.id} - R$ ${currentOrder.total.toFixed(2)}`);
+                
+                updateAdminBadge();
+            }
+        }
+
+        function cancelPayment() {
+            clearInterval(paymentTimer);
+            document.getElementById('payment-modal').classList.add('hidden');
+            
+            // Remover pedido pendente
+            if (currentOrder && currentOrder.status === 'pending_payment') {
+                orders = orders.filter(o => o.id !== currentOrder.id);
+            }
+            
+            currentOrder = null;
+        }
+
+        function closePaymentModal() {
+            // Não fecha se ainda não pagou, só cancela
+            cancelPayment();
         }
 
         function closeCheckoutModal() {
@@ -1507,7 +1795,7 @@ Valor: 800 Robux"></textarea>
         // Pedidos do cliente
         function renderCustomerOrders() {
             const container = document.getElementById('customer-orders-list');
-            const userOrders = orders.filter(o => o.email === currentUser?.email);
+            const userOrders = orders.filter(o => o.email === currentUser?.email).sort((a, b) => b.id.localeCompare(a.id));
             
             if (userOrders.length === 0) {
                 container.innerHTML = `
@@ -1521,10 +1809,8 @@ Valor: 800 Robux"></textarea>
                 return;
             }
             
-            const sortedOrders = [...userOrders].sort((a, b) => b.id.localeCompare(a.id));
-            
-            container.innerHTML = sortedOrders.map(order => `
-                <div class="bg-gray-900/50 border ${order.status === 'delivered' ? 'border-green-500/50' : 'border-yellow-500/50'} rounded-lg p-6">
+            container.innerHTML = userOrders.map(order => `
+                <div class="bg-gray-900/50 border ${getStatusBorderColor(order.status)} rounded-lg p-6">
                     <div class="flex justify-between items-start mb-4">
                         <div>
                             <h3 class="font-orbitron text-xl font-bold text-cyan-400">Pedido #${order.id}</h3>
@@ -1532,7 +1818,7 @@ Valor: 800 Robux"></textarea>
                             <p class="text-sm text-gray-500 mt-1">${order.email}</p>
                         </div>
                         <div class="text-right">
-                            <span class="inline-block px-4 py-2 rounded-full text-sm font-bold ${getStatusClass(order.status)} border ${order.status === 'delivered' ? 'border-green-500' : 'border-yellow-500'}">
+                            <span class="inline-block px-4 py-2 rounded-full text-sm font-bold ${getStatusClass(order.status)} border ${getStatusBorder(order.status)}">
                                 ${getStatusText(order.status)}
                             </span>
                             <p class="font-orbitron font-bold text-lg mt-2">R$ ${order.total.toFixed(2)}</p>
@@ -1548,30 +1834,7 @@ Valor: 800 Robux"></textarea>
                         `).join('')}
                     </div>
                     
-                    ${order.status === 'delivered' ? `
-                        <div class="delivery-box mt-4">
-                            <h4 class="font-bold text-green-400 mb-3 flex items-center gap-2">
-                                <i data-lucide="unlock" class="w-5 h-5"></i>
-                                SEUS DADOS DE ACESSO
-                            </h4>
-                            <div class="bg-black/50 p-4 rounded text-left font-mono text-sm text-green-300 whitespace-pre-wrap">
-                                ${order.deliveryData}
-                            </div>
-                            ${order.deliveryNotes ? `
-                                <div class="mt-3 text-left text-sm text-gray-400 border-t border-cyan-500/20 pt-3">
-                                    <strong>Observações:</strong> ${order.deliveryNotes}
-                                </div>
-                            ` : ''}
-                            <p class="text-xs text-gray-500 mt-3">Entregue em: ${order.deliveredAt}</p>
-                            <p class="text-xs text-cyan-400 mt-2">Um email com estes dados também foi enviado para ${order.email}</p>
-                        </div>
-                    ` : `
-                        <div class="delivery-box locked mt-4 bg-yellow-500/10">
-                            <i data-lucide="lock" class="w-12 h-12 text-yellow-500 mx-auto mb-2"></i>
-                            <p class="text-yellow-400 font-bold">Aguardando processamento</p>
-                            <p class="text-sm text-gray-400 mt-2">Seus dados serão liberados aqui e enviados por email após confirmação do pagamento</p>
-                        </div>
-                    `}
+                    ${getOrderActionBox(order)}
                 </div>
             `).join('');
             
@@ -1579,17 +1842,72 @@ Valor: 800 Robux"></textarea>
             updateOrderBadge();
         }
 
+        function getStatusBorderColor(status) {
+            if (status === 'delivered') return 'border-green-500/50';
+            if (status === 'paid') return 'border-cyan-500/50';
+            return 'border-yellow-500/50';
+        }
+
         function getStatusClass(status) {
-            return status === 'delivered' ? 'text-green-400' : 'text-yellow-400';
+            if (status === 'delivered') return 'text-green-400';
+            if (status === 'paid') return 'text-cyan-400';
+            return 'text-yellow-400';
+        }
+
+        function getStatusBorder(status) {
+            if (status === 'delivered') return 'border-green-500';
+            if (status === 'paid') return 'border-cyan-500';
+            return 'border-yellow-500';
         }
 
         function getStatusText(status) {
-            return status === 'delivered' ? '✓ ENTREGUE' : '⏳ PENDENTE';
+            if (status === 'delivered') return '✓ ENTREGUE';
+            if (status === 'paid') return '💳 PAGO - Aguardando Entrega';
+            return '⏳ PENDENTE';
+        }
+
+        function getOrderActionBox(order) {
+            if (order.status === 'delivered') {
+                return `
+                    <div class="delivery-box mt-4">
+                        <h4 class="font-bold text-green-400 mb-3 flex items-center gap-2">
+                            <i data-lucide="unlock" class="w-5 h-5"></i>
+                            SEUS DADOS DE ACESSO
+                        </h4>
+                        <div class="bg-black/50 p-4 rounded text-left font-mono text-sm text-green-300 whitespace-pre-wrap">
+                            ${order.deliveryData}
+                        </div>
+                        ${order.deliveryNotes ? `
+                            <div class="mt-3 text-left text-sm text-gray-400 border-t border-cyan-500/20 pt-3">
+                                <strong>Observações:</strong> ${order.deliveryNotes}
+                            </div>
+                        ` : ''}
+                        <p class="text-xs text-gray-500 mt-3">Entregue em: ${order.deliveredAt}</p>
+                        <p class="text-xs text-cyan-400 mt-2">Um email com estes dados também foi enviado para ${order.email}</p>
+                    </div>
+                `;
+            } else if (order.status === 'paid') {
+                return `
+                    <div class="delivery-box locked mt-4 bg-cyan-500/10" style="--lock-content: '💳 PAGAMENTO CONFIRMADO'">
+                        <i data-lucide="credit-card" class="w-12 h-12 text-cyan-500 mx-auto mb-2"></i>
+                        <p class="text-cyan-400 font-bold">Pagamento confirmado!</p>
+                        <p class="text-sm text-gray-400 mt-2">Seus dados estão sendo preparados e serão liberados em breve.</p>
+                    </div>
+                `;
+            } else {
+                return `
+                    <div class="delivery-box locked mt-4 bg-yellow-500/10">
+                        <i data-lucide="lock" class="w-12 h-12 text-yellow-500 mx-auto mb-2"></i>
+                        <p class="text-yellow-400 font-bold">Aguardando pagamento</p>
+                        <p class="text-sm text-gray-400 mt-2">Complete o pagamento via Pix para liberar seus dados.</p>
+                    </div>
+                `;
+            }
         }
 
         function updateOrderBadge() {
             const badge = document.getElementById('order-badge');
-            const pendingCount = orders.filter(o => o.email === currentUser?.email && o.status === 'pending').length;
+            const pendingCount = orders.filter(o => o.email === currentUser?.email && (o.status === 'pending_payment' || o.status === 'paid')).length;
             
             if (pendingCount > 0) {
                 badge.textContent = pendingCount;
@@ -1635,16 +1953,19 @@ Valor: 800 Robux"></textarea>
         // Admin - Pedidos
         function renderAdminOrders() {
             const pendingContainer = document.getElementById('admin-orders-list');
+            const paidContainer = document.getElementById('admin-paid-list');
             const deliveredContainer = document.getElementById('admin-delivered-list');
             
-            const pending = orders.filter(o => o.status === 'pending');
+            const pending = orders.filter(o => o.status === 'pending_payment');
+            const paid = orders.filter(o => o.status === 'paid');
             const delivered = orders.filter(o => o.status === 'delivered');
             
+            // Pendentes
             if (pending.length === 0) {
                 pendingContainer.innerHTML = `
                     <div class="text-center py-12 text-gray-500 bg-gray-900/30 rounded-lg border border-dashed border-gray-700">
                         <i data-lucide="inbox" class="w-12 h-12 mx-auto mb-2 opacity-50"></i>
-                        <p>Nenhum pedido pendente</p>
+                        <p>Nenhum pedido aguardando pagamento</p>
                     </div>
                 `;
             } else {
@@ -1660,7 +1981,48 @@ Valor: 800 Robux"></textarea>
                             <div class="text-right">
                                 <p class="font-orbitron text-2xl font-bold text-cyan-400">R$ ${order.total.toFixed(2)}</p>
                                 <span class="inline-block mt-2 px-3 py-1 bg-yellow-500/20 text-yellow-400 rounded-full text-xs font-bold border border-yellow-500">
-                                    AGUARDANDO ENTREGA
+                                    AGUARDANDO PAGAMENTO
+                                </span>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-black/30 p-3 rounded">
+                            <p class="text-sm font-bold text-gray-400 mb-2">Itens:</p>
+                            <ul class="space-y-1 text-sm">
+                                ${order.items.map(item => `
+                                    <li class="flex justify-between">
+                                        <span>${item.quantity}x ${item.name}</span>
+                                        <span class="text-cyan-400">R$ ${(item.price * item.quantity).toFixed(2)}</span>
+                                    </li>
+                                `).join('')}
+                            </ul>
+                        </div>
+                    </div>
+                `).join('');
+            }
+            
+            // Pagos (aguardando entrega)
+            if (paid.length === 0) {
+                paidContainer.innerHTML = `
+                    <div class="text-center py-12 text-gray-500 bg-gray-900/30 rounded-lg border border-dashed border-gray-700">
+                        <i data-lucide="credit-card" class="w-12 h-12 mx-auto mb-2 opacity-50"></i>
+                        <p>Nenhum pedido pago aguardando entrega</p>
+                    </div>
+                `;
+            } else {
+                paidContainer.innerHTML = paid.map(order => `
+                    <div class="bg-gray-900 border border-cyan-500/50 rounded-lg p-6">
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <h4 class="font-orbitron text-lg font-bold text-cyan-400">Pedido #${order.id}</h4>
+                                <p class="text-sm text-gray-400">${order.date}</p>
+                                <p class="text-cyan-300 mt-1">${order.userName || 'Cliente'}</p>
+                                <p class="text-gray-400 text-sm">${order.email}</p>
+                            </div>
+                            <div class="text-right">
+                                <p class="font-orbitron text-2xl font-bold text-cyan-400">R$ ${order.total.toFixed(2)}</p>
+                                <span class="inline-block mt-2 px-3 py-1 bg-cyan-500/20 text-cyan-400 rounded-full text-xs font-bold border border-cyan-500">
+                                    PAGO - AGUARDANDO ENTREGA
                                 </span>
                             </div>
                         </div>
@@ -1685,6 +2047,7 @@ Valor: 800 Robux"></textarea>
                 `).join('');
             }
             
+            // Entregues
             if (delivered.length === 0) {
                 deliveredContainer.innerHTML = `
                     <div class="text-center py-12 text-gray-500 bg-gray-900/30 rounded-lg border border-dashed border-gray-700">
@@ -1722,14 +2085,24 @@ Valor: 800 Robux"></textarea>
         }
 
         function updateAdminBadge() {
-            const badge = document.getElementById('admin-pending-badge');
-            const pendingCount = orders.filter(o => o.status === 'pending').length;
+            const pendingBadge = document.getElementById('admin-pending-badge');
+            const paidBadge = document.getElementById('admin-paid-badge');
+            
+            const pendingCount = orders.filter(o => o.status === 'pending_payment').length;
+            const paidCount = orders.filter(o => o.status === 'paid').length;
             
             if (pendingCount > 0) {
-                badge.textContent = pendingCount;
-                badge.classList.remove('hidden');
+                pendingBadge.textContent = pendingCount;
+                pendingBadge.classList.remove('hidden');
             } else {
-                badge.classList.add('hidden');
+                pendingBadge.classList.add('hidden');
+            }
+            
+            if (paidCount > 0) {
+                paidBadge.textContent = paidCount;
+                paidBadge.classList.remove('hidden');
+            } else {
+                paidBadge.classList.add('hidden');
             }
         }
 
@@ -1771,7 +2144,6 @@ Valor: 800 Robux"></textarea>
                 order.deliveryNotes = deliveryNotes;
                 order.deliveredAt = new Date().toLocaleString('pt-BR');
                 
-                // Simular envio de email para o cliente
                 console.log(`Email enviado para ${order.email}: Seus dados de acesso chegaram!`);
                 console.log(`Cópia enviada para ${SUPPORT_EMAIL}: Entrega realizada ${orderId}`);
                 
