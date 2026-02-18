@@ -1,1 +1,1344 @@
 # Comunitty-Story
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Community Story | Digital Store</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;500;700&display=swap" rel="stylesheet">
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <style>
+        :root {
+            --neon-cyan: #00f3ff;
+            --neon-pink: #ff00ff;
+            --neon-purple: #9d00ff;
+            --neon-gold: #ffd700;
+            --dark-bg: #0a0a0f;
+        }
+        
+        body {
+            font-family: 'Rajdhani', sans-serif;
+            background-color: var(--dark-bg);
+            color: #fff;
+            overflow-x: hidden;
+        }
+        
+        .font-orbitron {
+            font-family: 'Orbitron', sans-serif;
+        }
+        
+        .glitch {
+            position: relative;
+            animation: glitch-skew 1s infinite;
+        }
+        
+        .glitch::before,
+        .glitch::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .glitch::before {
+            animation: glitch-anim-1 2s infinite linear alternate-reverse;
+            color: var(--neon-cyan);
+            z-index: -1;
+        }
+        
+        .glitch::after {
+            animation: glitch-anim-2 3s infinite linear alternate-reverse;
+            color: var(--neon-pink);
+            z-index: -2;
+        }
+        
+        @keyframes glitch-anim-1 {
+            0% { clip-path: inset(20% 0 80% 0); transform: translate(-2px, -2px); }
+            20% { clip-path: inset(60% 0 10% 0); transform: translate(2px, 2px); }
+            40% { clip-path: inset(40% 0 50% 0); transform: translate(-2px, 2px); }
+            60% { clip-path: inset(80% 0 5% 0); transform: translate(2px, -2px); }
+            80% { clip-path: inset(10% 0 70% 0); transform: translate(-2px, 2px); }
+            100% { clip-path: inset(30% 0 50% 0); transform: translate(2px, -2px); }
+        }
+        
+        @keyframes glitch-anim-2 {
+            0% { clip-path: inset(15% 0 85% 0); transform: translate(2px, 2px); }
+            20% { clip-path: inset(65% 0 25% 0); transform: translate(-2px, -2px); }
+            40% { clip-path: inset(45% 0 45% 0); transform: translate(2px, -2px); }
+            60% { clip-path: inset(85% 0 10% 0); transform: translate(-2px, 2px); }
+            80% { clip-path: inset(5% 0 75% 0); transform: translate(2px, -2px); }
+            100% { clip-path: inset(35% 0 55% 0); transform: translate(-2px, 2px); }
+        }
+        
+        .neon-border {
+            box-shadow: 0 0 10px var(--neon-cyan), inset 0 0 10px rgba(0, 243, 255, 0.2);
+            border: 1px solid var(--neon-cyan);
+        }
+        
+        .neon-text {
+            text-shadow: 0 0 10px var(--neon-cyan), 0 0 20px var(--neon-cyan);
+        }
+        
+        .gold-glow {
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+            border: 1px solid var(--neon-gold);
+        }
+        
+        .scanlines {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, transparent 50%, rgba(0, 0, 0, 0.1) 50%);
+            background-size: 100% 4px;
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0.3;
+        }
+        
+        .cyber-grid {
+            background-image: 
+                linear-gradient(rgba(0, 243, 255, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 243, 255, 0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: grid-move 20s linear infinite;
+        }
+        
+        @keyframes grid-move {
+            0% { transform: perspective(500px) rotateX(60deg) translateY(0); }
+            100% { transform: perspective(500px) rotateX(60deg) translateY(50px); }
+        }
+        
+        .product-card {
+            transition: all 0.3s ease;
+            background: rgba(20, 20, 30, 0.8);
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0, 243, 255, 0.3);
+        }
+        
+        .product-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+        
+        .product-card:hover::before {
+            left: 100%;
+        }
+        
+        .digital-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: linear-gradient(45deg, #ff00ff, #9d00ff);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            z-index: 10;
+        }
+        
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #0a0a0f;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: var(--neon-cyan);
+            border-radius: 5px;
+        }
+        
+        .admin-sidebar {
+            background: linear-gradient(180deg, #1a1a2e 0%, #0f0f1e 100%);
+        }
+        
+        .admin-input {
+            background: rgba(0, 243, 255, 0.1);
+            border: 1px solid var(--neon-cyan);
+            color: white;
+            transition: all 0.3s;
+        }
+        
+        .admin-input:focus {
+            outline: none;
+            box-shadow: 0 0 20px rgba(0, 243, 255, 0.5);
+        }
+        
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: var(--neon-cyan);
+            border-radius: 50%;
+            animation: float 10s infinite;
+            opacity: 0.6;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0) translateX(0); opacity: 0; }
+            10% { opacity: 0.6; }
+            90% { opacity: 0.6; }
+            100% { transform: translateY(-100vh) translateX(50px); opacity: 0; }
+        }
+        
+        .hidden-section {
+            display: none;
+        }
+        
+        .active-section {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .status-pending { color: #ffd700; }
+        .status-delivered { color: #00ff00; }
+        
+        .delivery-box {
+            background: linear-gradient(135deg, rgba(0,243,255,0.1), rgba(157,0,255,0.1));
+            border: 2px dashed var(--neon-cyan);
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .delivery-box.locked::after {
+            content: '🔒 AGUARDANDO PAGAMENTO';
+            position: absolute;
+            inset: 0;
+            background: rgba(0,0,0,0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #666;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body class="min-h-screen relative">
+    <div class="scanlines"></div>
+    <div id="particles" class="fixed inset-0 pointer-events-none overflow-hidden"></div>
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 bg-black/80 backdrop-blur-md border-b border-cyan-500/30">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="flex items-center gap-3 cursor-pointer" onclick="showSection('home')">
+                <i data-lucide="gamepad-2" class="w-8 h-8 text-cyan-400"></i>
+                <h1 class="font-orbitron text-2xl font-bold glitch" data-text="COMMUNITY STORY">COMMUNITY STORY</h1>
+            </div>
+            
+            <div class="hidden md:flex items-center gap-8">
+                <button onclick="showSection('home')" class="nav-btn hover:text-cyan-400 transition-colors font-bold tracking-wider">INÍCIO</button>
+                <button onclick="showSection('products')" class="nav-btn hover:text-cyan-400 transition-colors font-bold tracking-wider">PRODUTOS</button>
+                <button onclick="showSection('my-orders')" class="nav-btn hover:text-cyan-400 transition-colors font-bold tracking-wider relative">
+                    MEUS PEDIDOS
+                    <span id="order-badge" class="absolute -top-2 -right-4 bg-pink-500 text-xs rounded-full w-5 h-5 flex items-center justify-center hidden">0</span>
+                </button>
+                <button onclick="showSection('cart')" class="nav-btn hover:text-cyan-400 transition-colors font-bold tracking-wider relative">
+                    CARRINHO
+                    <span id="cart-badge" class="absolute -top-2 -right-4 bg-cyan-500 text-xs rounded-full w-5 h-5 flex items-center justify-center hidden">0</span>
+                </button>
+                <button onclick="toggleAdmin()" class="nav-btn bg-cyan-500/20 border border-cyan-400 px-4 py-2 rounded hover:bg-cyan-500/40 transition-all font-bold">
+                    <i data-lucide="shield" class="w-4 h-4 inline mr-2"></i>ADMIN
+                </button>
+            </div>
+            
+            <button class="md:hidden text-cyan-400" onclick="toggleMobileMenu()">
+                <i data-lucide="menu" class="w-6 h-6"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="fixed inset-0 bg-black/95 z-40 hidden flex-col items-center justify-center gap-8">
+        <button onclick="showSection('home'); toggleMobileMenu()" class="text-2xl font-orbitron hover:text-cyan-400">INÍCIO</button>
+        <button onclick="showSection('products'); toggleMobileMenu()" class="text-2xl font-orbitron hover:text-cyan-400">PRODUTOS</button>
+        <button onclick="showSection('my-orders'); toggleMobileMenu()" class="text-2xl font-orbitron hover:text-cyan-400">MEUS PEDIDOS</button>
+        <button onclick="showSection('cart'); toggleMobileMenu()" class="text-2xl font-orbitron hover:text-cyan-400">CARRINHO</button>
+        <button onclick="toggleAdmin(); toggleMobileMenu()" class="text-2xl font-orbitron text-cyan-400">ADMIN</button>
+        <button onclick="toggleMobileMenu()" class="absolute top-6 right-6">
+            <i data-lucide="x" class="w-8 h-8"></i>
+        </button>
+    </div>
+
+    <!-- HOME SECTION -->
+    <section id="home" class="active-section pt-20">
+        <div class="relative h-screen flex items-center justify-center overflow-hidden">
+            <div class="absolute inset-0 cyber-grid opacity-20"></div>
+            <div class="absolute inset-0 bg-gradient-to-b from-transparent via-black/50 to-black"></div>
+            
+            <div class="relative z-10 text-center px-6 max-w-5xl">
+                <div class="mb-6 inline-block px-4 py-2 border border-cyan-400/50 rounded-full bg-cyan-400/10 text-cyan-400 text-sm font-bold tracking-wider">
+                    ✓ ENTREGA DIGITAL MANUAL • SUPORTE 24/7
+                </div>
+                <h2 class="font-orbitron text-5xl md:text-7xl font-black mb-6 leading-tight">
+                    <span class="block text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-500">PACKS DE JOGOS</span>
+                    <span class="block glitch mt-2" data-text="IPTV • ROBUX">IPTV • ROBUX</span>
+                </h2>
+                <p class="text-xl md:text-2xl text-gray-300 mb-8 max-w-2xl mx-auto">
+                    Adquira os melhores <span class="text-cyan-400">packs de jogos</span>, 
+                    <span class="text-purple-400">canais IPTV</span> e 
+                    <span class="text-yellow-400">Robux</span> com entrega manual e segura.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <button onclick="showSection('products')" class="group relative px-8 py-4 bg-cyan-500 font-bold font-orbitron overflow-hidden rounded-sm">
+                        <span class="relative z-10 flex items-center gap-2">
+                            VER PRODUTOS <i data-lucide="chevron-right" class="w-5 h-5 group-hover:translate-x-1 transition-transform"></i>
+                        </span>
+                        <div class="absolute inset-0 bg-gradient-to-r from-cyan-400 to-blue-500 transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left"></div>
+                    </button>
+                    <button onclick="showSection('products')" class="px-8 py-4 border-2 border-yellow-500 text-yellow-400 font-bold font-orbitron hover:bg-yellow-500 hover:text-black transition-all rounded-sm">
+                        OFERTAS ESPECIAIS
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Features -->
+        <div class="container mx-auto px-6 py-20">
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="p-8 border border-cyan-500/30 rounded-lg bg-gradient-to-br from-cyan-900/20 to-transparent hover:border-cyan-400 transition-all group">
+                    <i data-lucide="send" class="w-12 h-12 text-cyan-400 mb-4 group-hover:scale-110 transition-transform"></i>
+                    <h3 class="font-orbitron text-xl font-bold mb-2">ENTREGA MANUAL</h3>
+                    <p class="text-gray-400">Após a confirmação do pagamento, nossa equipe envia seus dados de acesso manualmente em até 2 horas.</p>
+                </div>
+                <div class="p-8 border border-purple-500/30 rounded-lg bg-gradient-to-br from-purple-900/20 to-transparent hover:border-purple-400 transition-all group">
+                    <i data-lucide="shield-check" class="w-12 h-12 text-purple-400 mb-4 group-hover:scale-110 transition-transform"></i>
+                    <h3 class="font-orbitron text-xl font-bold mb-2">100% SEGURO</h3>
+                    <p class="text-gray-400">Garantia de funcionamento ou seu dinheiro de volta. Todos os produtos testados antes do envio.</p>
+                </div>
+                <div class="p-8 border border-yellow-500/30 rounded-lg bg-gradient-to-br from-yellow-900/20 to-transparent hover:border-yellow-400 transition-all group">
+                    <i data-lucide="headphones" class="w-12 h-12 text-yellow-400 mb-4 group-hover:scale-110 transition-transform"></i>
+                    <h3 class="font-orbitron text-xl font-bold mb-2">SUPORTE DEDICADO</h3>
+                    <p class="text-gray-400">Suporte técnico especializado para ajudar na instalação e configuração dos seus produtos digitais.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PRODUCTS SECTION -->
+    <section id="products" class="hidden-section pt-24 min-h-screen">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col md:flex-row justify-between items-center mb-12">
+                <h2 class="font-orbitron text-4xl font-bold mb-4 md:mb-0">
+                    <span class="text-cyan-400">NOSSOS</span> PRODUTOS
+                </h2>
+                
+                <div class="flex gap-4 flex-wrap justify-center">
+                    <button onclick="filterProducts('all')" class="filter-btn active px-6 py-2 border border-cyan-400 rounded-full hover:bg-cyan-400 hover:text-black transition-all font-bold" data-category="all">TODOS</button>
+                    <button onclick="filterProducts('games')" class="filter-btn px-6 py-2 border border-gray-600 rounded-full hover:border-cyan-400 hover:text-cyan-400 transition-all font-bold" data-category="games">PACKS JOGOS</button>
+                    <button onclick="filterProducts('iptv')" class="filter-btn px-6 py-2 border border-gray-600 rounded-full hover:border-cyan-400 hover:text-cyan-400 transition-all font-bold" data-category="iptv">IPTV</button>
+                    <button onclick="filterProducts('robux')" class="filter-btn px-6 py-2 border border-gray-600 rounded-full hover:border-cyan-400 hover:text-cyan-400 transition-all font-bold" data-category="robux">ROBUX</button>
+                </div>
+            </div>
+
+            <div id="products-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                <!-- Products injected by JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- CART SECTION -->
+    <section id="cart" class="hidden-section pt-24 min-h-screen">
+        <div class="container mx-auto px-6 max-w-4xl">
+            <h2 class="font-orbitron text-4xl font-bold mb-8 text-center">
+                <span class="text-cyan-400">SEU</span> CARRINHO
+            </h2>
+            
+            <div id="cart-content" class="bg-gray-900/50 border border-cyan-500/30 rounded-lg p-6 min-h-[400px]">
+                <!-- Cart items injected by JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- MY ORDERS SECTION -->
+    <section id="my-orders" class="hidden-section pt-24 min-h-screen">
+        <div class="container mx-auto px-6 max-w-4xl">
+            <h2 class="font-orbitron text-4xl font-bold mb-8 text-center">
+                <span class="text-cyan-400">MEUS</span> PEDIDOS
+            </h2>
+            
+            <div id="customer-orders-list" class="space-y-6">
+                <!-- Orders injected by JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- CHECKOUT SUCCESS MODAL -->
+    <div id="checkout-modal" class="fixed inset-0 bg-black/95 z-[60] hidden flex items-center justify-center p-4">
+        <div class="bg-gray-900 border-2 border-green-500 rounded-lg w-full max-w-lg p-8 text-center relative">
+            <div class="w-20 h-20 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
+                <i data-lucide="check-circle" class="w-12 h-12 text-green-400"></i>
+            </div>
+            <h3 class="font-orbitron text-2xl font-bold mb-4 text-green-400">PEDIDO REALIZADO!</h3>
+            <p class="text-gray-300 mb-6">
+                Seu pedido foi registrado com sucesso. Nossa equipe irá processar o pagamento e 
+                enviar seus dados de acesso manualmente em até <strong>2 horas</strong>.
+            </p>
+            <div class="bg-black/50 p-4 rounded-lg mb-6 text-left">
+                <p class="text-sm text-gray-400 mb-2">Número do Pedido:</p>
+                <p class="font-orbitron text-xl text-cyan-400 font-bold" id="order-number-display">#000000</p>
+            </div>
+            <button onclick="closeCheckoutModal()" class="w-full py-3 bg-green-600 hover:bg-green-500 text-white font-bold rounded transition-all">
+                IR PARA MEUS PEDIDOS
+            </button>
+        </div>
+    </div>
+
+    <!-- ADMIN PANEL -->
+    <div id="admin-panel" class="fixed inset-0 bg-black/95 z-50 hidden">
+        <div class="flex h-full">
+            <!-- Sidebar -->
+            <div class="admin-sidebar w-64 p-6 border-r border-cyan-500/30 hidden md:block">
+                <div class="flex items-center gap-3 mb-8">
+                    <i data-lucide="shield" class="w-8 h-8 text-cyan-400"></i>
+                    <h2 class="font-orbitron text-xl font-bold">ADMIN</h2>
+                </div>
+                
+                <nav class="space-y-4">
+                    <button onclick="showAdminTab('products')" class="admin-nav-btn w-full text-left px-4 py-3 rounded bg-cyan-500/20 border-l-4 border-cyan-400 font-bold flex items-center gap-3">
+                        <i data-lucide="package" class="w-5 h-5"></i> Produtos
+                    </button>
+                    <button onclick="showAdminTab('orders')" class="admin-nav-btn w-full text-left px-4 py-3 rounded hover:bg-cyan-500/10 border-l-4 border-transparent hover:border-cyan-400/50 font-bold flex items-center gap-3 transition-all">
+                        <i data-lucide="shopping-bag" class="w-5 h-5"></i> Pedidos Pendentes
+                        <span id="admin-pending-badge" class="ml-auto bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center hidden">0</span>
+                    </button>
+                    <button onclick="showAdminTab('delivered')" class="admin-nav-btn w-full text-left px-4 py-3 rounded hover:bg-cyan-500/10 border-l-4 border-transparent hover:border-cyan-400/50 font-bold flex items-center gap-3 transition-all">
+                        <i data-lucide="check-circle" class="w-5 h-5"></i> Entregues
+                    </button>
+                </nav>
+                
+                <button onclick="toggleAdmin()" class="absolute bottom-6 left-6 text-red-400 hover:text-red-300 flex items-center gap-2 font-bold">
+                    <i data-lucide="log-out" class="w-5 h-5"></i> Sair
+                </button>
+            </div>
+
+            <!-- Content -->
+            <div class="flex-1 p-6 overflow-y-auto">
+                <div class="flex justify-between items-center mb-8 md:hidden">
+                    <h2 class="font-orbitron text-2xl font-bold">PAINEL ADMIN</h2>
+                    <button onclick="toggleAdmin()" class="text-red-400">
+                        <i data-lucide="x" class="w-8 h-8"></i>
+                    </button>
+                </div>
+
+                <!-- Products Management -->
+                <div id="admin-products" class="admin-tab">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="font-orbitron text-2xl font-bold text-cyan-400">Gerenciar Produtos</h3>
+                        <button onclick="openProductModal()" class="bg-cyan-500 hover:bg-cyan-400 text-black font-bold px-6 py-2 rounded flex items-center gap-2 transition-all">
+                            <i data-lucide="plus" class="w-5 h-5"></i> Novo Produto
+                        </button>
+                    </div>
+
+                    <div class="bg-gray-900/50 border border-cyan-500/20 rounded-lg overflow-hidden">
+                        <table class="w-full">
+                            <thead class="bg-cyan-900/30">
+                                <tr>
+                                    <th class="p-4 text-left font-orbitron">Produto</th>
+                                    <th class="p-4 text-left font-orbitron">Tipo</th>
+                                    <th class="p-4 text-left font-orbitron">Preço</th>
+                                    <th class="p-4 text-left font-orbitron">Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody id="admin-products-list"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Orders Management -->
+                <div id="admin-orders" class="admin-tab hidden">
+                    <h3 class="font-orbitron text-2xl font-bold text-yellow-400 mb-6 flex items-center gap-3">
+                        <i data-lucide="clock" class="w-8 h-8"></i>
+                        Pedidos Pendentes de Entrega
+                    </h3>
+                    <div id="admin-orders-list" class="space-y-4"></div>
+                </div>
+
+                <!-- Delivered Orders -->
+                <div id="admin-delivered" class="admin-tab hidden">
+                    <h3 class="font-orbitron text-2xl font-bold text-green-400 mb-6 flex items-center gap-3">
+                        <i data-lucide="check-circle" class="w-8 h-8"></i>
+                        Pedidos Entregues
+                    </h3>
+                    <div id="admin-delivered-list" class="space-y-4"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Product Modal -->
+    <div id="product-modal" class="fixed inset-0 bg-black/90 z-[60] hidden flex items-center justify-center p-4">
+        <div class="bg-gray-900 border border-cyan-500 rounded-lg w-full max-w-2xl p-6 relative max-h-[90vh] overflow-y-auto">
+            <button onclick="closeProductModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white">
+                <i data-lucide="x" class="w-6 h-6"></i>
+            </button>
+            
+            <h3 class="font-orbitron text-2xl font-bold mb-6 text-cyan-400" id="modal-title">Novo Produto</h3>
+            
+            <form id="product-form" onsubmit="saveProduct(event)" class="space-y-4">
+                <input type="hidden" id="product-id">
+                
+                <div>
+                    <label class="block text-sm font-bold mb-2 text-cyan-300">Nome do Produto</label>
+                    <input type="text" id="product-name" required class="admin-input w-full p-3 rounded" placeholder="Ex: Pack 1000 Jogos PC">
+                </div>
+                
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-bold mb-2 text-cyan-300">Preço (R$)</label>
+                        <input type="number" id="product-price" step="0.01" required class="admin-input w-full p-3 rounded" placeholder="29.99">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold mb-2 text-cyan-300">Categoria</label>
+                        <select id="product-category" class="admin-input w-full p-3 rounded">
+                            <option value="games">Pack de Jogos</option>
+                            <option value="iptv">IPTV</option>
+                            <option value="robux">Robux</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-bold mb-2 text-cyan-300">URL da Imagem</label>
+                    <input type="url" id="product-image" required class="admin-input w-full p-3 rounded" placeholder="https://exemplo.com/imagem.jpg">
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-bold mb-2 text-cyan-300">Descrição</label>
+                    <textarea id="product-description" rows="3" class="admin-input w-full p-3 rounded" placeholder="Descrição do produto..."></textarea>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-bold mb-2 text-cyan-300">Tipo de Entrega</label>
+                    <select id="product-delivery-type" class="admin-input w-full p-3 rounded">
+                        <option value="login">Dados de Login</option>
+                        <option value="key">Chave/Serial</option>
+                        <option value="file">Arquivo/Link</option>
+                        <option value="credit">Crédito na Conta</option>
+                    </select>
+                </div>
+                
+                <div class="flex gap-4 pt-4">
+                    <button type="button" onclick="closeProductModal()" class="flex-1 py-3 border border-gray-600 rounded hover:border-white transition-all font-bold">Cancelar</button>
+                    <button type="submit" class="flex-1 py-3 bg-cyan-500 hover:bg-cyan-400 text-black font-bold rounded transition-all">Salvar Produto</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Delivery Modal -->
+    <div id="delivery-modal" class="fixed inset-0 bg-black/90 z-[70] hidden flex items-center justify-center p-4">
+        <div class="bg-gray-900 border-2 border-green-500 rounded-lg w-full max-w-2xl p-6 relative max-h-[90vh] overflow-y-auto">
+            <button onclick="closeDeliveryModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white">
+                <i data-lucide="x" class="w-6 h-6"></i>
+            </button>
+            
+            <h3 class="font-orbitron text-2xl font-bold mb-2 text-green-400 flex items-center gap-3">
+                <i data-lucide="send" class="w-6 h-6"></i>
+                REALIZAR ENTREGA
+            </h3>
+            <p class="text-gray-400 mb-6 text-sm">Pedido #<span id="delivery-order-id"></span> - <span id="delivery-customer-email"></span></p>
+            
+            <div class="bg-black/30 p-4 rounded-lg mb-6">
+                <h4 class="font-bold text-cyan-400 mb-2">Produtos:</h4>
+                <ul id="delivery-items-list" class="space-y-2 text-sm"></ul>
+            </div>
+
+            <form id="delivery-form" onsubmit="processDelivery(event)" class="space-y-4">
+                <input type="hidden" id="delivery-order-number">
+                
+                <div>
+                    <label class="block text-sm font-bold mb-2 text-green-300">Dados de Entrega</label>
+                    <textarea id="delivery-data" rows="6" required class="admin-input w-full p-3 rounded font-mono text-sm" placeholder="Exemplo para IPTV:
+URL: http://exemplo.com:8080
+Usuário: cliente123
+Senha: senha456
+Expira: 30 dias
+
+Ou para Robux:
+Código Gift Card: 1234-5678-9012
+Valor: 800 Robux"></textarea>
+                    <p class="text-xs text-gray-500 mt-2">Estes dados serão enviados ao cliente por email e exibidos na área "Meus Pedidos"</p>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-bold mb-2 text-green-300">Observações (opcional)</label>
+                    <input type="text" id="delivery-notes" class="admin-input w-full p-3 rounded" placeholder="Instruções extras para o cliente...">
+                </div>
+                
+                <div class="flex gap-4 pt-4">
+                    <button type="button" onclick="closeDeliveryModal()" class="flex-1 py-3 border border-gray-600 rounded hover:border-white transition-all font-bold">Cancelar</button>
+                    <button type="submit" class="flex-1 py-3 bg-green-600 hover:bg-green-500 text-white font-bold rounded transition-all flex items-center justify-center gap-2">
+                        <i data-lucide="check" class="w-5 h-5"></i>
+                        CONFIRMAR ENTREGA
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed bottom-6 right-6 bg-cyan-500 text-black px-6 py-4 rounded-lg shadow-2xl transform translate-y-20 opacity-0 transition-all duration-300 z-[80] font-bold flex items-center gap-3">
+        <i data-lucide="check-circle" class="w-6 h-6"></i>
+        <span id="toast-message">Operação realizada!</span>
+    </div>
+
+    <!-- JAVASCRIPT -->
+    <script>
+        // Inicializar ícones
+        lucide.createIcons();
+
+        // Dados iniciais
+        let products = [
+            {
+                id: 1,
+                name: "Pack 5000 Jogos PC",
+                price: 49.99,
+                category: "games",
+                image: "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=500&auto=format&fit=crop&q=60",
+                description: "Biblioteca completa com 5000 jogos para PC via Steam/Epic. Acesso vitalício.",
+                deliveryType: "login"
+            },
+            {
+                id: 2,
+                name: "IPTV Premium 30 Dias",
+                price: 29.99,
+                category: "iptv",
+                image: "https://images.unsplash.com/photo-1593784991095-a205069470b6?w=500&auto=format&fit=crop&q=60",
+                description: "+10.000 canais, filmes e séries. Qualidade 4K/FHD. Suporte 24h.",
+                deliveryType: "login"
+            },
+            {
+                id: 3,
+                name: "800 Robux",
+                price: 34.99,
+                category: "robux",
+                image: "https://images.unsplash.com/photo-1612287230217-8c7c6c170b95?w=500&auto=format&fit=crop&q=60",
+                description: "800 Robux para sua conta Roblox. Entrega via gift card ou crédito direto.",
+                deliveryType: "credit"
+            },
+            {
+                id: 4,
+                name: "Pack FIFA 24 + NBA 2K24",
+                price: 59.99,
+                category: "games",
+                image: "https://images.unsplash.com/photo-1493711662062-fa541f7f3d24?w=500&auto=format&fit=crop&q=60",
+                description: "Os dois maiores esportes em um pack único. Acesso offline/online.",
+                deliveryType: "key"
+            },
+            {
+                id: 5,
+                name: "IPTV Premium 90 Dias",
+                price: 69.99,
+                category: "iptv",
+                image: "https://images.unsplash.com/photo-1522869635100-9f4c5e86aa37?w=500&auto=format&fit=crop&q=60",
+                description: "Plano trimestral com todos os canais premium inclusos.",
+                deliveryType: "login"
+            },
+            {
+                id: 6,
+                name: "2200 Robux",
+                price: 79.99,
+                category: "robux",
+                image: "https://images.unsplash.com/photo-1625806786037-2af5f7c9d720?w=500&auto=format&fit=crop&q=60",
+                description: "Pacote 2200 Robux + Bônus exclusivos. Melhor custo-benefício.",
+                deliveryType: "credit"
+            }
+        ];
+
+        let cart = [];
+        let orders = [];
+        let currentFilter = 'all';
+
+        // Inicialização
+        document.addEventListener('DOMContentLoaded', () => {
+            createParticles();
+            renderProducts();
+            updateCartBadge();
+        });
+
+        // Criar partículas flutuantes
+        function createParticles() {
+            const container = document.getElementById('particles');
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 10 + 's';
+                particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
+                container.appendChild(particle);
+            }
+        }
+
+        // Navegação entre seções
+        function showSection(sectionName) {
+            document.querySelectorAll('section').forEach(section => {
+                section.classList.remove('active-section');
+                section.classList.add('hidden-section');
+            });
+            
+            const target = document.getElementById(sectionName);
+            if (target) {
+                target.classList.remove('hidden-section');
+                target.classList.add('active-section');
+            }
+            
+            window.scrollTo(0, 0);
+            
+            if (sectionName === 'cart') renderCart();
+            if (sectionName === 'my-orders') renderCustomerOrders();
+        }
+
+        // Menu mobile
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+            menu.classList.toggle('flex');
+        }
+
+        // Painel Admin
+        function toggleAdmin() {
+            const panel = document.getElementById('admin-panel');
+            panel.classList.toggle('hidden');
+            if (!panel.classList.contains('hidden')) {
+                renderAdminProducts();
+                renderAdminOrders();
+                updateAdminBadge();
+            }
+        }
+
+        function showAdminTab(tabName) {
+            document.querySelectorAll('.admin-tab').forEach(tab => tab.classList.add('hidden'));
+            document.getElementById('admin-' + tabName).classList.remove('hidden');
+            
+            document.querySelectorAll('.admin-nav-btn').forEach(btn => {
+                btn.classList.remove('bg-cyan-500/20', 'border-cyan-400');
+                btn.classList.add('border-transparent');
+            });
+            
+            event.currentTarget.classList.remove('border-transparent');
+            event.currentTarget.classList.add('bg-cyan-500/20', 'border-cyan-400');
+        }
+
+        // Renderizar produtos na loja
+        function renderProducts() {
+            const grid = document.getElementById('products-grid');
+            const filtered = currentFilter === 'all' 
+                ? products 
+                : products.filter(p => p.category === currentFilter);
+            
+            grid.innerHTML = filtered.map(product => `
+                <div class="product-card relative rounded-lg overflow-hidden group border border-gray-800 hover:border-cyan-400">
+                    <div class="digital-badge">Digital</div>
+                    <div class="relative h-64 overflow-hidden">
+                        <img src="${product.image}" alt="${product.name}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-60"></div>
+                        <div class="absolute top-4 right-4 bg-cyan-500 text-black font-bold px-3 py-1 rounded-full text-sm">
+                            R$ ${product.price.toFixed(2)}
+                        </div>
+                    </div>
+                    <div class="p-6 relative">
+                        <span class="text-xs font-bold text-cyan-400 uppercase tracking-wider">${getCategoryName(product.category)}</span>
+                        <h3 class="font-orbitron text-xl font-bold mt-2 mb-2 group-hover:text-cyan-400 transition-colors">${product.name}</h3>
+                        <p class="text-gray-400 text-sm mb-4 line-clamp-2">${product.description}</p>
+                        <div class="flex items-center gap-2 mb-4 text-xs text-gray-500">
+                            <i data-lucide="clock" class="w-4 h-4"></i>
+                            Entrega em até 2h
+                        </div>
+                        <button onclick="addToCart(${product.id})" class="w-full py-3 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 font-bold rounded flex items-center justify-center gap-2 transition-all transform hover:scale-105">
+                            <i data-lucide="shopping-cart" class="w-5 h-5"></i>
+                            COMPRAR AGORA
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+            
+            lucide.createIcons();
+        }
+
+        function getCategoryName(cat) {
+            const names = { games: 'Pack de Jogos', iptv: 'IPTV', robux: 'Robux' };
+            return names[cat] || cat;
+        }
+
+        // Filtro de produtos
+        function filterProducts(category) {
+            currentFilter = category;
+            
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                if (btn.dataset.category === category) {
+                    btn.classList.add('bg-cyan-400', 'text-black', 'border-cyan-400');
+                    btn.classList.remove('border-gray-600');
+                } else {
+                    btn.classList.remove('bg-cyan-400', 'text-black', 'border-cyan-400');
+                    btn.classList.add('border-gray-600');
+                }
+            });
+            
+            renderProducts();
+        }
+
+        // Carrinho
+        function addToCart(productId) {
+            const product = products.find(p => p.id === productId);
+            const existingItem = cart.find(item => item.id === productId);
+            
+            if (existingItem) {
+                existingItem.quantity++;
+            } else {
+                cart.push({ ...product, quantity: 1 });
+            }
+            
+            updateCartBadge();
+            showToast(`${product.name} adicionado ao carrinho!`);
+        }
+
+        function removeFromCart(productId) {
+            cart = cart.filter(item => item.id !== productId);
+            renderCart();
+            updateCartBadge();
+        }
+
+        function updateQuantity(productId, change) {
+            const item = cart.find(item => item.id === productId);
+            if (item) {
+                item.quantity += change;
+                if (item.quantity <= 0) {
+                    removeFromCart(productId);
+                } else {
+                    renderCart();
+                    updateCartBadge();
+                }
+            }
+        }
+
+        function renderCart() {
+            const container = document.getElementById('cart-content');
+            
+            if (cart.length === 0) {
+                container.innerHTML = `
+                    <div class="flex flex-col items-center justify-center h-full py-20 text-gray-400">
+                        <i data-lucide="shopping-cart" class="w-24 h-24 mb-4 opacity-30"></i>
+                        <p class="text-xl font-orbitron">Seu carrinho está vazio</p>
+                        <button onclick="showSection('products')" class="mt-6 text-cyan-400 hover:text-cyan-300 font-bold flex items-center gap-2">
+                            Ver produtos <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                        </button>
+                    </div>
+                `;
+                lucide.createIcons();
+                return;
+            }
+            
+            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            
+            container.innerHTML = `
+                <div class="space-y-4 mb-6">
+                    ${cart.map(item => `
+                        <div class="flex items-center gap-4 bg-black/30 p-4 rounded-lg border border-cyan-500/20">
+                            <img src="${item.image}" alt="${item.name}" class="w-20 h-20 object-cover rounded">
+                            <div class="flex-1">
+                                <h4 class="font-orbitron font-bold text-lg">${item.name}</h4>
+                                <p class="text-cyan-400 font-bold">R$ ${item.price.toFixed(2)}</p>
+                                <p class="text-xs text-gray-500">${getCategoryName(item.category)}</p>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <button onclick="updateQuantity(${item.id}, -1)" class="w-8 h-8 rounded-full border border-cyan-400 hover:bg-cyan-400 hover:text-black transition-all flex items-center justify-center">
+                                    <i data-lucide="minus" class="w-4 h-4"></i>
+                                </button>
+                                <span class="font-bold w-8 text-center">${item.quantity}</span>
+                                <button onclick="updateQuantity(${item.id}, 1)" class="w-8 h-8 rounded-full border border-cyan-400 hover:bg-cyan-400 hover:text-black transition-all flex items-center justify-center">
+                                    <i data-lucide="plus" class="w-4 h-4"></i>
+                                </button>
+                            </div>
+                            <button onclick="removeFromCart(${item.id})" class="text-red-400 hover:text-red-300 p-2">
+                                <i data-lucide="trash-2" class="w-5 h-5"></i>
+                            </button>
+                        </div>
+                    `).join('')}
+                </div>
+                
+                <div class="border-t border-cyan-500/30 pt-6">
+                    <div class="bg-yellow-500/10 border border-yellow-500/30 p-4 rounded-lg mb-6">
+                        <p class="text-sm text-yellow-400 flex items-center gap-2">
+                            <i data-lucide="alert-circle" class="w-5 h-5"></i>
+                            Após o pagamento, você receberá seus dados de acesso manualmente em até 2 horas no email informado.
+                        </p>
+                    </div>
+                    
+                    <div class="flex justify-between items-center mb-6">
+                        <span class="text-xl font-orbitron">TOTAL:</span>
+                        <span class="text-3xl font-orbitron font-bold text-cyan-400">R$ ${total.toFixed(2)}</span>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label class="block text-sm font-bold mb-2 text-cyan-300">Email para entrega *</label>
+                        <input type="email" id="customer-email" required class="admin-input w-full p-3 rounded" placeholder="seu@email.com">
+                    </div>
+                    
+                    <button onclick="checkout()" class="w-full py-4 bg-gradient-to-r from-green-600 to-green-500 hover:from-green-500 hover:to-green-400 text-white font-bold font-orbitron text-lg rounded-lg transition-all transform hover:scale-[1.02] flex items-center justify-center gap-3">
+                        <i data-lucide="credit-card" class="w-6 h-6"></i>
+                        FINALIZAR COMPRA
+                    </button>
+                </div>
+            `;
+            
+            lucide.createIcons();
+        }
+
+        function updateCartBadge() {
+            const badge = document.getElementById('cart-badge');
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            
+            if (totalItems > 0) {
+                badge.textContent = totalItems;
+                badge.classList.remove('hidden');
+            } else {
+                badge.classList.add('hidden');
+            }
+        }
+
+        // Checkout
+        function checkout() {
+            const email = document.getElementById('customer-email')?.value;
+            
+            if (!email || !email.includes('@')) {
+                showToast('Por favor, insira um email válido para entrega!');
+                return;
+            }
+            
+            if (cart.length === 0) {
+                showToast('Seu carrinho está vazio!');
+                return;
+            }
+            
+            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const orderNumber = 'CS' + Date.now().toString().slice(-6);
+            
+            const newOrder = {
+                id: orderNumber,
+                email: email,
+                items: [...cart],
+                total: total,
+                status: 'pending',
+                date: new Date().toLocaleString('pt-BR'),
+                deliveryData: null,
+                deliveryNotes: null,
+                deliveredAt: null
+            };
+            
+            orders.push(newOrder);
+            
+            cart = [];
+            updateCartBadge();
+            renderCart();
+            
+            document.getElementById('order-number-display').textContent = '#' + orderNumber;
+            document.getElementById('checkout-modal').classList.remove('hidden');
+            
+            updateAdminBadge();
+        }
+
+        function closeCheckoutModal() {
+            document.getElementById('checkout-modal').classList.add('hidden');
+            showSection('my-orders');
+        }
+
+        // Pedidos do cliente
+        function renderCustomerOrders() {
+            const container = document.getElementById('customer-orders-list');
+            
+            if (orders.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-20 text-gray-400 bg-gray-900/30 rounded-lg border border-cyan-500/20">
+                        <i data-lucide="package" class="w-16 h-16 mx-auto mb-4 opacity-30"></i>
+                        <p class="text-xl font-orbitron">Você ainda não fez nenhum pedido</p>
+                        <button onclick="showSection('products')" class="mt-4 text-cyan-400 hover:underline">Ir para a loja</button>
+                    </div>
+                `;
+                lucide.createIcons();
+                return;
+            }
+            
+            const sortedOrders = [...orders].sort((a, b) => b.id.localeCompare(a.id));
+            
+            container.innerHTML = sortedOrders.map(order => `
+                <div class="bg-gray-900/50 border ${order.status === 'delivered' ? 'border-green-500/50' : 'border-yellow-500/50'} rounded-lg p-6">
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <h3 class="font-orbitron text-xl font-bold text-cyan-400">Pedido #${order.id}</h3>
+                            <p class="text-sm text-gray-400">${order.date}</p>
+                            <p class="text-sm text-gray-500 mt-1">${order.email}</p>
+                        </div>
+                        <div class="text-right">
+                            <span class="inline-block px-4 py-2 rounded-full text-sm font-bold ${getStatusClass(order.status)} border ${order.status === 'delivered' ? 'border-green-500' : 'border-yellow-500'}">
+                                ${getStatusText(order.status)}
+                            </span>
+                            <p class="font-orbitron font-bold text-lg mt-2">R$ ${order.total.toFixed(2)}</p>
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-2 mb-4">
+                        ${order.items.map(item => `
+                            <div class="flex justify-between text-sm">
+                                <span class="text-gray-300">${item.quantity}x ${item.name}</span>
+                                <span class="text-cyan-400">R$ ${(item.price * item.quantity).toFixed(2)}</span>
+                            </div>
+                        `).join('')}
+                    </div>
+                    
+                    ${order.status === 'delivered' ? `
+                        <div class="delivery-box mt-4">
+                            <h4 class="font-bold text-green-400 mb-3 flex items-center gap-2">
+                                <i data-lucide="unlock" class="w-5 h-5"></i>
+                                SEUS DADOS DE ACESSO
+                            </h4>
+                            <div class="bg-black/50 p-4 rounded text-left font-mono text-sm text-green-300 whitespace-pre-wrap">
+                                ${order.deliveryData}
+                            </div>
+                            ${order.deliveryNotes ? `
+                                <div class="mt-3 text-left text-sm text-gray-400 border-t border-cyan-500/20 pt-3">
+                                    <strong>Observações:</strong> ${order.deliveryNotes}
+                                </div>
+                            ` : ''}
+                            <p class="text-xs text-gray-500 mt-3">Entregue em: ${order.deliveredAt}</p>
+                        </div>
+                    ` : `
+                        <div class="delivery-box locked mt-4 bg-yellow-500/10">
+                            <i data-lucide="lock" class="w-12 h-12 text-yellow-500 mx-auto mb-2"></i>
+                            <p class="text-yellow-400 font-bold">Aguardando processamento</p>
+                            <p class="text-sm text-gray-400 mt-2">Seus dados serão liberados aqui após confirmação do pagamento</p>
+                        </div>
+                    `}
+                </div>
+            `).join('');
+            
+            lucide.createIcons();
+            updateOrderBadge();
+        }
+
+        function getStatusClass(status) {
+            return status === 'delivered' ? 'text-green-400' : 'text-yellow-400';
+        }
+
+        function getStatusText(status) {
+            return status === 'delivered' ? '✓ ENTREGUE' : '⏳ PENDENTE';
+        }
+
+        function updateOrderBadge() {
+            const badge = document.getElementById('order-badge');
+            const pendingCount = orders.filter(o => o.status === 'pending').length;
+            
+            if (pendingCount > 0) {
+                badge.textContent = pendingCount;
+                badge.classList.remove('hidden');
+            } else {
+                badge.classList.add('hidden');
+            }
+        }
+
+        // Admin - Produtos
+        function renderAdminProducts() {
+            const tbody = document.getElementById('admin-products-list');
+            tbody.innerHTML = products.map(product => `
+                <tr class="border-b border-cyan-500/10 hover:bg-cyan-500/5 transition-colors">
+                    <td class="p-4">
+                        <div class="flex items-center gap-3">
+                            <img src="${product.image}" alt="${product.name}" class="w-12 h-12 object-cover rounded">
+                            <span class="font-bold">${product.name}</span>
+                        </div>
+                    </td>
+                    <td class="p-4">
+                        <span class="px-3 py-1 rounded-full text-xs font-bold bg-cyan-500/20 text-cyan-400 border border-cyan-500/30 uppercase">
+                            ${getCategoryName(product.category)}
+                        </span>
+                    </td>
+                    <td class="p-4 font-bold text-cyan-400">R$ ${product.price.toFixed(2)}</td>
+                    <td class="p-4">
+                        <div class="flex gap-2">
+                            <button onclick="editProduct(${product.id})" class="p-2 bg-blue-500/20 text-blue-400 rounded hover:bg-blue-500/40 transition-all">
+                                <i data-lucide="edit" class="w-4 h-4"></i>
+                            </button>
+                            <button onclick="deleteProduct(${product.id})" class="p-2 bg-red-500/20 text-red-400 rounded hover:bg-red-500/40 transition-all">
+                                <i data-lucide="trash-2" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+            
+            lucide.createIcons();
+        }
+
+        // Admin - Pedidos
+        function renderAdminOrders() {
+            const pendingContainer = document.getElementById('admin-orders-list');
+            const deliveredContainer = document.getElementById('admin-delivered-list');
+            
+            const pending = orders.filter(o => o.status === 'pending');
+            const delivered = orders.filter(o => o.status === 'delivered');
+            
+            // Pendentes
+            if (pending.length === 0) {
+                pendingContainer.innerHTML = `
+                    <div class="text-center py-12 text-gray-500 bg-gray-900/30 rounded-lg border border-dashed border-gray-700">
+                        <i data-lucide="inbox" class="w-12 h-12 mx-auto mb-2 opacity-50"></i>
+                        <p>Nenhum pedido pendente</p>
+                    </div>
+                `;
+            } else {
+                pendingContainer.innerHTML = pending.map(order => `
+                    <div class="bg-gray-900 border border-yellow-500/50 rounded-lg p-6">
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <h4 class="font-orbitron text-lg font-bold text-yellow-400">Pedido #${order.id}</h4>
+                                <p class="text-sm text-gray-400">${order.date}</p>
+                                <p class="text-cyan-300 mt-1">${order.email}</p>
+                            </div>
+                            <div class="text-right">
+                                <p class="font-orbitron text-2xl font-bold text-cyan-400">R$ ${order.total.toFixed(2)}</p>
+                                <span class="inline-block mt-2 px-3 py-1 bg-yellow-500/20 text-yellow-400 rounded-full text-xs font-bold border border-yellow-500">
+                                    AGUARDANDO ENTREGA
+                                </span>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-black/30 p-3 rounded mb-4">
+                            <p class="text-sm font-bold text-gray-400 mb-2">Itens:</p>
+                            <ul class="space-y-1 text-sm">
+                                ${order.items.map(item => `
+                                    <li class="flex justify-between">
+                                        <span>${item.quantity}x ${item.name}</span>
+                                        <span class="text-cyan-400">R$ ${(item.price * item.quantity).toFixed(2)}</span>
+                                    </li>
+                                `).join('')}
+                            </ul>
+                        </div>
+                        
+                        <button onclick="openDeliveryModal('${order.id}')" class="w-full py-3 bg-green-600 hover:bg-green-500 text-white font-bold rounded flex items-center justify-center gap-2 transition-all">
+                            <i data-lucide="send" class="w-5 h-5"></i>
+                            REALIZAR ENTREGA MANUAL
+                        </button>
+                    </div>
+                `).join('');
+            }
+            
+            // Entregues
+            if (delivered.length === 0) {
+                deliveredContainer.innerHTML = `
+                    <div class="text-center py-12 text-gray-500 bg-gray-900/30 rounded-lg border border-dashed border-gray-700">
+                        <i data-lucide="check-circle" class="w-12 h-12 mx-auto mb-2 opacity-50"></i>
+                        <p>Nenhum pedido entregue ainda</p>
+                    </div>
+                `;
+            } else {
+                deliveredContainer.innerHTML = delivered.map(order => `
+                    <div class="bg-gray-900 border border-green-500/30 rounded-lg p-6 opacity-75">
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <h4 class="font-orbitron text-lg font-bold text-green-400">Pedido #${order.id}</h4>
+                                <p class="text-sm text-gray-400">${order.date}</p>
+                                <p class="text-gray-300 mt-1">${order.email}</p>
+                            </div>
+                            <div class="text-right">
+                                <p class="font-orbitron text-xl font-bold text-gray-400">R$ ${order.total.toFixed(2)}</p>
+                                <span class="inline-block mt-2 px-3 py-1 bg-green-500/20 text-green-400 rounded-full text-xs font-bold border border-green-500">
+                                    ENTREGUE
+                                </span>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-black/30 p-3 rounded text-sm text-gray-400">
+                            <p><strong>Entregue em:</strong> ${order.deliveredAt}</p>
+                            <p class="mt-2 truncate"><strong>Dados:</strong> ${order.deliveryData?.substring(0, 50)}...</p>
+                        </div>
+                    </div>
+                `).join('');
+            }
+            
+            lucide.createIcons();
+            updateAdminBadge();
+        }
+
+        function updateAdminBadge() {
+            const badge = document.getElementById('admin-pending-badge');
+            const pendingCount = orders.filter(o => o.status === 'pending').length;
+            
+            if (pendingCount > 0) {
+                badge.textContent = pendingCount;
+                badge.classList.remove('hidden');
+            } else {
+                badge.classList.add('hidden');
+            }
+        }
+
+        // Modal de Entrega
+        function openDeliveryModal(orderId) {
+            const order = orders.find(o => o.id === orderId);
+            if (!order) return;
+            
+            document.getElementById('delivery-order-id').textContent = order.id;
+            document.getElementById('delivery-customer-email').textContent = order.email;
+            document.getElementById('delivery-order-number').value = order.id;
+            
+            document.getElementById('delivery-items-list').innerHTML = order.items.map(item => `
+                <li class="flex justify-between">
+                    <span>${item.quantity}x ${item.name} (${getCategoryName(item.category)})</span>
+                    <span class="text-cyan-400">R$ ${(item.price * item.quantity).toFixed(2)}</span>
+                </li>
+            `).join('');
+            
+            document.getElementById('delivery-modal').classList.remove('hidden');
+        }
+
+        function closeDeliveryModal() {
+            document.getElementById('delivery-modal').classList.add('hidden');
+            document.getElementById('delivery-form').reset();
+        }
+
+        function processDelivery(event) {
+            event.preventDefault();
+            
+            const orderId = document.getElementById('delivery-order-number').value;
+            const deliveryData = document.getElementById('delivery-data').value;
+            const deliveryNotes = document.getElementById('delivery-notes').value;
+            
+            const order = orders.find(o => o.id === orderId);
+            if (order) {
+                order.status = 'delivered';
+                order.deliveryData = deliveryData;
+                order.deliveryNotes = deliveryNotes;
+                order.deliveredAt = new Date().toLocaleString('pt-BR');
+                
+                renderAdminOrders();
+                closeDeliveryModal();
+                showToast('Entrega realizada com sucesso! Cliente notificado.');
+            }
+        }
+
+        // CRUD Produtos
+        function openProductModal(productId = null) {
+            const modal = document.getElementById('product-modal');
+            const form = document.getElementById('product-form');
+            const title = document.getElementById('modal-title');
+            
+            form.reset();
+            
+            if (productId) {
+                const product = products.find(p => p.id === productId);
+                document.getElementById('product-id').value = product.id;
+                document.getElementById('product-name').value = product.name;
+                document.getElementById('product-price').value = product.price;
+                document.getElementById('product-category').value = product.category;
+                document.getElementById('product-image').value = product.image;
+                document.getElementById('product-description').value = product.description || '';
+                document.getElementById('product-delivery-type').value = product.deliveryType || 'login';
+                title.textContent = 'Editar Produto';
+            } else {
+                document.getElementById('product-id').value = '';
+                title.textContent = 'Novo Produto';
+            }
+            
+            modal.classList.remove('hidden');
+        }
+
+        function closeProductModal() {
+            document.getElementById('product-modal').classList.add('hidden');
+        }
+
+        function saveProduct(event) {
+            event.preventDefault();
+            
+            const id = document.getElementById('product-id').value;
+            const productData = {
+                name: document.getElementById('product-name').value,
+                price: parseFloat(document.getElementById('product-price').value),
+                category: document.getElementById('product-category').value,
+                image: document.getElementById('product-image').value,
+                description: document.getElementById('product-description').value,
+                deliveryType: document.getElementById('product-delivery-type').value
+            };
+            
+            if (id) {
+                const index = products.findIndex(p => p.id == id);
+                products[index] = { ...products[index], ...productData };
+                showToast('Produto atualizado com sucesso!');
+            } else {
+                const newId = Math.max(...products.map(p => p.id)) + 1;
+                products.push({ id: newId, ...productData });
+                showToast('Produto criado com sucesso!');
+            }
+            
+            closeProductModal();
+            renderAdminProducts();
+            renderProducts();
+        }
+
+        function editProduct(id) {
+            openProductModal(id);
+        }
+
+        function deleteProduct(id) {
+            if (confirm('Tem certeza que deseja excluir este produto?')) {
+                products = products.filter(p => p.id !== id);
+                renderAdminProducts();
+                renderProducts();
+                showToast('Produto excluído com sucesso!');
+            }
+        }
+
+        // Toast Notification
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toast-message').textContent = message;
+            
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            
+            setTimeout(() => {
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 3000);
+        }
+
+        // Fechar modais ao clicar fora
+        document.getElementById('product-modal')?.addEventListener('click', function(e) {
+            if (e.target === this) closeProductModal();
+        });
+        
+        document.getElementById('delivery-modal')?.addEventListener('click', function(e) {
+            if (e.target === this) closeDeliveryModal();
+        });
+    </script>
+</body>
+</html>
